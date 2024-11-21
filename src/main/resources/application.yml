@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: TukScan
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
