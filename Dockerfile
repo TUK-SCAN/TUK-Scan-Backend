@@ -1,10 +1,9 @@
-# Dockerfile
-
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-slim
 
 WORKDIR /app
 
-COPY build/libs/*.jar app.jar
+ARG JAR_PATH=./build/libs
 
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+COPY ${JAR_PATH}/application.jar ./app.jar
+
+CMD ["java","-jar","./app.jar","--spring.profiles.active=dev"]
