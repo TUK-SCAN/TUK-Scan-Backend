@@ -1,7 +1,21 @@
 spring:
+  application:
+    name: "TUK-SCAN Main Server API"
   profiles:
     active: local
-  application:
-    name: TukScan
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
