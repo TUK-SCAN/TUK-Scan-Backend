@@ -1,9 +1,12 @@
-package com.tukscan.tukscan.security.handler.login;
+package com.tookscan.tookscan.security.handler.login;
 
-import com.tukscan.tukscan.core.utility.HttpServletUtil;
-import com.tukscan.tukscan.security.application.dto.response.OauthJsonWebTokenDto;
-import com.tukscan.tukscan.security.application.usecase.LoginOauthUseCase;
-import com.tukscan.tukscan.security.info.CustomUserPrincipal;
+import com.tookscan.tookscan.core.exception.error.ErrorCode;
+import com.tookscan.tookscan.core.exception.type.CommonException;
+import com.tookscan.tookscan.core.utility.HttpServletUtil;
+import com.tookscan.tookscan.security.application.dto.response.OauthJsonWebTokenDto;
+import com.tookscan.tookscan.security.application.usecase.LoginOauthUseCase;
+import com.tookscan.tookscan.security.info.CustomTemporaryUserPrincipal;
+import com.tookscan.tookscan.security.info.CustomUserPrincipal;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +31,15 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
         OAuth2User principal = (OAuth2User) authentication.getPrincipal();
 
-        OauthJsonWebTokenDto oauthJsonWebTokenDto = loginOauthUseCase.execute(principal);
+        OauthJsonWebTokenDto oauthJsonWebTokenDto = null;
+
+        if (principal instanceof CustomTemporaryUserPrincipal) {
+            oauthJsonWebTokenDto = loginOauthUseCase.execute((CustomTemporaryUserPrincipal) principal);
+        } else if (principal instanceof CustomUserPrincipal) {
+            oauthJsonWebTokenDto = loginOauthUseCase.execute((CustomUserPrincipal) principal);
+        }
+        else
+            throw new CommonException(ErrorCode.INVALID_PRINCIPAL_TYPE);
 
         httpServletUtil.onSuccessBodyResponseWithOauthJWTBody(response, oauthJsonWebTokenDto);
     }
