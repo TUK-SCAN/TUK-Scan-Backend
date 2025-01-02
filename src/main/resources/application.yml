@@ -1,6 +1,6 @@
 spring:
   application:
-    name: "TUK-SCAN Main Server API"
+    name: "TOOK-SCAN Main Server API"
   profiles:
     active: local
 
