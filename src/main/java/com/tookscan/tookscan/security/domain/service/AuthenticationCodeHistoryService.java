@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 
 @Service
 public class AuthenticationCodeHistoryService {
+
+    private static final Integer MAX_ISSUING_AUTHENTICATION_CODE = 5;
+
     public AuthenticationCodeHistory createAuthenticationCodeHistory(String phoneNumber) {
         return AuthenticationCodeHistory.builder()
                 .phoneNumber(phoneNumber)
@@ -35,7 +38,7 @@ public class AuthenticationCodeHistoryService {
         if (history == null) {
             return false;
         }
-        return history.getCount() >= 5;
+        return history.getCount() >= MAX_ISSUING_AUTHENTICATION_CODE;
     }
 
     private Boolean isTooFastIssuingAuthenticationCode(AuthenticationCodeHistory history) {
