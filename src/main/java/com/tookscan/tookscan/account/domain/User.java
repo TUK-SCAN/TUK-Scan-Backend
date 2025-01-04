@@ -1,6 +1,7 @@
 package com.tookscan.tookscan.account.domain;
 
 import com.tookscan.tookscan.address.domain.Address;
+import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import com.tookscan.tookscan.security.domain.type.ESecurityRole;
@@ -10,6 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,6 +47,15 @@ public class User extends Account {
     /* -------------------------------------------- */
     @Embedded
     private Address address;
+
+    /* -------------------------------------------- */
+    /* One To Many Mapping ------------------------ */
+    /* -------------------------------------------- */
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserGroup> userGroups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
     /* -------------------------------------------- */
     /* Methods ------------------------------------ */
