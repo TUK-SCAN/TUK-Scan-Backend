@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.order.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "order_memos")
-public class OrderMemo {
+public class OrderMemo extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

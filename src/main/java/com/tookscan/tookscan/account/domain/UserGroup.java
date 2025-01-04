@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.account.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user_groups")
-public class UserGroup {
+public class UserGroup extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

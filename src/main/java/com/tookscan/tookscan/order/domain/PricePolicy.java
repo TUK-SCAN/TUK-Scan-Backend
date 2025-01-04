@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.order.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "price_policies")
-public class PricePolicy {
+public class PricePolicy extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

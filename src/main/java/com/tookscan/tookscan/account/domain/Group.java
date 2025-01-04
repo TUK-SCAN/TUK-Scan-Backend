@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.account.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.message.domain.MessageGroup;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "groups")
-public class Group {
+public class Group extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

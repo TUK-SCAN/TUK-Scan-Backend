@@ -1,6 +1,7 @@
 package com.tookscan.tookscan.order.domain;
 
 import com.tookscan.tookscan.account.domain.User;
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

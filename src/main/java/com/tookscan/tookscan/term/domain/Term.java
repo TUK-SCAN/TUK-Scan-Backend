@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.term.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.term.domain.type.ETermType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "terms")
-public class Term {
+public class Term extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

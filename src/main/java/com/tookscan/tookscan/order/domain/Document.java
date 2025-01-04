@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.order.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "documents")
-public class Document {
+public class Document extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */
@@ -33,9 +34,16 @@ public class Document {
     @Column(name = "recovery_option", nullable = false)
     private ERecoveryOption recoveryOption;
 
+    /* -------------------------------------------- */
+    /* Many to One Column ------------------------- */
+    /* -------------------------------------------- */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pdf_id", nullable = false)
+    private Pdf pdf;
 
     /* -------------------------------------------- */
     /* Methods ------------------------------------ */

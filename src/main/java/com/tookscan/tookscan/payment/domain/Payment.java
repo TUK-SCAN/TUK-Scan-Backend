@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.payment.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.payment.domain.type.EPaymentStatus;
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "payments")
-public class Payment {
+public class Payment extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

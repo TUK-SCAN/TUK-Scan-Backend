@@ -1,6 +1,7 @@
 package com.tookscan.tookscan.message.domain;
 
 import com.tookscan.tookscan.account.domain.Group;
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "message_groups")
-public class MessageGroup {
+public class MessageGroup extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

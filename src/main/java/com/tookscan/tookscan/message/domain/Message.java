@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.message.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.message.domain.type.EMessageStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "messages")
-public class Message {
+public class Message extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */

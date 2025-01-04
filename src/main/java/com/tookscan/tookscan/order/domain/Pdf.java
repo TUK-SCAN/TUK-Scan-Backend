@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.order.domain;
 
+import com.tookscan.tookscan.core.dto.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "pdfs")
-public class Pdf {
+public class Pdf extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */
