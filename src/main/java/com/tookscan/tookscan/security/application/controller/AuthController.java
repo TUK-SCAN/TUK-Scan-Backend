@@ -9,11 +9,9 @@ import com.tookscan.tookscan.core.utility.HeaderUtil;
 import com.tookscan.tookscan.security.application.dto.request.*;
 import com.tookscan.tookscan.security.application.dto.response.*;
 import com.tookscan.tookscan.security.application.usecase.*;
-import com.tookscan.tookscan.security.application.dto.request.*;
-import com.tookscan.tookscan.security.application.dto.response.*;
-import com.tookscan.tookscan.security.application.usecase.*;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +36,7 @@ public class AuthController {
     private final DeleteAccountUseCase deleteAccountUseCase;
 
     /**
-     * 2.1 JWT 재발급
+     * 1.3 JWT 재발급
      */
     @PostMapping("/auth/reissue/token")
     public ResponseDto<DefaultJsonWebTokenDto> reissueDefaultJsonWebToken(
@@ -51,43 +49,43 @@ public class AuthController {
     }
 
     /**
-     * 2.2 휴대폰 인증번호 발송
+     * 2.1 휴대폰 인증번호 발송
      */
     @PostMapping("/auth/authentication-code")
     public ResponseDto<IssueAuthenticationCodeResponseDto> issueAuthenticationCode(
-            IssueAuthenticationCodeRequestDto requestDto
+            @Valid @RequestBody IssueAuthenticationCodeRequestDto requestDto
     ) {
         return ResponseDto.created(issueAuthenticationCodeUseCase.execute(requestDto));
     }
 
     /**
-     * 2.3 유저 회원가입
+     * 2.2 유저 회원가입
      */
     @PostMapping("/users/auth/sign-up")
     public ResponseDto<Void> signUpDefault(
-            SignUpDefaultRequestDto requestDto
+            @Valid @RequestBody SignUpDefaultRequestDto requestDto
     ) {
         signUpDefaultUseCase.execute(requestDto);
         return ResponseDto.created(null);
     }
 
     /**
-     * 2.4 관리자 회원가입
+     * 2.3 관리자 회원가입
      */
     @PostMapping("/admins/auth/sign-up")
     public ResponseDto<Void> adminSignUpDefault(
-            AdminSignUpDefaultRequestDto requestDto
+            @Valid @RequestBody AdminSignUpDefaultRequestDto requestDto
     ) {
         adminSignUpDefaultUseCase.execute(requestDto);
         return ResponseDto.created(null);
     }
 
     /**
-     * 2.5 소셜 회원가입
+     * 2.4 소셜 회원가입
      */
     @PostMapping("/users/oauth/sign-up")
     public ResponseDto<Void> signUpOauth(
-            SignUpOauthRequestDto requestDto,
+            @Valid @RequestBody SignUpOauthRequestDto requestDto,
             HttpServletRequest request
     ) {
         String temporaryToken = HeaderUtil.refineHeader(request, Constants.AUTHORIZATION_HEADER, Constants.BEARER_PREFIX)
@@ -97,19 +95,19 @@ public class AuthController {
     }
 
     /**
-     * 2.6 아이디 찾기
+     * 2.5 아이디 찾기
      */
     @PostMapping("/users/auth/serial-id")
     public ResponseDto<ReadSerialIdAndProviderResponseDto> readSerialId(
-            ReadSerialIdAndProviderRequestDto requestDto
+            @Valid @RequestBody ReadSerialIdAndProviderRequestDto requestDto
     ) {
         return ResponseDto.ok(readSerialIdAndProviderUseCase.execute(requestDto));
     }
 
     /**
-     * 2.7 아이디 중복 검사
+     * 2.6 아이디 중복 검사
      */
-    @GetMapping("/users/auth/validations/id?{id}")
+    @GetMapping("/users/auth/validations/id")
     public ResponseDto<ValidationResponseDto> validateId(
             @RequestParam(name = "id") String id
     ) {
@@ -117,40 +115,40 @@ public class AuthController {
     }
 
     /**
-     * 2.8 인증번호 검사
+     * 2.7 인증번호 검사
      */
     @PatchMapping("/users/auth/authentication-code")
     public ResponseDto<Void> validateAuthenticationCode(
-            ValidateAuthenticationCodeRequestDto requestDto
+            @Valid @RequestBody ValidateAuthenticationCodeRequestDto requestDto
     ) {
         validateAuthenticationCodeUseCase.execute(requestDto);
         return ResponseDto.ok(null);
     }
 
     /**
-     * 2.9 임시 비밀번호 발급
+     * 2.8 임시 비밀번호 발급
      */
     @PatchMapping("/users/auth/reissue/password")
     public ResponseDto<ReissuePasswordResponseDto> reissuePassword(
-            ReissuePasswordRequestDto requestDto
+            @Valid @RequestBody ReissuePasswordRequestDto requestDto
     ) {
         return ResponseDto.ok(reissuePasswordUseCase.execute(requestDto));
     }
 
     /**
-     * 2.10 비밀번호 변경
+     * 2.9 비밀번호 변경
      */
     @PatchMapping("/auth/password")
     public ResponseDto<Void> changePassword(
             @AccountID UUID accountId,
-            ChangePasswordRequestDto requestDto
+            @Valid @RequestBody ChangePasswordRequestDto requestDto
     ) {
         changePasswordUseCase.execute(accountId, requestDto);
         return ResponseDto.ok(null);
     }
 
     /**
-     * 2.11 회원 탈퇴
+     * 2.10 회원 탈퇴
      */
     @DeleteMapping("/users/auth")
     public ResponseDto<Void> deleteAccount(
