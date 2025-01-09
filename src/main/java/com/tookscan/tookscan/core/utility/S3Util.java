@@ -19,12 +19,4 @@ public class S3Util {
     @Value("${cloud.aws.s3.url}")
     private String bucketUrl;
 
-    @Getter
-    @Value("${cloud.aws.s3.user-default-img-url}")
-    private String userDefaultImgUrl;
-
-    @Getter
-    @Value("${cloud.aws.s3.owner-default-img-url}")
-    private String ownerDefaultImgUrl;
-
 }
