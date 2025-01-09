@@ -22,7 +22,7 @@ public class Constants {
      */
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             // Authentication/Authorization
-            "/v1/users/auth/validations/id?{id}",
+            "/v1/users/auth/validations/id",
             "/v1/auth/authentication-code",
             "/v1/auth/reissue/token",
             "/v1/auth/reissue/authentication-code",
