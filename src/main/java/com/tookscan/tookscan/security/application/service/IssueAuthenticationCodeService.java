@@ -9,6 +9,7 @@ import com.tookscan.tookscan.security.application.usecase.IssueAuthenticationCod
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCodeHistory;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeHistoryService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
+import com.tookscan.tookscan.security.event.CompletePhoneNumberValidationEvent;
 import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
@@ -60,8 +61,7 @@ public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUs
             history = authenticationCodeHistoryRepository.save(authenticationCodeHistoryService.incrementAuthenticationCodeCount(history));
         }
 
-        // TODO: 전화번호 전송(비동기)
-//        applicationEventPublisher.publishEvent(CompleteEmailValidationEvent.of(requestDto.phoneNumber(), code));
+        applicationEventPublisher.publishEvent(CompletePhoneNumberValidationEvent.of(requestDto.phoneNumber(), code));
 
         return IssueAuthenticationCodeResponseDto.fromEntity(history);
     }
