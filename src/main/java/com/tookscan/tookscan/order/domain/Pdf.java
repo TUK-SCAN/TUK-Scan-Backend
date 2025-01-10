@@ -37,10 +37,10 @@ public class Pdf extends BaseEntity {
     private boolean isChecked;
 
     /* -------------------------------------------- */
-    /* One To Many Mapping ------------------------ */
+    /* One To One Mapping ------------------------ */
     /* -------------------------------------------- */
-    @OneToMany(mappedBy = "pdf", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Document> documents = new ArrayList<>();
+    @OneToOne(mappedBy = "pdf", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Document document;
 
     /* -------------------------------------------- */
     /* Methods ------------------------------------ */

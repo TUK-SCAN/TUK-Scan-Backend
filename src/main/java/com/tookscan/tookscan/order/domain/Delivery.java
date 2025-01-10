@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.order.domain;
 
+import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.order.domain.type.EDeliveryStatus;
 import jakarta.persistence.*;
@@ -36,28 +37,26 @@ public class Delivery extends BaseEntity {
     @Column(name = "request", length = 50, nullable = false)
     private String request;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "delivery_status", nullable = false)
-    private EDeliveryStatus deliveryStatus;
-
-    @Column(name = "tracking_number", length = 20, nullable = false)
-    private String trackingNumber;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     /* -------------------------------------------- */
+    /* Embedded Column ---------------------------- */
+    /* -------------------------------------------- */
+    @Embedded
+    private Address address;
+
+    /* -------------------------------------------- */
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Delivery(String receiverName, String phoneNumber, String email, String request, EDeliveryStatus deliveryStatus, String trackingNumber, Order order) {
+    public Delivery(String receiverName, String phoneNumber, String email, String request, Address address, Order order) {
         this.receiverName = receiverName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.request = request;
-        this.deliveryStatus = deliveryStatus;
-        this.trackingNumber = trackingNumber;
+        this.address = address;
         this.order = order;
     }
 }
