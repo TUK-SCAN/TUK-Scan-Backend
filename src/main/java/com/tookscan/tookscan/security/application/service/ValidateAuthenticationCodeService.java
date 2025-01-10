@@ -9,7 +9,6 @@ import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +19,6 @@ public class ValidateAuthenticationCodeService implements ValidateAuthentication
     private final AuthenticationCodeRepository authenticationCodeRepository;
 
     @Override
-    @Transactional
     public void execute(ValidateAuthenticationCodeRequestDto requestDto) {
 
         // 해당 전화번호로 발급된 인증코드 조회
@@ -34,5 +32,6 @@ public class ValidateAuthenticationCodeService implements ValidateAuthentication
 
         // 인증코드 검증 여부 변경
         authenticationCode.verify();
+        authenticationCodeRepository.save(authenticationCode);
     }
 }
