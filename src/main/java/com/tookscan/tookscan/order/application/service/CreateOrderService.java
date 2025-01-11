@@ -52,7 +52,9 @@ public class CreateOrderService implements CreateOrderUseCase {
         Long orderNumber = orderService.createOrderNumber();
 
         // 주문 생성
-        Order order = orderService.createOrder(user, orderNumber, true, null);
+        boolean isByUser = true;
+        String orderPassword = null;
+        Order order = orderService.createOrder(user, orderNumber, isByUser, orderPassword);
         orderRepository.save(order);
 
         // 문서 생성
@@ -66,6 +68,7 @@ public class CreateOrderService implements CreateOrderUseCase {
                     doc.recoveryOption(),
                     order
             );
+
             documentRepository.save(document);
 
             paymentPredition += pricePolicyService.calculatePrice(doc.pagePrediction(), doc.recoveryOption());
@@ -94,8 +97,8 @@ public class CreateOrderService implements CreateOrderUseCase {
                 address,
                 order
         );
-        deliveryRepository.save(delivery);
 
+        deliveryRepository.save(delivery);
 
         return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), paymentPredition, delivery.getEmail(), address.getFullAddress());
     }
