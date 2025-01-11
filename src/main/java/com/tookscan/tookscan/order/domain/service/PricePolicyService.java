@@ -19,9 +19,17 @@ public class PricePolicyService {
         LocalDate now = LocalDate.now();
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(now, now);
 
+        validatePricePolicy(pricePolicy);
+        validatePageCount(pageCount);
+
         return pricePolicy.calculatePrice(pageCount, eRecoveryOption);
     }
 
+    /**
+     * 가격 정책의 유효성을 검증합니다.
+     * @param pricePolicy 검증할 가격 정책
+     * @throws CommonException 가격 정책이 없거나 시작일이 종료일보다 늦을 경우
+     */
     private void validatePricePolicy(PricePolicy pricePolicy) {
         // 가격 정책이 없거나 시작일이 종료일보다 늦을 경우
         if (pricePolicy == null) {
@@ -32,6 +40,11 @@ public class PricePolicyService {
         }
     }
 
+    /**
+     * 페이지 수의 유효성을 검증합니다.
+     * @param pageCount 검증할 페이지 수
+     * @throws CommonException 페이지 수가 0 이하일 경우
+     */
     private void validatePageCount(int pageCount) {
         // 페이지 수가 0 이하일 경우
         if (pageCount <= 0) {
