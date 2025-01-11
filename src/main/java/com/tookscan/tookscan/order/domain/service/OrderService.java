@@ -39,4 +39,8 @@ public class OrderService {
         return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay);
     }
 
+    public void updateOrderStatus(Order order, EOrderStatus orderStatus) {
+        order.updateOrderStatus(orderStatus);
+    }
+
 }
