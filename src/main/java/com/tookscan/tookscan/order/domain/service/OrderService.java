@@ -8,10 +8,12 @@ import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -47,8 +49,10 @@ public class OrderService {
         return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay);
     }
 
-    public void updateOrderStatus(Order order, EOrderStatus orderStatus) {
-        order.updateOrderStatus(orderStatus);
+    public void updateOrderStatus(Order order, EOrderStatus newOrderStatus) {
+        EOrderStatus oldOrderStatus = order.getOrderStatus();
+        order.updateOrderStatus(newOrderStatus);
+        log.info("Order status changed. OrderNumber: {}, oldStatus: {}, newStatus: {}", order.getOrderNumber(), oldOrderStatus, newOrderStatus);
     }
 
 }
