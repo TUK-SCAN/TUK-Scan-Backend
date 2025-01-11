@@ -23,8 +23,8 @@ public class DeliveryService {
                 .phoneNumber(phoneNumber)
                 .email(email)
                 .request(request)
-                .deliveryStatus(EDeliveryStatus.DELIVERY_READY)
-                .trackingNumber(null)
+                .deliveryStatus(deliveryStatus)
+                .trackingNumber(trackingNumber)
                 .address(address)
                 .order(order)
                 .build();
