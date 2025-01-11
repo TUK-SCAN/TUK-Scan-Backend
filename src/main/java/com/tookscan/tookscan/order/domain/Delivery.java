@@ -37,6 +37,13 @@ public class Delivery extends BaseEntity {
     @Column(name = "request", length = 50, nullable = false)
     private String request;
 
+    @Column(name = "delivery_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EDeliveryStatus deliveryStatus;
+
+    @Column(name = "tracking_number", length = 20)
+    private String trackingNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
@@ -51,12 +58,14 @@ public class Delivery extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Delivery(String receiverName, String phoneNumber, String email, String request, Address address, Order order) {
+    public Delivery(String receiverName, String phoneNumber, String email, String request, EDeliveryStatus deliveryStatus, String trackingNumber, Order order, Address address) {
         this.receiverName = receiverName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.request = request;
-        this.address = address;
+        this.deliveryStatus = deliveryStatus;
+        this.trackingNumber = trackingNumber;
         this.order = order;
+        this.address = address;
     }
 }

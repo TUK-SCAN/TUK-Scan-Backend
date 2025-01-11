@@ -1,7 +1,9 @@
 package com.tookscan.tookscan.order.application.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tookscan.tookscan.address.dto.request.AddressRequestDto;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -47,6 +49,7 @@ public record CreateOrderRequestDto(
             String phoneNumber,
 
             @NotBlank(message = "email은 null일 수 없습니다.")
+            @Email(message = "email 형식이 아닙니다.")
             @JsonProperty("email")
             String email,
 
@@ -59,42 +62,7 @@ public record CreateOrderRequestDto(
 
             @NotNull(message = "address는 null일 수 없습니다.")
             @JsonProperty("address")
-            Address address
+            AddressRequestDto address
     ) {
-        public record Address(
-
-                @JsonProperty("address_name")
-                @NotBlank(message = "주소를 입력해주세요.")
-                String addressName,
-
-                @JsonProperty("region_1depth_name")
-                @NotBlank(message = "시/도를 입력해주세요.")
-                String region1DepthName,
-
-                @JsonProperty("region_2depth_name")
-                @NotBlank(message = "군/구를 입력해주세요.")
-                String region2DepthName,
-
-                @JsonProperty("region_3depth_name")
-                @NotBlank(message = "읍/면/동을 입력해주세요.")
-                String region3DepthName,
-
-                @JsonProperty("region_4depth_name")
-                String region4DepthName,
-
-                @JsonProperty("address_detail")
-                @NotBlank(message = "상세 주소를 입력해주세요.")
-                @Size(max = 50, message = "상세 주소는 50자 이내로 입력해주세요.")
-                String addressDetail,
-
-                @JsonProperty("latitude")
-                @NotNull(message = "위도를 입력해주세요.")
-                Double latitude,
-
-                @JsonProperty("longitude")
-                @NotNull(message = "경도를 입력해주세요.")
-                Double longitude
-        ) {
-        }
     }
 }

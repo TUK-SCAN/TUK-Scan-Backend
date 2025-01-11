@@ -17,6 +17,7 @@ import com.tookscan.tookscan.order.domain.service.DeliveryService;
 import com.tookscan.tookscan.order.domain.service.DocumentService;
 import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.domain.service.PricePolicyService;
+import com.tookscan.tookscan.order.domain.type.EDeliveryStatus;
 import com.tookscan.tookscan.order.repository.mysql.DeliveryRepository;
 import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
@@ -87,6 +88,8 @@ public class CreateOrderService implements CreateOrderUseCase {
                 requestDto.deliveryInfo().receiverName(),
                 requestDto.deliveryInfo().phoneNumber(),
                 requestDto.deliveryInfo().email(),
+                EDeliveryStatus.DELIVERY_READY,
+                null,
                 requestDto.deliveryInfo().request(),
                 address,
                 order
