@@ -16,6 +16,7 @@ public class DocumentService {
     ) {
         return Document.builder()
                 .name(name)
+                .request(request)
                 .pageCount(pageCount)
                 .recoveryOption(recoveryOption)
                 .order(order)
