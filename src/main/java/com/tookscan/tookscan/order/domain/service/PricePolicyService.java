@@ -17,7 +17,6 @@ public class PricePolicyService {
 
     public int calculatePrice(int pageCount, ERecoveryOption eRecoveryOption) {
         LocalDate now = LocalDate.now();
-        System.out.println("now = " + now);
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(now, now);
         if (pricePolicy == null) {
             throw new CommonException(ErrorCode.NOT_FOUND_RESOURCE);
