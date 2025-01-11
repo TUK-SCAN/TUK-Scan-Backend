@@ -2,6 +2,9 @@ package com.tookscan.tookscan.order.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.core.dto.SelfValidating;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,15 +12,18 @@ import lombok.Getter;
 public class CreateOrderResponseDto extends SelfValidating<CreateOrderResponseDto> {
 
     @JsonProperty("order_number")
+    @NotNull
     private final Long orderNumber;
 
     @JsonProperty("name")
     private final String name;
 
     @JsonProperty("payment_prediction")
+    @Min(0)
     private final Integer paymentPrediction;
 
     @JsonProperty("email")
+    @Email
     private final String email;
 
     @JsonProperty("address")
