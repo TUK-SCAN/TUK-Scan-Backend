@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
@@ -48,10 +49,14 @@ public record CreateOrderRequestDto(
 
             @NotBlank(message = "phone_number는 null일 수 없습니다.")
             @JsonProperty("phone_number")
+            @Pattern(
+                    regexp = "^\\d{10,11}$",
+                    message = "전화번호 형식이 올바르지 않습니다. (- 없이 입력해주세요, 예: 01012345678)"
+            )
             String phoneNumber,
 
             @NotBlank(message = "email은 null일 수 없습니다.")
-            @Email(message = "email 형식이 아닙니다.")
+            @Email(message = "올바른 email 형식이 아닙니다.")
             @JsonProperty("email")
             String email,
 
