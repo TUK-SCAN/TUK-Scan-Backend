@@ -6,6 +6,7 @@ import com.tookscan.tookscan.order.application.dto.request.CreateOrderRequestDto
 import com.tookscan.tookscan.order.application.dto.response.CreateOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateOrderUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateOrderScanUseCase;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class OrderCommandV1Controller {
      */
     @PostMapping()
     public ResponseDto<CreateOrderResponseDto> createOrder(
-            @AccountID UUID accountId,
+            @Parameter(hidden = true) @AccountID UUID accountId,
             @RequestBody @Valid CreateOrderRequestDto requestDto
     ) {
         return ResponseDto.created(createOrderUseCase.execute(accountId, requestDto));
@@ -40,8 +41,10 @@ public class OrderCommandV1Controller {
      * 4.4 회원 스캔하기
      */
     @PatchMapping(value = "/{orderId}/scan")
-    public ResponseDto<Void> updateOrderScan(@AccountID UUID accountId, @PathVariable Long orderId)
-    {
+    public ResponseDto<Void> updateOrderScan(
+            @Parameter(hidden = true) @AccountID UUID accountId,
+            @PathVariable Long orderId
+    ) {
         updateOrderScanUseCase.execute(accountId, orderId);
         return ResponseDto.ok(null);
     }
