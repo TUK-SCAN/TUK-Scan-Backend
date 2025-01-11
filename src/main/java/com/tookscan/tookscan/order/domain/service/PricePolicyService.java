@@ -18,10 +18,24 @@ public class PricePolicyService {
     public int calculatePrice(int pageCount, ERecoveryOption eRecoveryOption) {
         LocalDate now = LocalDate.now();
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(now, now);
-        if (pricePolicy == null) {
-            throw new CommonException(ErrorCode.NOT_FOUND_RESOURCE);
-        }
+
         return pricePolicy.calculatePrice(pageCount, eRecoveryOption);
     }
 
+    private void validatePricePolicy(PricePolicy pricePolicy) {
+        // 가격 정책이 없거나 시작일이 종료일보다 늦을 경우
+        if (pricePolicy == null) {
+            throw new CommonException(ErrorCode.INTERNAL_DATA_ERROR);
+        }
+        if (pricePolicy.getStartDate().isAfter(pricePolicy.getEndDate())) {
+            throw new CommonException(ErrorCode.INTERNAL_DATA_ERROR);
+        }
+    }
+
+    private void validatePageCount(int pageCount) {
+        // 페이지 수가 0 이하일 경우
+        if (pageCount <= 0) {
+            throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+        }
+    }
 }

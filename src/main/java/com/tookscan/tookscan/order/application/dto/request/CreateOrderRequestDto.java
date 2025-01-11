@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.address.dto.request.AddressRequestDto;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,6 +30,7 @@ public record CreateOrderRequestDto(
             String request,
 
             @NotNull(message = "page_prediction은 null일 수 없습니다.")
+            @Min(value = 0, message = "page_prediction은 0 이상이어야 합니다.")
             @JsonProperty("page_prediction")
             Integer pagePrediction,
 
