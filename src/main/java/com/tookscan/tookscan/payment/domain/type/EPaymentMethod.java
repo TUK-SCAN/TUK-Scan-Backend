@@ -1,5 +1,7 @@
 package com.tookscan.tookscan.payment.domain.type;
 
+import com.tookscan.tookscan.core.exception.error.ErrorCode;
+import com.tookscan.tookscan.core.exception.type.CommonException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -15,13 +17,16 @@ public enum EPaymentMethod {
     private final String name;
 
     public static EPaymentMethod fromString(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+        }
         return switch (value.toUpperCase()) {
             case "CARD" -> CARD;
             case "VIRTUAL_ACCOUNT" -> VIRTUAL_ACCOUNT;
             case "EASY_PAYMENT" -> EASY_PAYMENT;
             case "ACCOUNT_TRANSFER" -> ACCOUNT_TRANSFER;
             case "GIFT_VOUCHER" -> GIFT_VOUCHER;
-            default -> throw new IllegalArgumentException();
+            default -> throw new CommonException(ErrorCode.INVALID_ARGUMENT);
         };
     }
 }
