@@ -59,6 +59,7 @@ public class Order extends BaseEntity {
     /* One To One Mapping ------------------------- */
     /* -------------------------------------------- */
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "delivery_id", nullable = false)
     private Delivery delivery;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
