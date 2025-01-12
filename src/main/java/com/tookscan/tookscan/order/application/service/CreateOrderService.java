@@ -13,6 +13,7 @@ import com.tookscan.tookscan.order.application.usecase.CreateOrderUseCase;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Document;
 import com.tookscan.tookscan.order.domain.Order;
+import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.service.DeliveryService;
 import com.tookscan.tookscan.order.domain.service.DocumentService;
 import com.tookscan.tookscan.order.domain.service.OrderService;
@@ -22,6 +23,7 @@ import com.tookscan.tookscan.order.repository.mysql.DeliveryRepository;
 import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -79,11 +81,11 @@ public class CreateOrderService implements CreateOrderUseCase {
         // 주문 생성
         boolean isByUser = true;
         String orderPassword = null;
-        Order order = orderService.createOrder(user, orderNumber, isByUser, orderPassword, delivery);
+        PricePolicy pricePolicy = pricePolicyService.getPricePolicy(LocalDate.now());
+        Order order = orderService.createOrder(user, orderNumber, isByUser, orderPassword, delivery, pricePolicy);
         orderRepository.save(order);
 
         // 문서 생성
-        int paymentPredition = 0;
 
         for (RequestDocument doc : requestDto.documents()) {
             Document document = documentService.createDocument(
@@ -95,12 +97,10 @@ public class CreateOrderService implements CreateOrderUseCase {
             );
 
             documentRepository.save(document);
-
-            paymentPredition += pricePolicyService.calculatePrice(doc.pagePrediction(), doc.recoveryOption());
         }
 
+        int paymentTotalPrediction = orderService.getDocumentsTotalAmount(order);
 
-
-        return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), paymentPredition, delivery.getEmail(), address.getFullAddress());
+        return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), paymentTotalPrediction, delivery.getEmail(), address.getFullAddress());
     }
 }

@@ -9,14 +9,16 @@ import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.application.dto.response.ReadOrderOverviewResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadOrderOverviewResponseDto.OrderInfoDto;
 import com.tookscan.tookscan.order.application.usecase.ReadOrderOverviewUseCase;
+import com.tookscan.tookscan.order.domain.Document;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.service.OrderService;
+import com.tookscan.tookscan.order.domain.service.PricePolicyService;
 import com.tookscan.tookscan.payment.domain.Payment;
 import com.tookscan.tookscan.payment.domain.type.EEasyPaymentProvider;
 import com.tookscan.tookscan.payment.domain.type.EPaymentMethod;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
     private final OrderService orderService;
     private final UserRepository userRepository;
+    private final PricePolicyService pricePolicyService;
 
     @Override
     @Transactional
@@ -48,17 +51,13 @@ public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
                     String documentDescription = order.getDocumentsDescription();
                     String orderDate = DateTimeUtil.convertLocalDateTimeToKORString(order.getCreatedAt());
 
-                    EPaymentMethod paymentMethod = Optional.ofNullable(order.getPayment())
-                            .map(Payment::getMethod)
-                            .orElse(null);
+                    // 결제 정보 null 처리
+                    Payment payment = order.getPayment();
+                    int paymentTotalPrediction = orderService.getDocumentsTotalAmount(order);
 
-                    EEasyPaymentProvider easyPaymentProvider = Optional.ofNullable(order.getPayment())
-                            .map(Payment::getEasyPaymentProvider)
-                            .orElse(null);
-
-                    Integer paymentTotal = Optional.ofNullable(order.getPayment())
-                            .map(Payment::getTotalAmount)
-                            .orElse(null);
+                    EPaymentMethod paymentMethod = payment != null ? payment.getMethod() : null;
+                    EEasyPaymentProvider easyPaymentProvider = payment != null ? payment.getEasyPaymentProvider() : null;
+                    Integer paymentTotal = payment != null ? payment.getTotalAmount() : paymentTotalPrediction;
 
                     return OrderInfoDto.builder()
                             .orderId(order.getId())

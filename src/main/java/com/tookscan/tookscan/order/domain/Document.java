@@ -59,5 +59,6 @@ public class Document extends BaseEntity {
         this.request = request;
         this.order = order;
     }
+
 }
 

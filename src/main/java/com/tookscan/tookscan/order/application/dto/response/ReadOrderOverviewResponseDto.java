@@ -31,7 +31,7 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
         @NotNull
         private Long orderId;
 
-        @JsonProperty("status")
+        @JsonProperty("order_status")
         @NotNull
         private EOrderStatus orderStatus;
 

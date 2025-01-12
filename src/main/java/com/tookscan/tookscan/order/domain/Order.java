@@ -49,6 +49,13 @@ public class Order extends BaseEntity {
     private User user;
 
     /* -------------------------------------------- */
+    /* Many To One Mapping ------------------------ */
+    /* -------------------------------------------- */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "price_policy_id", nullable = false)
+    private PricePolicy pricePolicy;
+
+    /* -------------------------------------------- */
     /* One To One Mapping ------------------------- */
     /* -------------------------------------------- */
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -69,13 +76,14 @@ public class Order extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, String orderPassword, User user, Delivery delivery, Payment payment) {
+    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, String orderPassword, User user, Delivery delivery, PricePolicy pricePolicy) {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
         this.isByUser = isByUser;
         this.orderPassword = orderPassword;
         this.user = user;
         this.delivery = delivery;
+        this.pricePolicy = pricePolicy;
     }
 
     /**
@@ -95,4 +103,5 @@ public class Order extends BaseEntity {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCUMENT));
         return documentName + " 외 " + (documents.size() - 1) + "건";
     }
+
 }

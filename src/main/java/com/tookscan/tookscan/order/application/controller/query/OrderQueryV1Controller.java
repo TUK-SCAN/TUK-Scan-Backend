@@ -2,12 +2,15 @@ package com.tookscan.tookscan.order.application.controller.query;
 
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadOrderDetailResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadOrderOverviewResponseDto;
+import com.tookscan.tookscan.order.application.usecase.ReadOrderDetailUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadOrderOverviewUseCase;
 import io.swagger.v3.oas.annotations.Parameter;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/users/orders")
 public class OrderQueryV1Controller {
     private final ReadOrderOverviewUseCase readOrderOverviewUseCase;
+    private final ReadOrderDetailUseCase readOrderDetailUseCase;
 
     /**
      * 4.10 회원 주문 내역 조회
@@ -33,4 +37,16 @@ public class OrderQueryV1Controller {
     ) {
         return ResponseDto.ok(readOrderOverviewUseCase.execute(accountId, page, size, sort, search, direction));
     }
+
+    /**
+     * 4.11 회원 주문 상세 조회
+     */
+    @GetMapping(value = "/{orderId}/details")
+    public ResponseDto<ReadOrderDetailResponseDto> getOrderDetail(
+            @Parameter(hidden = true) @AccountID UUID accountId,
+            @PathVariable Long orderId
+    ) {
+        return ResponseDto.ok(readOrderDetailUseCase.execute(accountId, orderId));
+    }
+
 }

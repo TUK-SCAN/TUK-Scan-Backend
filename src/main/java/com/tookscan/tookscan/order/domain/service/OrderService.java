@@ -3,11 +3,14 @@ package com.tookscan.tookscan.order.domain.service;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.domain.Delivery;
+import com.tookscan.tookscan.order.domain.Document;
 import com.tookscan.tookscan.order.domain.Order;
+import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +26,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public Order createOrder(User user, Long orderNumber, boolean isByUser, String orderPassword, Delivery delivery) {
+    public Order createOrder(User user, Long orderNumber, boolean isByUser, String orderPassword, Delivery delivery, PricePolicy pricePolicy) {
         return Order.builder()
                 .orderNumber(orderNumber)
                 .orderStatus(EOrderStatus.APPLY_COMPLETED)
@@ -31,6 +34,7 @@ public class OrderService {
                 .orderPassword(orderPassword)
                 .user(user)
                 .delivery(delivery)
+                .pricePolicy(pricePolicy)
                 .build();
     }
 
@@ -62,6 +66,17 @@ public class OrderService {
         EOrderStatus oldOrderStatus = order.getOrderStatus();
         order.updateOrderStatus(newOrderStatus);
         log.info("Order status changed. OrderNumber: {}, oldStatus: {}, newStatus: {}", order.getOrderNumber(), oldOrderStatus, newOrderStatus);
+    }
+
+    public int getDocumentsTotalAmount(Order order) {
+
+        int totalAmount = 0;
+
+        for (Document document : order.getDocuments()) {
+            totalAmount += order.getPricePolicy().calculatePrice(document.getPageCount(), document.getRecoveryOption());
+        }
+
+        return totalAmount;
     }
 
 }
