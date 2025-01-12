@@ -34,7 +34,7 @@ public class Delivery extends BaseEntity {
     @Column(name = "email", length = 320, nullable = false)
     private String email;
 
-    @Column(name = "request", length = 50, nullable = false)
+    @Column(name = "request", length = 100, nullable = false)
     private String request;
 
     @Column(name = "delivery_status", nullable = false)

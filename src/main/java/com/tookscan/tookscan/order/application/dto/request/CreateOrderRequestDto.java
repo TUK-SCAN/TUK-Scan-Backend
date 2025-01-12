@@ -28,6 +28,7 @@ public record CreateOrderRequestDto(
             String name,
 
             @JsonProperty("request")
+            @Pattern(regexp = "^[\\s\\S]{0,100}$", message = "요청사항은 100자를 초과할 수 없습니다")
             String request,
 
             @NotNull(message = "page_prediction은 null일 수 없습니다.")
@@ -65,6 +66,7 @@ public record CreateOrderRequestDto(
             String authenticationCode,
 
             @JsonProperty("request")
+            @Pattern(regexp = "^[\\s\\S]{0,100}$", message = "요청사항은 100자를 초과할 수 없습니다")
             String request,
 
             @NotNull(message = "address는 null일 수 없습니다.")
