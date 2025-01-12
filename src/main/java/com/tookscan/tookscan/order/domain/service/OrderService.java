@@ -45,8 +45,8 @@ public class OrderService {
         return Long.parseLong(orderNumber);
     }
 
-    public Page<Order> readOrdersByUser(User user, int page, int size, String sort, Direction direction) {
-        return orderRepository.findAllByUser(user, PageRequest.of(page, size, Sort.by(direction, sort)));
+    public Page<Order> readOrdersByUser(User user, int page, int size, String sort,String search, Direction direction) {
+        return orderRepository.findAllByUserAndSearch(user, search, PageRequest.of(page, size, Sort.by(direction, sort)));
     }
     /**
      *  TODO: 동시성 문제 개선 필요

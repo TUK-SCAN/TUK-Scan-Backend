@@ -40,7 +40,7 @@ public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
 
         // 주문 조회
-        Page<Order> orders = orderService.readOrdersByUser(user, page, size, sort, Direction.fromString(direction));
+        Page<Order> orders = orderService.readOrdersByUser(user, page, size, sort, search, Direction.fromString(direction));
 
         // 주문이 없을 경우 예외 처리
         validateOrderEmpty(orders);
