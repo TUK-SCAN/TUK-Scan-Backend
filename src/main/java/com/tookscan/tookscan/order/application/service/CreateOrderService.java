@@ -50,6 +50,26 @@ public class CreateOrderService implements CreateOrderUseCase {
         User user = userRepository.findById(accountId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
 
+        // 배송 정보 생성
+        Delivery delivery = createDelivery(requestDto);
+        deliveryRepository.save(delivery);
+
+        // 주문번호 생성
+        Long orderNumber = orderService.createOrderNumber();
+
+        // 주문 생성
+        Order order = createOrder(user, delivery);
+
+        // 문서 생성
+        CreateDocuments(requestDto, order);
+
+        // 결제 금액 예측
+        int paymentTotalPrediction = orderService.getDocumentsTotalAmount(order);
+
+        return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), paymentTotalPrediction, delivery.getEmail(), delivery.getAddress().getFullAddress());
+    }
+
+    private Delivery createDelivery(CreateOrderRequestDto requestDto){
         // 주소 정보 생성
         Address address = addressService.createAddress(
                 requestDto.deliveryInfo().address().addressName(),
@@ -62,8 +82,7 @@ public class CreateOrderService implements CreateOrderUseCase {
                 requestDto.deliveryInfo().address().longitude()
         );
 
-        // 배송 정보 생성
-        Delivery delivery = deliveryService.createDelivery(
+        return deliveryService.createDelivery(
                 requestDto.deliveryInfo().receiverName(),
                 requestDto.deliveryInfo().phoneNumber(),
                 requestDto.deliveryInfo().email(),
@@ -72,22 +91,17 @@ public class CreateOrderService implements CreateOrderUseCase {
                 requestDto.deliveryInfo().request(),
                 address
         );
+    }
 
-        deliveryRepository.save(delivery);
-
-        // 주문번호 생성
+    private Order createOrder(User user, Delivery delivery) {
         Long orderNumber = orderService.createOrderNumber();
-
-        // 주문 생성
-        boolean isByUser = true;
-        String orderPassword = null;
         PricePolicy pricePolicy = pricePolicyService.getPricePolicy(LocalDate.now());
-        Order order = orderService.createOrder(user, orderNumber, isByUser, orderPassword, delivery, pricePolicy);
-        orderRepository.save(order);
+        Order order = orderService.createOrder(user, orderNumber, true, null, delivery, pricePolicy);
+        return orderRepository.save(order);
+    }
 
-        // 문서 생성
-
-        for (RequestDocument doc : requestDto.documents()) {
+    private void CreateDocuments(CreateOrderRequestDto requestDto, Order order){
+        requestDto.documents().forEach(doc -> {
             Document document = documentService.createDocument(
                     doc.name(),
                     doc.request(),
@@ -95,12 +109,7 @@ public class CreateOrderService implements CreateOrderUseCase {
                     doc.recoveryOption(),
                     order
             );
-
             documentRepository.save(document);
-        }
-
-        int paymentTotalPrediction = orderService.getDocumentsTotalAmount(order);
-
-        return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), paymentTotalPrediction, delivery.getEmail(), address.getFullAddress());
+        });
     }
 }
