@@ -44,7 +44,10 @@ public class Delivery extends BaseEntity {
     @Column(name = "tracking_number", length = 20)
     private String trackingNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /* -------------------------------------------- */
+    /* One To One Mapping ------------------------- */
+    /* -------------------------------------------- */
+    @OneToOne(mappedBy = "delivery")
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
@@ -58,14 +61,13 @@ public class Delivery extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Delivery(String receiverName, String phoneNumber, String email, String request, EDeliveryStatus deliveryStatus, String trackingNumber, Order order, Address address) {
+    public Delivery(String receiverName, String phoneNumber, String email, String request, EDeliveryStatus deliveryStatus, String trackingNumber, Address address) {
         this.receiverName = receiverName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.request = request;
         this.deliveryStatus = deliveryStatus;
         this.trackingNumber = trackingNumber;
-        this.order = order;
         this.address = address;
     }
 }

@@ -15,8 +15,7 @@ public class DeliveryService {
             EDeliveryStatus deliveryStatus,
             String trackingNumber,
             String request,
-            Address address,
-            Order order
+            Address address
     ) {
         return Delivery.builder()
                 .receiverName(receiverName)
@@ -26,7 +25,6 @@ public class DeliveryService {
                 .deliveryStatus(deliveryStatus)
                 .trackingNumber(trackingNumber)
                 .address(address)
-                .order(order)
                 .build();
     }
 }

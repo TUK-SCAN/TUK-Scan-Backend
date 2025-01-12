@@ -48,32 +48,6 @@ public class CreateOrderService implements CreateOrderUseCase {
         User user = userRepository.findById(accountId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
 
-        // 주문번호 생성
-        Long orderNumber = orderService.createOrderNumber();
-
-        // 주문 생성
-        boolean isByUser = true;
-        String orderPassword = null;
-        Order order = orderService.createOrder(user, orderNumber, isByUser, orderPassword);
-        orderRepository.save(order);
-
-        // 문서 생성
-        int paymentPredition = 0;
-
-        for (RequestDocument doc : requestDto.documents()) {
-            Document document = documentService.createDocument(
-                    doc.name(),
-                    doc.request(),
-                    doc.pagePrediction(),
-                    doc.recoveryOption(),
-                    order
-            );
-
-            documentRepository.save(document);
-
-            paymentPredition += pricePolicyService.calculatePrice(doc.pagePrediction(), doc.recoveryOption());
-        }
-
         // 주소 정보 생성
         Address address = addressService.createAddress(
                 requestDto.deliveryInfo().address().addressName(),
@@ -94,11 +68,38 @@ public class CreateOrderService implements CreateOrderUseCase {
                 EDeliveryStatus.DELIVERY_READY,
                 null,
                 requestDto.deliveryInfo().request(),
-                address,
-                order
+                address
         );
 
         deliveryRepository.save(delivery);
+
+        // 주문번호 생성
+        Long orderNumber = orderService.createOrderNumber();
+
+        // 주문 생성
+        boolean isByUser = true;
+        String orderPassword = null;
+        Order order = orderService.createOrder(user, orderNumber, isByUser, orderPassword, delivery);
+        orderRepository.save(order);
+
+        // 문서 생성
+        int paymentPredition = 0;
+
+        for (RequestDocument doc : requestDto.documents()) {
+            Document document = documentService.createDocument(
+                    doc.name(),
+                    doc.request(),
+                    doc.pagePrediction(),
+                    doc.recoveryOption(),
+                    order
+            );
+
+            documentRepository.save(document);
+
+            paymentPredition += pricePolicyService.calculatePrice(doc.pagePrediction(), doc.recoveryOption());
+        }
+
+
 
         return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), paymentPredition, delivery.getEmail(), address.getFullAddress());
     }

@@ -2,6 +2,7 @@ package com.tookscan.tookscan.order.domain.service;
 
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
+import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
@@ -9,6 +10,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,13 +23,14 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    public Order createOrder(User user, Long orderNumber, boolean isByUser, String orderPassword) {
+    public Order createOrder(User user, Long orderNumber, boolean isByUser, String orderPassword, Delivery delivery) {
         return Order.builder()
                 .orderNumber(orderNumber)
                 .orderStatus(EOrderStatus.APPLY_COMPLETED)
                 .isByUser(isByUser)
                 .orderPassword(orderPassword)
                 .user(user)
+                .delivery(delivery)
                 .build();
     }
 
@@ -35,6 +41,9 @@ public class OrderService {
         return Long.parseLong(orderNumber);
     }
 
+    public Page<Order> readOrdersByUser(User user, int page, int size, String sort, Direction direction) {
+        return orderRepository.findAllByUser(user, PageRequest.of(page, size, Sort.by(direction, sort)));
+    }
     /**
      *  TODO: 동시성 문제 개선 필요
      *  현재 구현은 단일 스레드 환경에서는 문제가 없으나, 다중 스레드 환경에서는 동일한 주문 번호가 생성될 가능성이 있습니다.
