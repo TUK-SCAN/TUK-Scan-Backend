@@ -21,6 +21,9 @@ public enum EEasyPaymentProvider {
     private final String name;
 
     public static EEasyPaymentProvider fromString(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
+        }
         return switch (value.toUpperCase()) {
             case "TOSS_PAY" -> TOSS_PAY;
             case "NAVER_PAY" -> NAVER_PAY;

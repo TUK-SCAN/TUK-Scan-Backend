@@ -18,7 +18,7 @@ public enum EPaymentMethod {
 
     public static EPaymentMethod fromString(String value) {
         if (value == null || value.trim().isEmpty()) {
-            throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+            throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
         }
         return switch (value.toUpperCase()) {
             case "CARD" -> CARD;
@@ -26,7 +26,7 @@ public enum EPaymentMethod {
             case "EASY_PAYMENT" -> EASY_PAYMENT;
             case "ACCOUNT_TRANSFER" -> ACCOUNT_TRANSFER;
             case "GIFT_VOUCHER" -> GIFT_VOUCHER;
-            default -> throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+            default -> throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
         };
     }
 }
