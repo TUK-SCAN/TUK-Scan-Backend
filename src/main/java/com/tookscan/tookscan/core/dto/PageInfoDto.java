@@ -1,6 +1,8 @@
 package com.tookscan.tookscan.core.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tookscan.tookscan.core.exception.error.ErrorCode;
+import com.tookscan.tookscan.core.exception.type.CommonException;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -41,6 +43,9 @@ public class PageInfoDto extends SelfValidating<PageInfoDto> {
     }
 
     public static PageInfoDto fromEntity(Page<?> page) {
+        if (page == null) {
+            throw new CommonException(ErrorCode.NOT_FOUND_RESOURCE);
+        }
         return PageInfoDto.builder()
                 .currentPage(page.getNumber())
                 .pageSize(page.getSize())
