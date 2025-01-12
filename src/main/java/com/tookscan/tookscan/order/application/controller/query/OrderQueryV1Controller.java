@@ -7,6 +7,7 @@ import com.tookscan.tookscan.order.application.dto.response.ReadOrderOverviewRes
 import com.tookscan.tookscan.order.application.usecase.ReadOrderDetailUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadOrderOverviewUseCase;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.Min;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,8 @@ public class OrderQueryV1Controller {
     @GetMapping(value = "/overviews")
     public ResponseDto<ReadOrderOverviewResponseDto> getOrderOverview(
             @Parameter(hidden = true) @AccountID UUID accountId,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
+            @Min(0) @RequestParam(value = "page", defaultValue = "0") int page,
+            @Min(0) @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sort", required = false) String sort,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "direction", required = false, defaultValue = "desc") String direction
