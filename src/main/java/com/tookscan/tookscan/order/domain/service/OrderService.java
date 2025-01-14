@@ -1,6 +1,8 @@
 package com.tookscan.tookscan.order.domain.service;
 
 import com.tookscan.tookscan.account.domain.User;
+import com.tookscan.tookscan.core.exception.error.ErrorCode;
+import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Document;
@@ -10,7 +12,6 @@ import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -58,8 +59,9 @@ public class OrderService {
      */
     public long getTodayOrderCount() {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-        LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1); // 하루의 마지막 순간
-        return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay);
+        LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
+        return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ORDER));
     }
 
     public void updateOrderStatus(Order order, EOrderStatus newOrderStatus) {

@@ -7,7 +7,6 @@ import com.tookscan.tookscan.address.domain.service.AddressService;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.order.application.dto.request.CreateOrderRequestDto;
-import com.tookscan.tookscan.order.application.dto.request.CreateOrderRequestDto.RequestDocument;
 import com.tookscan.tookscan.order.application.dto.response.CreateOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateOrderUseCase;
 import com.tookscan.tookscan.order.domain.Delivery;
