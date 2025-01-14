@@ -1,8 +1,6 @@
 package com.tookscan.tookscan.order.domain.service;
 
 import com.tookscan.tookscan.account.domain.User;
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Document;
@@ -60,8 +58,7 @@ public class OrderService {
     public long getTodayOrderCount() {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
-        return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ORDER));
+        return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay).orElse(0L);
     }
 
     public void updateOrderStatus(Order order, EOrderStatus newOrderStatus) {
