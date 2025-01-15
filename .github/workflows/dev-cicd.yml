@@ -71,7 +71,7 @@ jobs:
   # closed에 대한 server deploy
   CD:
     if: github.event.pull_request.merged == true
-    needs: [ CI ]
+    needs: [CI]
     runs-on: ubuntu-20.04
 
     steps:
