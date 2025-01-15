@@ -5,10 +5,7 @@ import com.tookscan.tookscan.core.exception.type.CommonException;
 import net.minidev.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import java.util.Objects;
@@ -53,6 +50,4 @@ public class RestClientUtil {
             throw new RuntimeException("Error sending POST request", e);
         }
     }
-
-
 }

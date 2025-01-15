@@ -1,7 +1,6 @@
 package com.tookscan.tookscan.core.listener;
 
 import com.tookscan.tookscan.core.utility.SmsUtil;
-import com.tookscan.tookscan.security.event.CompleteEmailValidationEvent;
 import com.tookscan.tookscan.security.event.CompletePhoneNumberValidationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ public class SmsListener {
 
     @Async
     @EventListener(classes = {CompletePhoneNumberValidationEvent.class})
-    public void handleCompleteEmailValidationEvent(CompleteEmailValidationEvent event) {
+    public void handleCompletePhoneNumberValidationEvent(CompletePhoneNumberValidationEvent event) {
         log.info(
                 "\n----------------------------------\n[ 휴대폰 인증 완료 이벤트 처리 ]\n{}\n{}\n----------------------------------",
                 event.receiverAddress() + "님의 휴대폰 인증이 완료되었습니다.",
