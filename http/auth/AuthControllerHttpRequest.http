@@ -46,7 +46,7 @@ Content-Type: application/json
 
 ### 2.7 휴대폰 인증번호 검증
 // @no-log
-@authentication_code = "923379"
+@authentication_code = "995659"
 PATCH {{host_url}}/v1/users/auth/authentication-code
 Content-Type: application/json
 

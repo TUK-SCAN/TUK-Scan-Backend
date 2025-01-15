@@ -11,6 +11,7 @@ import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignUpDefaultService implements SignUpDefaultUseCase {
 
     private final AuthenticationCodeRepository authenticationCodeRepository;
+    private final AuthenticationCodeHistoryRepository authenticationCodeHistoryRepository;
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
 
@@ -61,6 +63,12 @@ public class SignUpDefaultService implements SignUpDefaultUseCase {
                 requestDto.marketingAllowed()
         );
         userRepository.save(user);
+
+        // 인증번호 삭제
+        authenticationCodeRepository.deleteById(requestDto.phoneNumber());
+
+        // 인증번호 발급 이력 삭제
+        authenticationCodeHistoryRepository.deleteById(requestDto.phoneNumber());
     }
 
     /**
