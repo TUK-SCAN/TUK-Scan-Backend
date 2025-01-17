@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/users/orders")
-@Slf4j
 public class OrderCommandV1Controller {
     private final CreateOrderUseCase createOrderUseCase;
     private final UpdateOrderScanUseCase updateOrderScanUseCase;
