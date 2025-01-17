@@ -11,7 +11,7 @@ public enum ERecoveryOption {
     SPRING("스프링", 5000);
 
     private final String description;
-    private final int price;
+    private final Integer price;
 
     public static ERecoveryOption fromString(String value) {
         return switch (value.toUpperCase()) {

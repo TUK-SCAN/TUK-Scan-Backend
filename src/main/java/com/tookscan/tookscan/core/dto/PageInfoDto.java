@@ -17,17 +17,17 @@ public class PageInfoDto extends SelfValidating<PageInfoDto> {
     @JsonProperty("current_page")
     @NotNull(message = "Current page must not be null")
     @Min(value = 0, message = "Current page must be greater than or equal to 0")
-    private int currentPage;
+    private Integer currentPage;
 
     @JsonProperty("page_size")
     @NotNull(message = "Page size must not be null")
     @Min(value = 0, message = "Page size must be greater than or equal to 0")
-    private int pageSize;
+    private Integer pageSize;
 
     @JsonProperty("total_page")
     @NotNull(message = "Total page must not be null")
     @Min(value = 0, message = "Total page must be greater than or equal to 0")
-    private int totalPage;
+    private Integer totalPage;
 
     @JsonProperty("total_item")
     @NotNull(message = "Total item must not be null")
@@ -35,7 +35,7 @@ public class PageInfoDto extends SelfValidating<PageInfoDto> {
     private Long totalItem;
 
     @Builder
-    public PageInfoDto(int currentPage, int pageSize, int totalPage, Long totalItem) {
+    public PageInfoDto(Integer currentPage, Integer pageSize, Integer totalPage, Long totalItem) {
         this.currentPage = currentPage;
         this.pageSize = pageSize;
         this.totalPage = totalPage;

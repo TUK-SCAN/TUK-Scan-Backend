@@ -64,11 +64,11 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
 
         @JsonProperty("page")
         @NotNull
-        private final int page;
+        private final Integer page;
 
         @JsonProperty("price")
         @NotNull
-        private final int price;
+        private final Integer price;
 
         @JsonProperty("recovery_option")
         @NotNull

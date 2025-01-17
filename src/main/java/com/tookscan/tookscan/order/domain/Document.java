@@ -30,7 +30,7 @@ public class Document extends BaseEntity {
     private String name;
 
     @Column(name = "page_count", nullable = false)
-    private int pageCount;
+    private Integer pageCount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "recovery_option", nullable = false)
