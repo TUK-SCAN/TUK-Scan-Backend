@@ -51,6 +51,7 @@ public class ReadUserDetailResponseDto extends SelfValidating<ReadUserDetailResp
         this.validateSelf();
     }
 
+    @Getter
     public static class AddressDto {
 
         @JsonProperty("address_name")
