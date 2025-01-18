@@ -3,7 +3,12 @@
 GET {{host_url}}/v1/accounts/briefs
 Authorization: Bearer {{access_token}}
 
-### 3.9 사용자 상세 정보 조회
+### 3.9 유저 상세 정보 조회
 // @no-log
 GET {{host_url}}/v1/users/details
+Authorization: Bearer {{access_token}}
+
+### 3.10 유저 배송 정보 조회
+// @no-log
+GET {{host_url}}/v1/users/summaries
 Authorization: Bearer {{access_token}}

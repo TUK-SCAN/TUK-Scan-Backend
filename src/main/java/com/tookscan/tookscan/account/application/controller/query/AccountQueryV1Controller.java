@@ -2,8 +2,10 @@ package com.tookscan.tookscan.account.application.controller.query;
 
 import com.tookscan.tookscan.account.application.dto.response.ReadAccountBriefResponseDto;
 import com.tookscan.tookscan.account.application.dto.response.ReadUserDetailResponseDto;
+import com.tookscan.tookscan.account.application.dto.response.ReadUserSummaryResponseDto;
 import com.tookscan.tookscan.account.application.usecase.ReadAccountBriefUseCase;
 import com.tookscan.tookscan.account.application.usecase.ReadUserDetailUseCase;
+import com.tookscan.tookscan.account.application.usecase.ReadUserSummaryUseCase;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +23,7 @@ public class AccountQueryV1Controller {
 
     private final ReadAccountBriefUseCase readAccountBriefUseCase;
     private final ReadUserDetailUseCase readUserDetailUseCase;
+    private final ReadUserSummaryUseCase readUserSummaryUseCase;
 
     /**
      * 3.8 유저 간단 정보 조회
@@ -47,4 +50,18 @@ public class AccountQueryV1Controller {
     public ResponseDto<ReadUserDetailResponseDto> readUserDetail(@AccountID UUID accountId) {
         return ResponseDto.ok(readUserDetailUseCase.execute(accountId));
     }
+
+    /**
+     * 3.10 유저 배송 정보 조회
+     */
+    @GetMapping("/v1/users/summaries")
+    @Operation(summary = "유저 배송 정보 조회", description = "배송 요청 시 필요한 사용자 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
+    })
+    public ResponseDto<ReadUserSummaryResponseDto> readUserSummary(@AccountID UUID accountId) {
+        return ResponseDto.ok(readUserSummaryUseCase.execute(accountId));
+    }
+
 }
