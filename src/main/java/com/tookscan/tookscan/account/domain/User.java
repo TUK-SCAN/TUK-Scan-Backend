@@ -86,5 +86,17 @@ public class User extends Account {
     public String getName() {
         return this.name;
     }
+
+    public void updateAddress(Address address) {
+        this.address = address;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePhone(String phoneNumber) {
+        super.updatePhoneNumber(phoneNumber);
+    }
 }
 
