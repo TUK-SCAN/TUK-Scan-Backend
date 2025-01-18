@@ -28,6 +28,7 @@ public class UserCommandV1Controller {
     @Operation(summary = "유저 정보 수정", description = "유저의 정보를 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "401", description = "휴대폰 인증 완료 안된상태로 휴대폰 번호 수정 시도"),
             @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
     })
     public ResponseDto<Void> updateUser(
