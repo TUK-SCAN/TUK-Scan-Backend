@@ -1,0 +1,4 @@
+### 3.8 유저 간단 정보 조회
+// @no-log
+GET {{host_url}}/v1/accounts/briefs
+Authorization: Bearer {{access_token}}

@@ -22,6 +22,8 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class Admin extends Account {
 
+    private static final String ADMIN_NAME = "관리자";
+
     /* -------------------------------------------- */
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
@@ -36,5 +38,10 @@ public class Admin extends Account {
     @Override
     public ESecurityRole getRole() {
         return ESecurityRole.ADMIN;
+    }
+
+    @Override
+    public String getName() {
+        return ADMIN_NAME;
     }
 }
