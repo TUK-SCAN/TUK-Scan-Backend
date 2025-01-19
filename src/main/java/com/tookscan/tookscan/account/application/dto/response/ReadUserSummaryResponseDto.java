@@ -39,7 +39,7 @@ public class ReadUserSummaryResponseDto extends SelfValidating<ReadUserSummaryRe
         this.validateSelf();
     }
 
-    public static class AddressDto {
+    public static class AddressDto extends SelfValidating<AddressDto> {
 
         @JsonProperty("address_name")
         @Schema(description = "주소명", example = "서울특별시 강남구 역삼동")
@@ -90,6 +90,7 @@ public class ReadUserSummaryResponseDto extends SelfValidating<ReadUserSummaryRe
             this.addressDetail = addressDetail;
             this.longitude = longitude;
             this.latitude = latitude;
+            this.validateSelf();
         }
 
         public static AddressDto fromEntity(Address address) {
