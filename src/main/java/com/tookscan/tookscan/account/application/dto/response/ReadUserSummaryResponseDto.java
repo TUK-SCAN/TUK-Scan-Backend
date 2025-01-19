@@ -94,23 +94,28 @@ public class ReadUserSummaryResponseDto extends SelfValidating<ReadUserSummaryRe
         }
 
         public static AddressDto fromEntity(Address address) {
+
+            if (address == null) {
+                return null;
+            }
+
             return AddressDto.builder()
-                    .addressName(address.getAddressName() != null ? address.getAddressName() : null)
-                    .region1DepthName(address.getRegion1DepthName() != null ? address.getRegion1DepthName() : null)
-                    .region2DepthName(address.getRegion2DepthName() != null ? address.getRegion2DepthName() : null)
-                    .region3DepthName(address.getRegion3DepthName() != null ? address.getRegion3DepthName() : null)
+                    .addressName(address.getAddressName())
+                    .region1DepthName(address.getRegion1DepthName())
+                    .region2DepthName(address.getRegion2DepthName())
+                    .region3DepthName(address.getRegion3DepthName())
                     .region4DepthName(address.getRegion4DepthName() != null ? address.getRegion4DepthName() : null)
-                    .addressDetail(address.getAddressDetail() != null ? address.getAddressDetail() : null)
-                    .longitude(address.getLongitude() != null ? address.getLongitude() : null)
-                    .latitude(address.getLatitude() != null ? address.getLatitude() : null)
+                    .addressDetail(address.getAddressDetail())
+                    .longitude(address.getLongitude())
+                    .latitude(address.getLatitude())
                     .build();
         }
     }
 
     public static ReadUserSummaryResponseDto fromEntity(User user) {
         return ReadUserSummaryResponseDto.builder()
-                .name(user.getName() != null ? user.getName() : null)
-                .phoneNumber(user.getPhoneNumber() != null ? user.getPhoneNumber() : null)
+                .name(user.getName())
+                .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail() != null ? user.getEmail() : null)
                 .address(user.getAddress() != null ? AddressDto.fromEntity(user.getAddress()) : null)
                 .build();

@@ -106,6 +106,11 @@ public class ReadUserDetailResponseDto extends SelfValidating<ReadUserDetailResp
         }
 
         public static AddressDto fromEntity(Address address) {
+
+            if (address == null) {
+                return null;
+            }
+
             return AddressDto.builder()
                     .addressName(address.getAddressName())
                     .region1DepthName(address.getRegion1DepthName())
