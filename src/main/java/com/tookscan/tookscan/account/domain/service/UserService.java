@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.account.domain.service;
 
-import com.tookscan.tookscan.account.application.dto.request.UpdateUserRequestDto;
 import com.tookscan.tookscan.account.domain.User;
+import com.tookscan.tookscan.address.dto.request.AddressRequestDto;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +35,13 @@ public class UserService {
 
     public User updateSelf(
             User user,
-            UpdateUserRequestDto requestDto
+            String email,
+            String phoneNumber,
+            AddressRequestDto addressDto
     ) {
-        user.updateEmail(requestDto.email());
-        user.updatePhone(requestDto.phoneNumber());
-        user.updateAddress(requestDto.address().toEntity());
+        user.updateEmail(email);
+        user.updatePhone(phoneNumber);
+        user.updateAddress(addressDto.toEntity());
         return user;
     }
 }

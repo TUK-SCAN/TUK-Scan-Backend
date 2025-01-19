@@ -48,7 +48,7 @@ public class UpdateUserService implements UpdateUserUseCase {
         }
 
         // User 정보 수정
-        user = userService.updateSelf(user, requestDto);
+        user = userService.updateSelf(user, requestDto.email(), requestDto.phoneNumber(), requestDto.address());
         userRepository.save(user);
 
         // 인증번호 삭제
