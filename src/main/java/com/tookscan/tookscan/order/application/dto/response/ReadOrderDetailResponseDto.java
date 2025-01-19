@@ -86,7 +86,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
             this.validateSelf();
         }
 
-        public static DocumentInfoDto from(Document document, Order order) {
+        public static DocumentInfoDto fromEntity(Document document, Order order) {
             return DocumentInfoDto.builder()
                     .name(document.getName())
                     .page(document.getPageCount())
@@ -122,7 +122,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         this.validateSelf();
     }
 
-    public static ReadOrderDetailResponseDto from(Order order) {
+    public static ReadOrderDetailResponseDto fromEntity(Order order) {
 
         Optional<Payment> payment = Optional.ofNullable(order.getPayment());
 
@@ -139,7 +139,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
                 .address(order.getDelivery().getAddress().getFullAddress())
                 .documentDescription(order.getDocumentsDescription())
                 .documents(order.getDocuments().stream()
-                        .map(document -> DocumentInfoDto.from(document, order))
+                        .map(document -> DocumentInfoDto.fromEntity(document, order))
                         .toList())
                 .paymentMethod(paymentMethod)
                 .easyPaymentProvider(easyPaymentProvider)

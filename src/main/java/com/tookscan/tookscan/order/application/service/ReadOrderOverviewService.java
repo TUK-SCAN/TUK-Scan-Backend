@@ -41,7 +41,7 @@ public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
             throw new CommonException(ErrorCode.NOT_FOUND_ORDER);
         }
 
-        return ReadOrderOverviewResponseDto.from(orders);
+        return ReadOrderOverviewResponseDto.fromEntity(orders);
     }
 
 }

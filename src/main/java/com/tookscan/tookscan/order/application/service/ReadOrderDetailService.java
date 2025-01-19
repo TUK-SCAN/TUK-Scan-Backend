@@ -36,7 +36,7 @@ public class ReadOrderDetailService implements ReadOrderDetailUseCase {
         // 주문자 확인
         orderService.validateOrderUser(order, user);
 
-        return ReadOrderDetailResponseDto.from(order);
+        return ReadOrderDetailResponseDto.fromEntity(order);
 
     }
 }

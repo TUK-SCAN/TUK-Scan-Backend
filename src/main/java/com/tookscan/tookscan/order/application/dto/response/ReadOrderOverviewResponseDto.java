@@ -82,7 +82,7 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
             this.validateSelf();
         }
 
-        public static OrderInfoDto from(Order order) {
+        public static OrderInfoDto fromEntity(Order order) {
             Optional<Payment> payment = Optional.ofNullable(order.getPayment());
 
             EPaymentMethod paymentMethod = payment.map(Payment::getMethod).orElse(null);
@@ -111,10 +111,10 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
         this.validateSelf();
     }
 
-    public static ReadOrderOverviewResponseDto from(Page<Order> orders) {
+    public static ReadOrderOverviewResponseDto fromEntity(Page<Order> orders) {
         return ReadOrderOverviewResponseDto.builder()
                 .orders(orders.stream()
-                        .map(OrderInfoDto::from)
+                        .map(OrderInfoDto::fromEntity)
                         .toList())
                 .pageInfo(PageInfoDto.fromEntity(orders))
                 .build();
