@@ -2,12 +2,17 @@ package com.tookscan.tookscan.order.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.core.dto.SelfValidating;
+import com.tookscan.tookscan.core.utility.DateTimeUtil;
+import com.tookscan.tookscan.order.domain.Document;
+import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
+import com.tookscan.tookscan.payment.domain.Payment;
 import com.tookscan.tookscan.payment.domain.type.EEasyPaymentProvider;
 import com.tookscan.tookscan.payment.domain.type.EPaymentMethod;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,7 +25,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
 
     @JsonProperty("order_number")
     @NotNull
-    private final String orderNumber;
+    private final Long orderNumber;
 
     @JsonProperty("order_status")
     @NotNull
@@ -73,5 +78,39 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         @JsonProperty("recovery_option")
         @NotNull
         private final ERecoveryOption recoveryOption;
+
+        public static DocumentInfoDto from(Document document, Order order) {
+            return DocumentInfoDto.builder()
+                    .name(document.getName())
+                    .page(document.getPageCount())
+                    .price(order.getPricePolicy().calculatePrice(document.getPageCount(), document.getRecoveryOption()))
+                    .recoveryOption(document.getRecoveryOption())
+                    .build();
+        }
+    }
+
+    public static ReadOrderDetailResponseDto from(Order order) {
+
+        Optional<Payment> payment = Optional.ofNullable(order.getPayment());
+
+        EPaymentMethod paymentMethod = payment.map(Payment::getMethod).orElse(null);
+        EEasyPaymentProvider easyPaymentProvider = payment.map(Payment::getEasyPaymentProvider).orElse(null);
+        Integer paymentTotal = payment.map(Payment::getTotalAmount).orElse(order.getDocumentsTotalAmount());
+
+        return ReadOrderDetailResponseDto.builder()
+                .orderId(order.getId())
+                .orderNumber(order.getOrderNumber())
+                .orderStatus(order.getOrderStatus())
+                .orderDate(DateTimeUtil.convertLocalDateTimeToKORString(order.getCreatedAt()))
+                .receiverName(order.getDelivery().getReceiverName())
+                .address(order.getDelivery().getAddress().getFullAddress())
+                .documentDescription(order.getDocumentsDescription())
+                .documents(order.getDocuments().stream()
+                        .map(document -> DocumentInfoDto.from(document, order))
+                        .toList())
+                .paymentMethod(paymentMethod)
+                .easyPaymentProvider(easyPaymentProvider)
+                .paymentTotal(paymentTotal)
+                .build();
     }
 }

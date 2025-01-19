@@ -104,4 +104,14 @@ public class Order extends BaseEntity {
         return documentName + " 외 " + (documents.size() - 1) + "건";
     }
 
+    public int getDocumentsTotalAmount() {
+
+        int totalAmount = 0;
+
+        for (Document document : documents) {
+            totalAmount += pricePolicy.calculatePrice(document.getPageCount(), document.getRecoveryOption());
+        }
+
+        return totalAmount;
+    }
 }

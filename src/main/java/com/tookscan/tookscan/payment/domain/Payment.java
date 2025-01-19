@@ -77,4 +77,5 @@ public class Payment extends BaseEntity {
         this.easyPaymentProvider = easyPaymentProvider;
         this.order = order;
     }
+
 }

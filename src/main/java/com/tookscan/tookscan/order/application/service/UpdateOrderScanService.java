@@ -33,24 +33,13 @@ public class UpdateOrderScanService implements UpdateOrderScanUseCase {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ORDER));
 
-        // 유효성 검증
-        validateOrderUser(order, user);
-        validateOrderStatus(order);
-
-        orderService.updateOrderStatus(order, EOrderStatus.SCAN_WAITING);
-    }
-
-    private void validateOrderUser(Order order, User user) {
         // 주문자 확인
-        if (!order.getUser().getId().equals(user.getId())) {
-            throw new CommonException(ErrorCode.ACCESS_DENIED);
-        }
-    }
+        orderService.validateOrderUser(order, user);
 
-    private void validateOrderStatus(Order order) {
         // 결제 상태 확인
-        if (!order.getOrderStatus().equals(EOrderStatus.PAYMENT_COMPLETED)) {
-            throw new CommonException(ErrorCode.PAYMENT_INCOMPLETE);
-        }
+        orderService.validateOrderStatus(order, EOrderStatus.PAYMENT_COMPLETED, ErrorCode.PAYMENT_INCOMPLETE);
+
+        // 주문 상태 변경
+        orderService.updateOrderStatus(order, EOrderStatus.SCAN_WAITING);
     }
 }

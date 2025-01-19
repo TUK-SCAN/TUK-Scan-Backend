@@ -12,7 +12,6 @@ public class DeliveryService {
             String phoneNumber,
             String email,
             EDeliveryStatus deliveryStatus,
-            String trackingNumber,
             String request,
             Address address
     ) {
@@ -22,7 +21,6 @@ public class DeliveryService {
                 .email(email)
                 .request(request)
                 .deliveryStatus(deliveryStatus)
-                .trackingNumber(trackingNumber)
                 .address(address)
                 .build();
     }

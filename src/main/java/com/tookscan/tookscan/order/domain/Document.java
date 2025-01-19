@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "documents", indexes = {
-        @Index(name = "idx_document_nam", columnList = "name")
+        @Index(name = "idx_document_name", columnList = "name")
 })
 public class Document extends BaseEntity {
 
