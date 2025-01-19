@@ -17,7 +17,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailResponseDto> {
     @JsonProperty("id")
     @NotNull
@@ -61,8 +60,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
     private final Integer paymentTotal;
 
     @Getter
-    @Builder
-    public static class DocumentInfoDto {
+    public static class DocumentInfoDto extends SelfValidating<DocumentInfoDto> {
         @JsonProperty("name")
         @NotNull
         private final String name;
@@ -79,6 +77,15 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         @NotNull
         private final ERecoveryOption recoveryOption;
 
+        @Builder
+        public DocumentInfoDto(String name, Integer page, Integer price, ERecoveryOption recoveryOption) {
+            this.name = name;
+            this.page = page;
+            this.price = price;
+            this.recoveryOption = recoveryOption;
+            this.validateSelf();
+        }
+
         public static DocumentInfoDto from(Document document, Order order) {
             return DocumentInfoDto.builder()
                     .name(document.getName())
@@ -87,6 +94,32 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
                     .recoveryOption(document.getRecoveryOption())
                     .build();
         }
+    }
+    @Builder
+    public ReadOrderDetailResponseDto(
+            Long orderId,
+            Long orderNumber,
+            EOrderStatus orderStatus,
+            String orderDate,
+            String receiverName,
+            String address,
+            String documentDescription,
+            List<DocumentInfoDto> documents,
+            EPaymentMethod paymentMethod,
+            EEasyPaymentProvider easyPaymentProvider,
+            Integer paymentTotal) {
+        this.orderId = orderId;
+        this.orderNumber = orderNumber;
+        this.orderStatus = orderStatus;
+        this.orderDate = orderDate;
+        this.receiverName = receiverName;
+        this.address = address;
+        this.documentDescription = documentDescription;
+        this.documents = documents;
+        this.paymentMethod = paymentMethod;
+        this.easyPaymentProvider = easyPaymentProvider;
+        this.paymentTotal = paymentTotal;
+        this.validateSelf();
     }
 
     public static ReadOrderDetailResponseDto from(Order order) {

@@ -18,7 +18,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 @Getter
-@Builder
 public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOverviewResponseDto> {
 
     @JsonProperty("orders")
@@ -30,8 +29,7 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
     private PageInfoDto pageInfo;
 
     @Getter
-    @Builder
-    public static class OrderInfoDto {
+    public static class OrderInfoDto extends SelfValidating<OrderInfoDto> {
         @JsonProperty("id")
         @NotNull
         private Long orderId;
@@ -69,6 +67,21 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
         @JsonProperty("payment_total")
         private Integer paymentTotal;
 
+        @Builder
+        public OrderInfoDto(Long orderId, EOrderStatus orderStatus, String documentDescription, Long orderNumber, String orderDate, String receiverName, String address, EPaymentMethod paymentMethod, EEasyPaymentProvider easyPaymentProvider, Integer paymentTotal) {
+            this.orderId = orderId;
+            this.orderStatus = orderStatus;
+            this.documentDescription = documentDescription;
+            this.orderNumber = orderNumber;
+            this.orderDate = orderDate;
+            this.receiverName = receiverName;
+            this.address = address;
+            this.paymentMethod = paymentMethod;
+            this.easyPaymentProvider = easyPaymentProvider;
+            this.paymentTotal = paymentTotal;
+            this.validateSelf();
+        }
+
         public static OrderInfoDto from(Order order) {
             Optional<Payment> payment = Optional.ofNullable(order.getPayment());
 
@@ -89,6 +102,13 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
                     .paymentTotal(paymentTotal)
                     .build();
         }
+    }
+
+    @Builder
+    public ReadOrderOverviewResponseDto(List<OrderInfoDto> orders, PageInfoDto pageInfo) {
+        this.orders = orders;
+        this.pageInfo = pageInfo;
+        this.validateSelf();
     }
 
     public static ReadOrderOverviewResponseDto from(Page<Order> orders) {
