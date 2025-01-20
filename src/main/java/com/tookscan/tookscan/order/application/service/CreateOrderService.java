@@ -6,6 +6,7 @@ import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.address.domain.service.AddressService;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
+import com.tookscan.tookscan.core.utility.Snowflake;
 import com.tookscan.tookscan.order.application.dto.request.CreateOrderRequestDto;
 import com.tookscan.tookscan.order.application.dto.response.CreateOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateOrderUseCase;
@@ -43,6 +44,8 @@ public class CreateOrderService implements CreateOrderUseCase {
     private final AddressService addressService;
     private final DeliveryService deliveryService;
 
+    private final Snowflake snowflake;
+
     @Override
     @Transactional
     public CreateOrderResponseDto execute(UUID accountId, CreateOrderRequestDto requestDto) {
@@ -74,8 +77,7 @@ public class CreateOrderService implements CreateOrderUseCase {
         deliveryRepository.save(delivery);
 
         // 주문번호 생성
-        Long count = getTodayOrderCount();
-        Long orderNumber = orderService.createOrderNumber(count);
+        Long orderNumber = snowflake.nextId();
 
         // 주문 생성
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())
@@ -97,20 +99,6 @@ public class CreateOrderService implements CreateOrderUseCase {
         });
 
         return CreateOrderResponseDto.of(orderNumber, delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
-    }
-
-    /**
-     *  TODO: 동시성 문제 개선 필요
-     *  현재 구현은 단일 스레드 환경에서는 문제가 없으나, 다중 스레드 환경에서는 동일한 주문 번호가 생성될 가능성이 있습니다.
-     *  대안 1: Redis의 INCR 명령어를 사용하여 하루 동안 유일한 증가값을 생성.
-     *    예: "order_number:{날짜}" 키를 Redis에서 관리하여 INCR 명령어로 증가된 값을 사용.
-     *  대안 2: 분산 ID 생성기(Snowflake) 또는 UUID 기반의 유니크한 ID를 생성.
-     *  추후 동시성 문제를 해결하기 위한 개선 작업이 필요합니다.
-     */
-    private long getTodayOrderCount() {
-        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-        LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
-        return orderRepository.countByCreatedAtBetween(startOfDay, endOfDay).orElse(0L);
     }
 
 }

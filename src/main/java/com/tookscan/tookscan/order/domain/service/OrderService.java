@@ -3,12 +3,10 @@ package com.tookscan.tookscan.order.domain.service;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
-import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,13 +26,6 @@ public class OrderService {
                 .delivery(delivery)
                 .pricePolicy(pricePolicy)
                 .build();
-    }
-
-    public Long createOrderNumber(Long orderCount) {
-        String yyMMdd = DateTimeUtil.convertLocalDateToYYMMDDString(LocalDate.now());
-        String orderNumber = yyMMdd + (orderCount + 1);
-
-        return Long.parseLong(orderNumber);
     }
 
     public void updateOrderStatus(Order order, EOrderStatus newOrderStatus) {
