@@ -8,11 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SnowflakeConfig {
-    @Value("${cloud.aws.credentials.secret-key}")
-    private String secretKey;
-    @Value("${cloud.aws.region.static}")
-    private String region;
-
     @Value("${snowflake.node-id}")
     private long nodeId;
 
