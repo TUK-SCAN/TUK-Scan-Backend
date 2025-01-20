@@ -31,10 +31,10 @@ public class OrderCommandV1Controller {
     /**
      * 4.1 회원 스캔 주문
      */
-    @PostMapping("/users/orders")
+    @PostMapping("users/orders")
     public ResponseDto<CreateOrderResponseDto> createOrder(
             @Parameter(hidden = true) @AccountID UUID accountId,
-            @RequestBody @Valid CreateOrderRequestDto requestDto
+            @Valid @RequestBody CreateOrderRequestDto requestDto
     ) {
         return ResponseDto.created(createOrderUseCase.execute(accountId, requestDto));
     }
@@ -44,7 +44,7 @@ public class OrderCommandV1Controller {
      */
     @PostMapping("guests/orders")
     public ResponseDto<GuestCreateOrderResponseDto> createGuestOrder(
-            @RequestBody @Valid GuestCreateOrderRequestDto requestDto
+            @Valid @RequestBody GuestCreateOrderRequestDto requestDto
     ) {
         return ResponseDto.created(guestCreateOrderUseCase.execute(requestDto));
     }

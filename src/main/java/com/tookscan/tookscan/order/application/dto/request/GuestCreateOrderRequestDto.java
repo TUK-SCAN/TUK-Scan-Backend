@@ -11,22 +11,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.util.List;
 
-public record CreateOrderRequestDto(
+public record GuestCreateOrderRequestDto(
 
-        @JsonProperty("documents")
-        @Valid
         @NotNull(message = "documents는 null일 수 없습니다.")
+        @Valid
+        @JsonProperty("documents")
         List<RequestDocument> documents,
 
-        @JsonProperty("delivery_info")
-        @Valid
         @NotNull(message = "delivery_info는 null일 수 없습니다.")
+        @Valid
+        @JsonProperty("delivery_info")
         DeliveryInfo deliveryInfo
 ) {
     public record RequestDocument(
 
-            @JsonProperty("name")
             @NotBlank(message = "name은 null일 수 없습니다.")
+            @JsonProperty("name")
             String name,
 
             @JsonProperty("request")
