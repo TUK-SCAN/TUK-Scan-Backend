@@ -23,7 +23,6 @@ import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -83,7 +82,7 @@ public class CreateOrderService implements CreateOrderUseCase {
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
 
-        Order order = orderService.createOrder(user, orderNumber, true, null, delivery, pricePolicy);
+        Order order = orderService.createOrder(user, orderNumber, true, delivery, pricePolicy);
         orderRepository.save(order);
 
         // 문서 생성

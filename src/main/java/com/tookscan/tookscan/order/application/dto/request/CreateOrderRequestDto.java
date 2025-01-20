@@ -60,10 +60,6 @@ public record CreateOrderRequestDto(
             @JsonProperty("email")
             String email,
 
-            @NotBlank(message = "authentication_code는 null일 수 없습니다.")
-            @JsonProperty("authentication_code")
-            String authenticationCode,
-
             @JsonProperty("request")
             @Pattern(regexp = "^[\\s\\S]{0,100}$", message = "요청사항은 100자를 초과할 수 없습니다")
             String request,

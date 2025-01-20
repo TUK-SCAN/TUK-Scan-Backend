@@ -16,12 +16,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderService {
 
-    public Order createOrder(User user, Long orderNumber, boolean isByUser, String orderPassword, Delivery delivery, PricePolicy pricePolicy) {
+    public Order createOrder(User user, Long orderNumber, boolean isByUser, Delivery delivery, PricePolicy pricePolicy) {
         return Order.builder()
                 .orderNumber(orderNumber)
                 .orderStatus(EOrderStatus.APPLY_COMPLETED)
                 .isByUser(isByUser)
-                .orderPassword(orderPassword)
                 .user(user)
                 .delivery(delivery)
                 .pricePolicy(pricePolicy)

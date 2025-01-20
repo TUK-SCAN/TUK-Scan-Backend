@@ -41,9 +41,6 @@ public class Order extends BaseEntity {
     @Column(name = "is_by_user", nullable = false)
     private boolean isByUser;
 
-    @Column(name = "order_password", length = 320)
-    private String orderPassword;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -76,11 +73,10 @@ public class Order extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, String orderPassword, User user, Delivery delivery, PricePolicy pricePolicy) {
+    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery, PricePolicy pricePolicy) {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
         this.isByUser = isByUser;
-        this.orderPassword = orderPassword;
         this.user = user;
         this.delivery = delivery;
         this.pricePolicy = pricePolicy;
