@@ -6,6 +6,7 @@ import com.tookscan.tookscan.core.utility.PasswordUtil;
 import com.tookscan.tookscan.security.application.dto.request.IssueAuthenticationCodeRequestDto;
 import com.tookscan.tookscan.security.application.dto.response.IssueAuthenticationCodeResponseDto;
 import com.tookscan.tookscan.security.application.usecase.IssueAuthenticationCodeUseCase;
+import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCodeHistory;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeHistoryService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
@@ -45,14 +46,22 @@ public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUs
         AuthenticationCodeHistory history = authenticationCodeHistoryRepository.findById(requestDto.phoneNumber())
                 .orElse(null);
 
+        // 과거에 발급된 인증코드 조회
+        AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.phoneNumber())
+                .orElse(null);
+
         // 인증코드 발급 제한, 발급 속도 제한 유효성 검사
         authenticationCodeHistoryService.validateAuthenticationCodeHistory(history);
 
         // 새로운 인증코드 생성
         String code = PasswordUtil.generateAuthCode(6);
 
-        // 새로운 인증코드 저장
-        authenticationCodeRepository.save(authenticationCodeService.createAuthenticationCode(requestDto.phoneNumber(), bCryptPasswordEncoder.encode(code)));
+        // 새로운 인증코드 저장 혹은 업데이트
+        authenticationCodeRepository.save(authenticationCodeService.createOrUpdateAuthenticationCode(
+                authenticationCode,
+                requestDto.phoneNumber(),
+                bCryptPasswordEncoder.encode(code))
+        );
 
         // 인증코드 발급 이력 업데이트
         if (history == null) {
