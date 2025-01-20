@@ -1,7 +1,5 @@
 package com.tookscan.tookscan.security.application.service;
 
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.core.utility.PasswordUtil;
 import com.tookscan.tookscan.security.application.dto.request.IssueAuthenticationCodeRequestDto;
 import com.tookscan.tookscan.security.application.dto.response.IssueAuthenticationCodeResponseDto;
@@ -37,11 +35,6 @@ public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUs
     @Transactional
     public IssueAuthenticationCodeResponseDto execute(IssueAuthenticationCodeRequestDto requestDto) {
 
-        // 전화번호 중복 확인
-        if (isDuplicatedPhoneNumber(requestDto.phoneNumber())) {
-            throw new CommonException(ErrorCode.ALREADY_EXIST_PHONE_NUMBER);
-        }
-
         // 인증코드 발급 이력 조회
         AuthenticationCodeHistory history = authenticationCodeHistoryRepository.findById(requestDto.phoneNumber())
                 .orElse(null);
@@ -73,14 +66,5 @@ public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUs
         applicationEventPublisher.publishEvent(CompletePhoneNumberValidationEvent.of(requestDto.phoneNumber(), code));
 
         return IssueAuthenticationCodeResponseDto.fromEntity(history);
-    }
-
-    /**
-     * 중복된 전화번호인지 확인
-     * @param phoneNumber 전화번호
-     * @return 중복된 전화번호인지 여부
-     */
-    private Boolean isDuplicatedPhoneNumber(String phoneNumber) {
-        return accountRepository.findByPhoneNumber(phoneNumber).isPresent();
     }
 }
