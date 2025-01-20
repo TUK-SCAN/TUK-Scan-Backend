@@ -39,6 +39,7 @@ public class ReadUserSummaryResponseDto extends SelfValidating<ReadUserSummaryRe
         this.validateSelf();
     }
 
+    @Getter
     public static class AddressDto extends SelfValidating<AddressDto> {
 
         @JsonProperty("address_name")
