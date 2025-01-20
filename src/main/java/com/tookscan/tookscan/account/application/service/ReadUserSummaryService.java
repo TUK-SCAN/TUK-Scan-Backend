@@ -8,6 +8,7 @@ import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ public class ReadUserSummaryService implements ReadUserSummaryUseCase {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public ReadUserSummaryResponseDto execute(UUID accountId) {
 
         // User 조회

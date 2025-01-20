@@ -8,6 +8,7 @@ import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ public class ReadAccountBriefService implements ReadAccountBriefUseCase {
     private final AccountRepository accountRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public ReadAccountBriefResponseDto execute(UUID accountId) {
 
         // Account 조회

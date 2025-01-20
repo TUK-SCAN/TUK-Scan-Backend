@@ -12,3 +12,23 @@ Authorization: Bearer {{access_token}}
 // @no-log
 GET {{host_url}}/v1/users/summaries
 Authorization: Bearer {{access_token}}
+
+### 3.12 유저 정보 수정
+// @no-log
+PUT {{host_url}}/v1/users
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+    "phone_number": "{{account.API_3_12.phone_number}}",
+    "email": "{{account.API_3_12.email}}",
+    "address": {
+      "address_name": "{{account.API_3_12.address.address_name}}",
+      "region_1depth_name": "{{account.API_3_12.address.region_1depth_name}}",
+      "region_2depth_name": "{{account.API_3_12.address.region_2depth_name}}",
+      "region_3depth_name": "{{account.API_3_12.address.region_3depth_name}}",
+      "address_detail": "{{account.API_3_12.address.address_detail}}",
+      "latitude": {{account.API_3_12.address.latitude}},
+      "longitude": {{account.API_3_12.address.longitude}}
+    }
+}
