@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.util.List;
 
-public record GuestCreateOrderRequestDto(
+public record CreateGuestOrderRequestDto(
 
         @NotNull(message = "documents는 null일 수 없습니다.")
         @Valid
