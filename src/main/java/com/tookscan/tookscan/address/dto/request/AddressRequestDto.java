@@ -43,11 +43,15 @@ public record AddressRequestDto(
         @JsonProperty("latitude")
         @Schema(description = "위도", example = "37.501087")
         @NotNull(message = "위도를 입력해주세요.")
+        @DecimalMin(value = "-90.0", message = "위도는 -90도 이상이어야 합니다.")
+        @DecimalMax(value = "90.0", message = "위도는 90도 이하여야 합니다.")
         Double latitude,
 
         @JsonProperty("longitude")
         @Schema(description = "경도", example = "127.043069")
         @NotNull(message = "경도를 입력해주세요.")
+        @DecimalMin(value = "-180.0", message = "경도는 -180도 이상이어야 합니다.")
+        @DecimalMax(value = "180.0", message = "경도는 180도 이하여야 합니다.")
         Double longitude
 ) {
         public static AddressRequestDto fromEntity(Address address) {
