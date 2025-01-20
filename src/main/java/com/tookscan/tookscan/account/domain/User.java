@@ -81,5 +81,10 @@ public class User extends Account {
     public ESecurityRole getRole() {
         return ESecurityRole.USER;
     }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
 }
 

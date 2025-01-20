@@ -87,6 +87,8 @@ public abstract class Account {
 
     public abstract ESecurityRole getRole();
 
+    public abstract String getName();
+
     public void updatePassword(String password) {
         this.password = password;
         this.updatedAt = LocalDateTime.now();
