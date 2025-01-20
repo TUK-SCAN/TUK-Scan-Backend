@@ -86,7 +86,7 @@ jobs:
           script: |
             docker stop api-server
             docker rm api-server
-            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}
+            docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}-dev
             docker run -d -p 8080:8080 -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro --name api-server --network ${{secrets.DOCKER_NETWORKNAME}} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}-dev
             
             # 사용되지 않는 이미지 정리
