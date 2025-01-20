@@ -28,4 +28,8 @@ public class AuthenticationCode {
     public void verify() {
         this.isVerified = true;
     }
+
+    public void updateValue(String value) {
+        this.value = value;
+    }
 }

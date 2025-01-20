@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationCodeService {
 
-    // 인증 코드 생성
-    public AuthenticationCode createAuthenticationCode(String phoneNumber, String code) {
+    // 인증 코드 생성 혹은 업데이트
+    public AuthenticationCode createOrUpdateAuthenticationCode(AuthenticationCode authenticationCode, String phoneNumber, String code) {
+        if (authenticationCode != null) {
+            authenticationCode.updateValue(code);
+            return authenticationCode;
+        }
+
         return AuthenticationCode.builder()
                 .phoneNumber(phoneNumber)
                 .value(code)
