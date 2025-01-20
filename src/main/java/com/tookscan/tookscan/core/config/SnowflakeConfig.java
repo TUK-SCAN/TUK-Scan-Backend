@@ -13,6 +13,7 @@ public class SnowflakeConfig {
 
     @Value("${snowflake.epoch}")
     private String epoch;
+
     @Bean
     public Snowflake snowflake() {
         long customEpoch = Instant.parse(epoch).toEpochMilli();

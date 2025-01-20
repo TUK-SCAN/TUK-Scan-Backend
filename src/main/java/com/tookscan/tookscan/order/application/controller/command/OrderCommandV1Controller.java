@@ -31,7 +31,7 @@ public class OrderCommandV1Controller {
     /**
      * 4.1 회원 스캔 주문
      */
-    @PostMapping("users/orders")
+    @PostMapping("/users/orders")
     public ResponseDto<CreateOrderResponseDto> createOrder(
             @Parameter(hidden = true) @AccountID UUID accountId,
             @Valid @RequestBody CreateOrderRequestDto requestDto
@@ -42,7 +42,7 @@ public class OrderCommandV1Controller {
     /**
      * 4.2 비회원 스캔 주문
      */
-    @PostMapping("guests/orders")
+    @PostMapping("/guests/orders")
     public ResponseDto<GuestCreateOrderResponseDto> createGuestOrder(
             @Valid @RequestBody GuestCreateOrderRequestDto requestDto
     ) {
