@@ -38,6 +38,9 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
     @NotNull
     private final String receiverName;
 
+    @JsonProperty("tracking_number")
+    private final String trackingNumber;
+
     @JsonProperty("address")
     @NotNull
     private final String address;
@@ -102,6 +105,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
             EOrderStatus orderStatus,
             String orderDate,
             String receiverName,
+            String trackingNumber,
             String address,
             String documentDescription,
             List<DocumentInfoDto> documents,
@@ -119,6 +123,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
         this.paymentMethod = paymentMethod;
         this.easyPaymentProvider = easyPaymentProvider;
         this.paymentTotal = paymentTotal;
+        this.trackingNumber = trackingNumber;
         this.validateSelf();
     }
 
@@ -141,6 +146,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
                 .documents(order.getDocuments().stream()
                         .map(document -> DocumentInfoDto.fromEntity(document, order))
                         .toList())
+                .trackingNumber(order.getDelivery().getTrackingNumber())
                 .paymentMethod(paymentMethod)
                 .easyPaymentProvider(easyPaymentProvider)
                 .paymentTotal(paymentTotal)

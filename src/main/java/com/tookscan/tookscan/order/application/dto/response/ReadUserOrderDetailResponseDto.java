@@ -16,6 +16,7 @@ import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
 
+// TODO: 배송비 추가
 @Getter
 public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrderDetailResponseDto> {
     @JsonProperty("id")
@@ -37,6 +38,9 @@ public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrder
     @JsonProperty("receiver_name")
     @NotNull
     private final String receiverName;
+
+    @JsonProperty("tracking_number")
+    private final String trackingNumber;
 
     @JsonProperty("address")
     @NotNull
@@ -102,6 +106,7 @@ public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrder
             EOrderStatus orderStatus,
             String orderDate,
             String receiverName,
+            String trackingNumber,
             String address,
             String documentDescription,
             List<DocumentInfoDto> documents,
@@ -113,6 +118,7 @@ public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrder
         this.orderStatus = orderStatus;
         this.orderDate = orderDate;
         this.receiverName = receiverName;
+        this.trackingNumber = trackingNumber;
         this.address = address;
         this.documentDescription = documentDescription;
         this.documents = documents;
@@ -136,6 +142,7 @@ public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrder
                 .orderStatus(order.getOrderStatus())
                 .orderDate(DateTimeUtil.convertLocalDateTimeToKORString(order.getCreatedAt()))
                 .receiverName(order.getDelivery().getReceiverName())
+                .trackingNumber(order.getDelivery().getTrackingNumber())
                 .address(order.getDelivery().getAddress().getFullAddress())
                 .documentDescription(order.getDocumentsDescription())
                 .documents(order.getDocuments().stream()
