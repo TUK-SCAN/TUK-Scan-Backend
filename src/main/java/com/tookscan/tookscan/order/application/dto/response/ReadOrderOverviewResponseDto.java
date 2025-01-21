@@ -16,7 +16,7 @@ import lombok.Getter;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
-
+// TODO: 배송비 추가
 @Getter
 public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOverviewResponseDto> {
 
