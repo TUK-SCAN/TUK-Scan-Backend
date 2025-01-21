@@ -49,6 +49,12 @@ public class OrderService {
         }
     }
 
+    public void validateOrderNumber(Order order, String name, Long orderNumber) {
+        if (!order.getDelivery().getReceiverName().equals(name) || !order.getOrderNumber().equals(orderNumber)) {
+            throw new CommonException(ErrorCode.ACCESS_DENIED);
+        }
+    }
+
     public void validateOrderStatus(Order order, EOrderStatus status, ErrorCode errorCode) {
         if (!order.getOrderStatus().equals(status)) {
             throw new CommonException(errorCode);

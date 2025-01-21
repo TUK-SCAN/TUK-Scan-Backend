@@ -17,7 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailResponseDto> {
+public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrderDetailResponseDto> {
     @JsonProperty("id")
     @NotNull
     private final Long orderId;
@@ -96,7 +96,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         }
     }
     @Builder
-    public ReadOrderDetailResponseDto(
+    public ReadUserOrderDetailResponseDto(
             Long orderId,
             Long orderNumber,
             EOrderStatus orderStatus,
@@ -122,7 +122,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         this.validateSelf();
     }
 
-    public static ReadOrderDetailResponseDto fromEntity(Order order) {
+    public static ReadUserOrderDetailResponseDto fromEntity(Order order) {
 
         Optional<Payment> payment = Optional.ofNullable(order.getPayment());
 
@@ -130,7 +130,7 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         EEasyPaymentProvider easyPaymentProvider = payment.map(Payment::getEasyPaymentProvider).orElse(null);
         Integer paymentTotal = payment.map(Payment::getTotalAmount).orElse(order.getDocumentsTotalAmount());
 
-        return ReadOrderDetailResponseDto.builder()
+        return ReadUserOrderDetailResponseDto.builder()
                 .orderId(order.getId())
                 .orderNumber(order.getOrderNumber())
                 .orderStatus(order.getOrderStatus())
