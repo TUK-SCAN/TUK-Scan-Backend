@@ -6,7 +6,6 @@ import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.address.domain.service.AddressService;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
-import com.tookscan.tookscan.core.utility.Snowflake;
 import com.tookscan.tookscan.order.application.dto.request.CreateUserOrderRequestDto;
 import com.tookscan.tookscan.order.application.dto.response.CreateUserOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateUserOrderUseCase;
@@ -43,8 +42,6 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
     private final AddressService addressService;
     private final DeliveryService deliveryService;
 
-    private final Snowflake snowflake;
-
     @Override
     @Transactional
     public CreateUserOrderResponseDto execute(UUID accountId, CreateUserOrderRequestDto requestDto) {
@@ -75,14 +72,11 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         );
         deliveryRepository.save(delivery);
 
-        // 주문번호 생성
-        Long orderNumber = snowflake.nextId();
-
         // 주문 생성
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
 
-        Order order = orderService.createOrder(user, orderNumber, true, delivery, pricePolicy);
+        Order order = orderService.createOrder(user, true, delivery, pricePolicy);
         orderRepository.save(order);
 
         // 문서 생성
@@ -97,7 +91,7 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
                     documentRepository.save(document);
         });
 
-        return CreateUserOrderResponseDto.of(orderNumber, delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
+        return CreateUserOrderResponseDto.of(order.getOrderNumber(), delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
     }
 
 }

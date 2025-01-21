@@ -4,7 +4,6 @@ import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.address.domain.service.AddressService;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
-import com.tookscan.tookscan.core.utility.Snowflake;
 import com.tookscan.tookscan.order.application.dto.request.CreateGuestOrderRequestDto;
 import com.tookscan.tookscan.order.application.dto.response.CreateGuestOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateGuestOrderUseCase;
@@ -45,8 +44,6 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
     private final DocumentService documentService;
     private final AuthenticationCodeService authenticationCodeService;
 
-    private final Snowflake snowflake;
-
     @Override
     @Transactional
     public CreateGuestOrderResponseDto execute(CreateGuestOrderRequestDto requestDto) {
@@ -81,15 +78,12 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
         );
         deliveryRepository.save(delivery);
 
-        // 주문번호 생성
-        Long orderNumber = snowflake.nextId();
-
         // 주문 생성
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(
                         LocalDate.now(), LocalDate.now())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
 
-        Order order = orderService.createOrder(null, orderNumber, false, delivery, pricePolicy);
+        Order order = orderService.createOrder(null, false, delivery, pricePolicy);
         orderRepository.save(order);
 
         // 문서 생성
@@ -110,6 +104,6 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
         // 인증번호 발급 이력 삭제
         authenticationCodeHistoryRepository.deleteById(requestDto.deliveryInfo().phoneNumber());
 
-        return CreateGuestOrderResponseDto.of(orderNumber, delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
+        return CreateGuestOrderResponseDto.of(order.getOrderNumber(), delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
     }
 }
