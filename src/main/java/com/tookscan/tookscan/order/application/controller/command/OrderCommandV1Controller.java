@@ -2,8 +2,10 @@ package com.tookscan.tookscan.order.application.controller.command;
 
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import com.tookscan.tookscan.order.application.dto.request.CreateOrderMemoRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.CreateOrderRequestDto;
 import com.tookscan.tookscan.order.application.dto.response.CreateOrderResponseDto;
+import com.tookscan.tookscan.order.application.usecase.CreateOrderMemoUseCase;
 import com.tookscan.tookscan.order.application.usecase.CreateOrderUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateOrderScanUseCase;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderCommandV1Controller {
     private final CreateOrderUseCase createOrderUseCase;
     private final UpdateOrderScanUseCase updateOrderScanUseCase;
+    private final CreateOrderMemoUseCase createOrderMemoUseCase;
 
     /**
      * 4.1 회원 스캔 주문
@@ -47,4 +50,16 @@ public class OrderCommandV1Controller {
         return ResponseDto.ok(null);
     }
 
+    /**
+     * 4.5 관리자 주문 메모 작성
+     */
+    @PostMapping(value = "/admins/orders/{orderId}/memo")
+    public ResponseDto<Void> createOrderMemo(
+            @Parameter(hidden = true) @AccountID UUID accountId,
+            @PathVariable Long orderId,
+            @RequestBody @Valid CreateOrderMemoRequestDto requestDto
+    ) {
+        createOrderMemoUseCase.execute(orderId, requestDto);
+        return ResponseDto.created(null);
+    }
 }
