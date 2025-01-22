@@ -41,6 +41,9 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
     @JsonProperty("tracking_number")
     private final String trackingNumber;
 
+    @JsonProperty("delivery_price")
+    private final Integer deliveryPrice;
+
     @JsonProperty("address")
     @NotNull
     private final String address;
@@ -111,7 +114,9 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
             List<DocumentInfoDto> documents,
             EPaymentMethod paymentMethod,
             EEasyPaymentProvider easyPaymentProvider,
-            Integer paymentTotal) {
+            Integer paymentTotal,
+            Integer deliveryPrice
+    ) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
@@ -124,6 +129,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
         this.easyPaymentProvider = easyPaymentProvider;
         this.paymentTotal = paymentTotal;
         this.trackingNumber = trackingNumber;
+        this.deliveryPrice = deliveryPrice;
         this.validateSelf();
     }
 
@@ -133,7 +139,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
 
         EPaymentMethod paymentMethod = payment.map(Payment::getMethod).orElse(null);
         EEasyPaymentProvider easyPaymentProvider = payment.map(Payment::getEasyPaymentProvider).orElse(null);
-        Integer paymentTotal = payment.map(Payment::getTotalAmount).orElse(order.getDocumentsTotalAmount());
+        Integer paymentTotal = payment.map(Payment::getTotalAmount).orElse(order.getDocumentsTotalAmount() + order.getDelivery().getDeliveryPrice());
 
         return ReadGuestOrderDetailResponseDto.builder()
                 .orderId(order.getId())
@@ -150,6 +156,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
                 .paymentMethod(paymentMethod)
                 .easyPaymentProvider(easyPaymentProvider)
                 .paymentTotal(paymentTotal)
+                .deliveryPrice(order.getDelivery().getDeliveryPrice())
                 .build();
     }
 }
