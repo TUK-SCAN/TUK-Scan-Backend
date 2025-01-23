@@ -49,6 +49,10 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         User user = userRepository.findById(accountId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
 
+        // 가격 정책 조회
+        PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
+
         // 주소 정보 생성
         Address address = addressService.createAddress(
                 requestDto.deliveryInfo().address().addressName(),
@@ -68,14 +72,12 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
                 requestDto.deliveryInfo().email(),
                 EDeliveryStatus.DELIVERY_READY,
                 requestDto.deliveryInfo().request(),
-                address
+                address,
+                pricePolicy.getDeliveryPrice()
         );
         deliveryRepository.save(delivery);
 
         // 주문 생성
-        PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
-
         Order order = orderService.createOrder(user, true, delivery, pricePolicy);
         orderRepository.save(order);
 

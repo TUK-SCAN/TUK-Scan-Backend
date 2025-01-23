@@ -55,6 +55,11 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
         // 인증번호 인증이 완료되었는지 확인
         authenticationCodeService.validateAuthenticationCode(authenticationCode);
 
+        // 가격 정책 조회
+        PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                        LocalDate.now(), LocalDate.now())
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
+
         // 주소 정보 생성
         Address address = addressService.createAddress(
                 requestDto.deliveryInfo().address().addressName(),
@@ -74,15 +79,12 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
                 requestDto.deliveryInfo().email(),
                 EDeliveryStatus.DELIVERY_READY,
                 requestDto.deliveryInfo().request(),
-                address
+                address,
+                pricePolicy.getDeliveryPrice()
         );
         deliveryRepository.save(delivery);
 
         // 주문 생성
-        PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                        LocalDate.now(), LocalDate.now())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
-
         Order order = orderService.createOrder(null, false, delivery, pricePolicy);
         orderRepository.save(order);
 

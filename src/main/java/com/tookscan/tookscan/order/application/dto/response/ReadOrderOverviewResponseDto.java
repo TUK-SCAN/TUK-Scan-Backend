@@ -22,50 +22,50 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
 
     @JsonProperty("orders")
     @NotNull
-    private List<OrderInfoDto> orders;
+    private final List<OrderInfoDto> orders;
 
     @JsonProperty("page_info")
     @NotNull
-    private PageInfoDto pageInfo;
+    private final  PageInfoDto pageInfo;
 
     @Getter
     public static class OrderInfoDto extends SelfValidating<OrderInfoDto> {
         @JsonProperty("id")
         @NotNull
-        private Long orderId;
+        private final Long orderId;
 
         @JsonProperty("order_status")
         @NotNull
-        private EOrderStatus orderStatus;
+        private final EOrderStatus orderStatus;
 
         @JsonProperty("document_description")
         @NotNull
-        private String documentDescription;
+        private final String documentDescription;
 
         @JsonProperty("order_number")
         @NotNull
-        private Long orderNumber;
+        private final Long orderNumber;
 
         @JsonProperty("order_date")
         @NotNull
-        private String orderDate;
+        private final String orderDate;
 
         @JsonProperty("receiver_name")
         @NotNull
-        private String receiverName;
+        private final String receiverName;
 
         @JsonProperty("address")
         @NotNull
-        private String address;
+        private final String address;
 
         @JsonProperty("payment_method")
-        private EPaymentMethod paymentMethod;
+        private final EPaymentMethod paymentMethod;
 
         @JsonProperty("easy_payment_provider")
-        private EEasyPaymentProvider easyPaymentProvider;
+        private final EEasyPaymentProvider easyPaymentProvider;
 
         @JsonProperty("payment_total")
-        private Integer paymentTotal;
+        private final Integer paymentTotal;
 
         @Builder
         public OrderInfoDto(Long orderId, EOrderStatus orderStatus, String documentDescription, Long orderNumber, String orderDate, String receiverName, String address, EPaymentMethod paymentMethod, EEasyPaymentProvider easyPaymentProvider, Integer paymentTotal) {
