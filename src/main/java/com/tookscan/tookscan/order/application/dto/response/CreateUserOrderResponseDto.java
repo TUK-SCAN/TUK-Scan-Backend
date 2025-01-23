@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CreateOrderResponseDto extends SelfValidating<CreateOrderResponseDto> {
+public class CreateUserOrderResponseDto extends SelfValidating<CreateUserOrderResponseDto> {
 
     @JsonProperty("order_number")
     @NotNull
@@ -31,7 +31,7 @@ public class CreateOrderResponseDto extends SelfValidating<CreateOrderResponseDt
 
 
     @Builder
-    public CreateOrderResponseDto(Long orderNumber, String name, Integer paymentPrediction, String email, String address) {
+    public CreateUserOrderResponseDto(Long orderNumber, String name, Integer paymentPrediction, String email, String address) {
         this.orderNumber = orderNumber;
         this.name = name;
         this.paymentPrediction = paymentPrediction;
@@ -40,8 +40,8 @@ public class CreateOrderResponseDto extends SelfValidating<CreateOrderResponseDt
         this.validateSelf();
     }
 
-    public static CreateOrderResponseDto of(Long orderNumber, String name, Integer paymentPrediction, String email, String address) {
-        return CreateOrderResponseDto.builder()
+    public static CreateUserOrderResponseDto of(Long orderNumber, String name, Integer paymentPrediction, String email, String address) {
+        return CreateUserOrderResponseDto.builder()
                 .orderNumber(orderNumber)
                 .name(name)
                 .paymentPrediction(paymentPrediction)
