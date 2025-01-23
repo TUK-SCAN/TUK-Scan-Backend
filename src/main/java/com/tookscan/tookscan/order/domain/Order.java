@@ -57,6 +57,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "memo", length = 500)
+    private String memo;
+
     /* -------------------------------------------- */
     /* Many To One Mapping ------------------------ */
     /* -------------------------------------------- */
@@ -121,5 +124,9 @@ public class Order extends BaseEntity {
         }
 
         return totalAmount;
+    }
+
+    public void createMemo(String memo) {
+        this.memo = memo;
     }
 }
