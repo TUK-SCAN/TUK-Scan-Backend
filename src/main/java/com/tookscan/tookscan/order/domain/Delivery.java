@@ -44,6 +44,9 @@ public class Delivery extends BaseEntity {
     @Column(name = "tracking_number", length = 20)
     private String trackingNumber;
 
+    @Column(name = "delivery_price", nullable = false)
+    private Integer deliveryPrice;
+
     /* -------------------------------------------- */
     /* One To One Mapping ------------------------- */
     /* -------------------------------------------- */
@@ -60,7 +63,7 @@ public class Delivery extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Delivery(String receiverName, String phoneNumber, String email, String request, EDeliveryStatus deliveryStatus, String trackingNumber, Address address) {
+    public Delivery(String receiverName, String phoneNumber, String email, String request, EDeliveryStatus deliveryStatus, String trackingNumber, Address address, Integer deliveryPrice) {
         this.receiverName = receiverName;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -68,5 +71,6 @@ public class Delivery extends BaseEntity {
         this.deliveryStatus = deliveryStatus;
         this.trackingNumber = trackingNumber;
         this.address = address;
+        this.deliveryPrice = deliveryPrice;
     }
 }

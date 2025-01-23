@@ -21,4 +21,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "AND (CAST(o.orderNumber AS string) LIKE %:search% " +
             "OR d.name LIKE %:search%)")
     Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search , Pageable pageable);
+
+    Optional<Order> findByOrderNumber(Long orderNumber);
 }

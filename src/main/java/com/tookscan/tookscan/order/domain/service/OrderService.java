@@ -3,12 +3,11 @@ package com.tookscan.tookscan.order.domain.service;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
-import com.tookscan.tookscan.core.utility.DateTimeUtil;
+import com.tookscan.tookscan.core.infrastructure.TsidFactory;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,23 +17,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderService {
 
-    public Order createOrder(User user, Long orderNumber, boolean isByUser, String orderPassword, Delivery delivery, PricePolicy pricePolicy) {
+    public Order createOrder(User user, boolean isByUser, Delivery delivery, PricePolicy pricePolicy) {
+        Long orderNumber = TsidFactory.getFactory().generate().toLong();
         return Order.builder()
                 .orderNumber(orderNumber)
                 .orderStatus(EOrderStatus.APPLY_COMPLETED)
                 .isByUser(isByUser)
-                .orderPassword(orderPassword)
                 .user(user)
                 .delivery(delivery)
                 .pricePolicy(pricePolicy)
                 .build();
-    }
-
-    public Long createOrderNumber(Long orderCount) {
-        String yyMMdd = DateTimeUtil.convertLocalDateToYYMMDDString(LocalDate.now());
-        String orderNumber = yyMMdd + (orderCount + 1);
-
-        return Long.parseLong(orderNumber);
     }
 
     public void updateOrderStatus(Order order, EOrderStatus newOrderStatus) {
@@ -45,6 +37,12 @@ public class OrderService {
 
     public void validateOrderUser(Order order, User user) {
         if (!order.getUser().getId().equals(user.getId())) {
+            throw new CommonException(ErrorCode.ACCESS_DENIED);
+        }
+    }
+
+    public void validateOrderNumber(Order order, String name, Long orderNumber) {
+        if (!order.getDelivery().getReceiverName().equals(name) || !order.getOrderNumber().equals(orderNumber)) {
             throw new CommonException(ErrorCode.ACCESS_DENIED);
         }
     }

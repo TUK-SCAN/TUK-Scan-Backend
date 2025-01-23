@@ -3,10 +3,10 @@ package com.tookscan.tookscan.order.application.controller.command;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.dto.request.CreateOrderMemoRequestDto;
-import com.tookscan.tookscan.order.application.dto.request.CreateOrderRequestDto;
-import com.tookscan.tookscan.order.application.dto.response.CreateOrderResponseDto;
+import com.tookscan.tookscan.order.application.dto.request.CreateUserOrderRequestDto;
+import com.tookscan.tookscan.order.application.dto.response.CreateUserOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateOrderMemoUseCase;
-import com.tookscan.tookscan.order.application.usecase.CreateOrderUseCase;
+import com.tookscan.tookscan.order.application.usecase.CreateUserOrderUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateOrderScanUseCase;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/v1/users/orders")
 public class OrderCommandV1Controller {
-    private final CreateOrderUseCase createOrderUseCase;
+    private final CreateUserOrderUseCase createUserOrderUseCase;
     private final UpdateOrderScanUseCase updateOrderScanUseCase;
     private final CreateOrderMemoUseCase createOrderMemoUseCase;
 
@@ -31,11 +31,11 @@ public class OrderCommandV1Controller {
      * 4.1 회원 스캔 주문
      */
     @PostMapping()
-    public ResponseDto<CreateOrderResponseDto> createOrder(
+    public ResponseDto<CreateUserOrderResponseDto> createOrder(
             @Parameter(hidden = true) @AccountID UUID accountId,
-            @RequestBody @Valid CreateOrderRequestDto requestDto
+            @RequestBody @Valid CreateUserOrderRequestDto requestDto
     ) {
-        return ResponseDto.created(createOrderUseCase.execute(accountId, requestDto));
+        return ResponseDto.created(createUserOrderUseCase.execute(accountId, requestDto));
     }
 
     /**

@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
-
+// TODO: 배송비 추가
 @Getter
-public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailResponseDto> {
+public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrderDetailResponseDto> {
     @JsonProperty("id")
     @NotNull
     private final Long orderId;
@@ -37,6 +37,12 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
     @JsonProperty("receiver_name")
     @NotNull
     private final String receiverName;
+
+    @JsonProperty("tracking_number")
+    private final String trackingNumber;
+
+    @JsonProperty("delivery_price")
+    private final Integer deliveryPrice;
 
     @JsonProperty("address")
     @NotNull
@@ -96,18 +102,21 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         }
     }
     @Builder
-    public ReadOrderDetailResponseDto(
+    public ReadGuestOrderDetailResponseDto(
             Long orderId,
             Long orderNumber,
             EOrderStatus orderStatus,
             String orderDate,
             String receiverName,
+            String trackingNumber,
             String address,
             String documentDescription,
             List<DocumentInfoDto> documents,
             EPaymentMethod paymentMethod,
             EEasyPaymentProvider easyPaymentProvider,
-            Integer paymentTotal) {
+            Integer paymentTotal,
+            Integer deliveryPrice
+    ) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
@@ -119,18 +128,20 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
         this.paymentMethod = paymentMethod;
         this.easyPaymentProvider = easyPaymentProvider;
         this.paymentTotal = paymentTotal;
+        this.trackingNumber = trackingNumber;
+        this.deliveryPrice = deliveryPrice;
         this.validateSelf();
     }
 
-    public static ReadOrderDetailResponseDto fromEntity(Order order) {
+    public static ReadGuestOrderDetailResponseDto fromEntity(Order order) {
 
         Optional<Payment> payment = Optional.ofNullable(order.getPayment());
 
         EPaymentMethod paymentMethod = payment.map(Payment::getMethod).orElse(null);
         EEasyPaymentProvider easyPaymentProvider = payment.map(Payment::getEasyPaymentProvider).orElse(null);
-        Integer paymentTotal = payment.map(Payment::getTotalAmount).orElse(order.getDocumentsTotalAmount());
+        Integer paymentTotal = payment.map(Payment::getTotalAmount).orElse(order.getDocumentsTotalAmount() + order.getDelivery().getDeliveryPrice());
 
-        return ReadOrderDetailResponseDto.builder()
+        return ReadGuestOrderDetailResponseDto.builder()
                 .orderId(order.getId())
                 .orderNumber(order.getOrderNumber())
                 .orderStatus(order.getOrderStatus())
@@ -141,9 +152,11 @@ public class ReadOrderDetailResponseDto extends SelfValidating<ReadOrderDetailRe
                 .documents(order.getDocuments().stream()
                         .map(document -> DocumentInfoDto.fromEntity(document, order))
                         .toList())
+                .trackingNumber(order.getDelivery().getTrackingNumber())
                 .paymentMethod(paymentMethod)
                 .easyPaymentProvider(easyPaymentProvider)
                 .paymentTotal(paymentTotal)
+                .deliveryPrice(order.getDelivery().getDeliveryPrice())
                 .build();
     }
 }

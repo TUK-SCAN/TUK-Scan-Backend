@@ -13,7 +13,8 @@ public class DeliveryService {
             String email,
             EDeliveryStatus deliveryStatus,
             String request,
-            Address address
+            Address address,
+            Integer deliveryPrice
     ) {
         return Delivery.builder()
                 .receiverName(receiverName)
@@ -22,6 +23,7 @@ public class DeliveryService {
                 .request(request)
                 .deliveryStatus(deliveryStatus)
                 .address(address)
+                .deliveryPrice(deliveryPrice)
                 .build();
     }
 }

@@ -6,14 +6,26 @@ import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.payment.domain.Payment;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -40,9 +52,6 @@ public class Order extends BaseEntity {
 
     @Column(name = "is_by_user", nullable = false)
     private boolean isByUser;
-
-    @Column(name = "order_password", length = 320)
-    private String orderPassword;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -79,11 +88,10 @@ public class Order extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, String orderPassword, User user, Delivery delivery, PricePolicy pricePolicy) {
+    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery, PricePolicy pricePolicy) {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
         this.isByUser = isByUser;
-        this.orderPassword = orderPassword;
         this.user = user;
         this.delivery = delivery;
         this.pricePolicy = pricePolicy;
