@@ -40,6 +40,7 @@ public class PageInfoDto extends SelfValidating<PageInfoDto> {
         this.pageSize = pageSize;
         this.totalPage = totalPage;
         this.totalItem = totalItem;
+        this.validateSelf();
     }
 
     public static PageInfoDto fromEntity(Page<?> page) {
