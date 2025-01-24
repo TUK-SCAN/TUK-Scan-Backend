@@ -1,6 +1,12 @@
+### 3.6 (관리자) 유저 리스트 조회
+// @no-log
+GET {{host_url}}/v1/admins/users/overviews?page=1&size=10
+Authorization: Bearer {{access_token}}
+
+
 ### 3.8 유저 간단 정보 조회
 // @no-log
-GET {{host_url}}/v1/accounts/briefs
+GET {{host_url}}/v1/users/briefs
 Authorization: Bearer {{access_token}}
 
 ### 3.9 유저 상세 정보 조회

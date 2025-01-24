@@ -44,6 +44,16 @@ Content-Type: application/json
     "marketing_allowed": {{auth.API_2_2.marketing_allowed}}
 }
 
+### 2.3 관리자 회원가입
+// @no-log
+POST {{host_url}}/v1/admins/auth/sign-up
+Content-Type: application/json
+
+{
+    "serial_id": "{{auth.API_2_3.serial_id}}",
+    "password": "{{auth.API_2_3.password}}"
+}
+
 ### 2.7 휴대폰 인증번호 검증
 // @no-log
 @authentication_code = "995659"
@@ -51,6 +61,7 @@ PATCH {{host_url}}/v1/users/auth/authentication-code
 Content-Type: application/json
 
 {
+
     "phone_number": "{{auth.API_2_7.phone_number}}",
     "authentication_code": {{authentication_code}}
 }
