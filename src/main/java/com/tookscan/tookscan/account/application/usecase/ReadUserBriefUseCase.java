@@ -1,16 +1,16 @@
 package com.tookscan.tookscan.account.application.usecase;
 
-import com.tookscan.tookscan.account.application.dto.response.ReadAccountBriefResponseDto;
+import com.tookscan.tookscan.account.application.dto.response.ReadUserBriefResponseDto;
 import com.tookscan.tookscan.core.annotation.bean.UseCase;
 
 import java.util.UUID;
 
 @UseCase
-public interface ReadAccountBriefUseCase {
+public interface ReadUserBriefUseCase {
     /**
      * 사용자 간단 정보 조회 유스케이스
      * @param accountId UUID
      * @return ReadAccountBriefResponseDto
      */
-    ReadAccountBriefResponseDto execute(UUID accountId);
+    ReadUserBriefResponseDto execute(UUID accountId);
 }

@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.account.application.service;
 
-import com.tookscan.tookscan.account.application.dto.response.ReadAccountBriefResponseDto;
-import com.tookscan.tookscan.account.application.usecase.ReadAccountBriefUseCase;
+import com.tookscan.tookscan.account.application.dto.response.ReadUserBriefResponseDto;
+import com.tookscan.tookscan.account.application.usecase.ReadUserBriefUseCase;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.domain.mysql.Account;
@@ -14,19 +14,19 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ReadAccountBriefService implements ReadAccountBriefUseCase {
+public class ReadUserBriefService implements ReadUserBriefUseCase {
 
     private final AccountRepository accountRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public ReadAccountBriefResponseDto execute(UUID accountId) {
+    public ReadUserBriefResponseDto execute(UUID accountId) {
 
         // Account 조회
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
 
         // Account 정보를 ReadUserBriefResponseDto로 변환
-        return ReadAccountBriefResponseDto.fromEntity(account);
+        return ReadUserBriefResponseDto.fromEntity(account);
     }
 }

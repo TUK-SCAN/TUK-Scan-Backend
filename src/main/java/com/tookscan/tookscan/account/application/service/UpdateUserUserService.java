@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.account.application.service;
 
-import com.tookscan.tookscan.account.application.dto.request.UpdateUserRequestDto;
-import com.tookscan.tookscan.account.application.usecase.UpdateUserUseCase;
+import com.tookscan.tookscan.account.application.dto.request.UpdateUserUserRequestDto;
+import com.tookscan.tookscan.account.application.usecase.UpdateUserUserUseCase;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.service.UserService;
 import com.tookscan.tookscan.account.repository.mysql.UserRepository;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateUserService implements UpdateUserUseCase {
+public class UpdateUserUserService implements UpdateUserUserUseCase {
 
     private final UserRepository userRepository;
     private final AuthenticationCodeRepository authenticationCodeRepository;
@@ -30,7 +30,7 @@ public class UpdateUserService implements UpdateUserUseCase {
 
     @Override
     @Transactional
-    public void execute(UUID accountId, UpdateUserRequestDto requestDto) {
+    public void execute(UUID accountId, UpdateUserUserRequestDto requestDto) {
 
         // User 조회
         User user = userRepository.findById(accountId)

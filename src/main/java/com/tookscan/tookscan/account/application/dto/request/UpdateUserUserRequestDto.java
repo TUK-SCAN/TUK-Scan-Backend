@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record UpdateUserRequestDto(
+public record UpdateUserUserRequestDto(
         @JsonProperty("phone_number")
         @Schema(description = "휴대폰 번호", example = "01012345678")
         @NotNull(message = "휴대폰 번호는 필수입니다.")

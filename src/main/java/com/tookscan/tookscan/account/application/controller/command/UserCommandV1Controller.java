@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.account.application.controller.command;
 
-import com.tookscan.tookscan.account.application.dto.request.UpdateUserRequestDto;
-import com.tookscan.tookscan.account.application.usecase.UpdateUserUseCase;
+import com.tookscan.tookscan.account.application.dto.request.UpdateUserUserRequestDto;
+import com.tookscan.tookscan.account.application.usecase.UpdateUserUserUseCase;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserCommandV1Controller {
 
-    private final UpdateUserUseCase updateUserUseCase;
+    private final UpdateUserUserUseCase updateUserUserUseCase;
 
     /**
      * 3.12 유저 정보 수정
@@ -33,9 +33,9 @@ public class UserCommandV1Controller {
     })
     public ResponseDto<Void> updateUser(
             @AccountID UUID accountId,
-            @Valid @RequestBody UpdateUserRequestDto requestDto
+            @Valid @RequestBody UpdateUserUserRequestDto requestDto
     ) {
-        updateUserUseCase.execute(accountId, requestDto);
+        updateUserUserUseCase.execute(accountId, requestDto);
         return ResponseDto.ok(null);
     }
 

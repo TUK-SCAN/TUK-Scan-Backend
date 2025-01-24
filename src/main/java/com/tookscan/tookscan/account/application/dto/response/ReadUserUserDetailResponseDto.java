@@ -4,35 +4,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.core.dto.SelfValidating;
+import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ReadUserSummaryResponseDto extends SelfValidating<ReadUserSummaryResponseDto> {
+public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDetailResponseDto> {
 
     @JsonProperty("name")
     @Schema(description = "이름", example = "홍길동")
     @NotNull(message = "이름은 필수입니다")
     private final String name;
 
+    @JsonProperty("provider")
+    @Schema(description = "제공자", example = "KAKAO | GOOGLE | DEFAULT")
+    @NotNull(message = "제공자는 필수입니다")
+    private ESecurityProvider provider;
+
+    @JsonProperty("serial_id")
+    @Schema(description = "시리얼 ID", example = "gildong123")
+    private String serialId;
+
     @JsonProperty("phone_number")
     @Schema(description = "전화번호", example = "01012345678")
     @NotNull(message = "전화번호는 필수입니다")
-    private final String phoneNumber;
+    private String phoneNumber;
 
     @JsonProperty("email")
     @Schema(description = "이메일", example = "gildong123@google.com")
-    private final String email;
+    private String email;
 
     @JsonProperty("address")
     @Schema(description = "주소")
-    private final AddressDto address;
+    private AddressDto address;
 
     @Builder
-    public ReadUserSummaryResponseDto(String name, String phoneNumber, String email, AddressDto address) {
+    public ReadUserUserDetailResponseDto(String name, ESecurityProvider provider, String serialId, String phoneNumber, String email, AddressDto address) {
         this.name = name;
+        this.provider = provider;
+        this.serialId = serialId;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
@@ -112,10 +124,11 @@ public class ReadUserSummaryResponseDto extends SelfValidating<ReadUserSummaryRe
                     .build();
         }
     }
-
-    public static ReadUserSummaryResponseDto fromEntity(User user) {
-        return ReadUserSummaryResponseDto.builder()
+    public static ReadUserUserDetailResponseDto fromEntity(User user) {
+        return ReadUserUserDetailResponseDto.builder()
                 .name(user.getName())
+                .provider(user.getProvider())
+                .serialId(user.getSerialId())
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail() != null ? user.getEmail() : null)
                 .address(user.getAddress() != null ? AddressDto.fromEntity(user.getAddress()) : null)
