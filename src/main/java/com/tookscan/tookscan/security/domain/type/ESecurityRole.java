@@ -19,7 +19,7 @@ public enum ESecurityRole {
     public static ESecurityRole fromString(String value) {
         return switch (value.toUpperCase()) {
             case "USER" -> USER;
-            case "OWNER" -> ADMIN;
+            case "ADMIN" -> ADMIN;
             default -> throw new IllegalArgumentException("Security Role이 잘못되었습니다.");
         };
     }
