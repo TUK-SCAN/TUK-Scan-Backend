@@ -122,7 +122,7 @@ public class DateTimeUtil {
     /**
      * LocalDate를 Dart 날짜 형식으로 변환 (yyyy.MM.dd)
      *
-     * @param dateTime LocalDateTime
+     * @param dateTime LocalDate
      * @return String
      */
     public static String convertLocalDateToDartString(LocalDate dateTime) {
