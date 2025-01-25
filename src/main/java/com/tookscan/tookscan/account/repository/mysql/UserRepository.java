@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, UUID>{
     @Query("SELECT DISTINCT u.id as userId, u as User " +
             "FROM User u " +
             "LEFT JOIN u.userGroups ug " +
-            "WHERE (:search IS NULL OR u.name LIKE %:search% OR u.name LIKE %:search% OR u.email LIKE %:search% OR u.phoneNumber LIKE %:search%) " +
+            "WHERE (:search IS NULL OR u.name LIKE %:search% OR u.email LIKE %:search% OR u.phoneNumber LIKE %:search%) " +
             "AND (:groupId IS NULL OR ug.group.id = :groupId) " +
             "AND (:startDate IS NULL OR u.createdAt >= :startDate) " +
             "AND (:endDate IS NULL OR u.createdAt <= :endDate)")
