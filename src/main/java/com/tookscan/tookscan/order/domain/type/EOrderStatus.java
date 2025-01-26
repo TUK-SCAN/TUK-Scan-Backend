@@ -13,12 +13,12 @@ public enum EOrderStatus {
     PAYMENT_WAITING("결제대기"),
     PAYMENT_COMPLETED("결제완료"),
     SCAN_WAITING("스캔대기"),
-    SCAN_IN_PROGRESS("스캔진행중"),
-    RECOVERY_IN_PROGRESS("회수진행중"),
-    POST_WAITING("배송대기"),
-    ALL_COMPLETED("전체완료"),
-    CANCEL("취소"),
-    AS("AS");
+    SCAN_IN_PROGRESS("스캔중"),
+    RECOVERY_IN_PROGRESS("복원작업"),
+    POST_WAITING("발송대기"),
+    ALL_COMPLETED("작업완료"),
+    CANCEL("취소접수"),
+    AS("A/S 접수");
 
     private final String description;
 

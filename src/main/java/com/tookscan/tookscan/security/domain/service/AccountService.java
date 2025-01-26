@@ -3,7 +3,6 @@ package com.tookscan.tookscan.security.domain.service;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.domain.mysql.Account;
-import com.tookscan.tookscan.security.domain.type.ESecurityRole;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +25,5 @@ public class AccountService {
     public Account updatePhoneNumber(Account account, String phoneNumber) {
         account.updatePhoneNumber(phoneNumber);
         return account;
-    }
-
-    public void checkUserValidation(Account account) {
-        if (!account.getRole().equals(ESecurityRole.USER))
-            throw new CommonException(ErrorCode.INVALID_ACCOUNT_TYPE);
-    }
-
-    public void checkAdminValidation(Account account) {
-        if (!account.getRole().equals(ESecurityRole.ADMIN))
-            throw new CommonException(ErrorCode.INVALID_ACCOUNT_TYPE);
     }
 }

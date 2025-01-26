@@ -60,7 +60,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(Constants.NO_NEED_AUTH_URLS.toArray(String[]::new)).permitAll()
-                        .requestMatchers(Constants.USER_URLS.toArray(String[]::new)).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(Constants.USER_URLS.toArray(String[]::new)).hasRole("USER")
+                        .requestMatchers(Constants.ADMIN_URLS.toArray(String[]::new)).hasRole("ADMIN")
+                        .requestMatchers(Constants.COMMON_URLS.toArray(String[]::new)).hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
 

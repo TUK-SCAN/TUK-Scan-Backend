@@ -3,7 +3,10 @@ package com.tookscan.tookscan.order.repository.mysql;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.order.domain.Order;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +26,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search , Pageable pageable);
 
     Optional<Order> findByOrderNumber(Long orderNumber);
+
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "JOIN FETCH o.documents d " +
+            "WHERE o.user.id IN :userIds")
+    List<Order> findAllByUserIds(@Param("userIds") List<UUID> userIds);
 }

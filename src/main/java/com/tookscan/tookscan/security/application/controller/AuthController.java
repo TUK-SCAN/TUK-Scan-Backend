@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.security.application.controller;
 
+import com.tookscan.tookscan.security.application.dto.response.ReadAccountBriefResponseDto;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.constant.Constants;
 import com.tookscan.tookscan.core.dto.ResponseDto;
@@ -10,6 +11,9 @@ import com.tookscan.tookscan.security.application.dto.request.*;
 import com.tookscan.tookscan.security.application.dto.response.*;
 import com.tookscan.tookscan.security.application.usecase.*;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Hidden
-@RequestMapping("/v1")
+@RequestMapping("/v1/auth")
 public class AuthController {
 
     private final ReissueJsonWebTokenUseCase reissueJsonWebTokenUseCase;
@@ -34,11 +38,12 @@ public class AuthController {
     private final ReissuePasswordUseCase reissuePasswordUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
     private final DeleteAccountUseCase deleteAccountUseCase;
+    private final ReadAccountBriefUseCase readAccountBriefUseCase;
 
     /**
      * 1.3 JWT 재발급
      */
-    @PostMapping("/auth/reissue/token")
+    @PostMapping("/reissue/token")
     public ResponseDto<DefaultJsonWebTokenDto> reissueDefaultJsonWebToken(
             HttpServletRequest request
     ) {
@@ -51,7 +56,7 @@ public class AuthController {
     /**
      * 2.1 휴대폰 인증번호 발송
      */
-    @PostMapping("/auth/authentication-code")
+    @PostMapping("/authentication-code")
     public ResponseDto<IssueAuthenticationCodeResponseDto> issueAuthenticationCode(
             @Valid @RequestBody IssueAuthenticationCodeRequestDto requestDto
     ) {
@@ -61,7 +66,7 @@ public class AuthController {
     /**
      * 2.2 유저 회원가입
      */
-    @PostMapping("/users/auth/sign-up")
+    @PostMapping("/users/sign-up-default")
     public ResponseDto<Void> signUpDefault(
             @Valid @RequestBody SignUpDefaultRequestDto requestDto
     ) {
@@ -72,7 +77,7 @@ public class AuthController {
     /**
      * 2.3 관리자 회원가입
      */
-    @PostMapping("/admins/auth/sign-up")
+    @PostMapping("/admins/sign-up-default")
     public ResponseDto<Void> adminSignUpDefault(
             @Valid @RequestBody AdminSignUpDefaultRequestDto requestDto
     ) {
@@ -83,7 +88,7 @@ public class AuthController {
     /**
      * 2.4 소셜 회원가입
      */
-    @PostMapping("/users/oauth/sign-up")
+    @PostMapping("/users/sign-up-oauth")
     public ResponseDto<Void> signUpOauth(
             @Valid @RequestBody SignUpOauthRequestDto requestDto,
             HttpServletRequest request
@@ -97,7 +102,7 @@ public class AuthController {
     /**
      * 2.5 아이디 찾기
      */
-    @PostMapping("/users/auth/serial-id")
+    @PostMapping("/verification/serial-id")
     public ResponseDto<ReadSerialIdAndProviderResponseDto> readSerialId(
             @Valid @RequestBody ReadSerialIdAndProviderRequestDto requestDto
     ) {
@@ -107,17 +112,17 @@ public class AuthController {
     /**
      * 2.6 아이디 중복 검사
      */
-    @GetMapping("/users/auth/validations/id")
+    @GetMapping("/existence/serial-id")
     public ResponseDto<ValidationResponseDto> validateId(
-            @RequestParam(name = "id") String id
+            @RequestParam(name = "serial-id") String serialId
     ) {
-        return ResponseDto.ok(validateIdUseCase.execute(id));
+        return ResponseDto.ok(validateIdUseCase.execute(serialId));
     }
 
     /**
      * 2.7 인증번호 검사
      */
-    @PatchMapping("/users/auth/authentication-code")
+    @PatchMapping("/authentication-code")
     public ResponseDto<Void> validateAuthenticationCode(
             @Valid @RequestBody ValidateAuthenticationCodeRequestDto requestDto
     ) {
@@ -128,7 +133,7 @@ public class AuthController {
     /**
      * 2.8 임시 비밀번호 발급
      */
-    @PatchMapping("/users/auth/reissue/password")
+    @PatchMapping("/reissue/password")
     public ResponseDto<ReissuePasswordResponseDto> reissuePassword(
             @Valid @RequestBody ReissuePasswordRequestDto requestDto
     ) {
@@ -138,7 +143,7 @@ public class AuthController {
     /**
      * 2.9 비밀번호 변경
      */
-    @PatchMapping("/auth/password")
+    @PatchMapping("/password")
     public ResponseDto<Void> changePassword(
             @AccountID UUID accountId,
             @Valid @RequestBody ChangePasswordRequestDto requestDto
@@ -150,11 +155,24 @@ public class AuthController {
     /**
      * 2.10 회원 탈퇴
      */
-    @DeleteMapping("/users/auth")
+    @DeleteMapping("")
     public ResponseDto<Void> deleteAccount(
             @AccountID UUID accountId
     ) {
         deleteAccountUseCase.execute(accountId);
         return ResponseDto.ok(null);
+    }
+
+    /**
+     * 2.11 계정 간단 정보 조회
+     */
+    @GetMapping("/briefs")
+    @Operation(summary = "계정 간단 정보 조회", description = "계정 유형(ADMIN, USER)과 이름을 포함한 유저의 기본 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
+    })
+    public ResponseDto<ReadAccountBriefResponseDto> readAccountBrief(@AccountID UUID accountId) {
+        return ResponseDto.ok(readAccountBriefUseCase.execute(accountId));
     }
 }

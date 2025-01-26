@@ -1,7 +1,7 @@
-package com.tookscan.tookscan.account.application.service;
+package com.tookscan.tookscan.security.application.service;
 
-import com.tookscan.tookscan.account.application.dto.response.ReadAccountBriefResponseDto;
-import com.tookscan.tookscan.account.application.usecase.ReadAccountBriefUseCase;
+import com.tookscan.tookscan.security.application.dto.response.ReadAccountBriefResponseDto;
+import com.tookscan.tookscan.security.application.usecase.ReadAccountBriefUseCase;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.domain.mysql.Account;
@@ -26,7 +26,7 @@ public class ReadAccountBriefService implements ReadAccountBriefUseCase {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
 
-        // Account 정보를 ReadUserBriefResponseDto로 변환
+        // Account 정보를 ReadAccountBriefResponseDto로 변환
         return ReadAccountBriefResponseDto.fromEntity(account);
     }
 }

@@ -40,6 +40,7 @@ public class PageInfoDto extends SelfValidating<PageInfoDto> {
         this.pageSize = pageSize;
         this.totalPage = totalPage;
         this.totalItem = totalItem;
+        this.validateSelf();
     }
 
     public static PageInfoDto fromEntity(Page<?> page) {
@@ -47,7 +48,7 @@ public class PageInfoDto extends SelfValidating<PageInfoDto> {
             throw new CommonException(ErrorCode.NOT_FOUND_RESOURCE);
         }
         return PageInfoDto.builder()
-                .currentPage(page.getNumber())
+                .currentPage(page.getNumber() + 1)
                 .pageSize(page.getSize())
                 .totalPage(page.getTotalPages())
                 .totalItem(page.getTotalElements())
