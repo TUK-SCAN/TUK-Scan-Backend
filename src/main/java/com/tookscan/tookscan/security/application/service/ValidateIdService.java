@@ -13,16 +13,16 @@ public class ValidateIdService implements ValidateIdUseCase {
     private final AccountRepository accountRepository;
 
     @Override
-    public ValidationResponseDto execute(String id) {
-        return ValidationResponseDto.of(isValidateId(id));
+    public ValidationResponseDto execute(String serialId) {
+        return ValidationResponseDto.of(isValidateId(serialId));
     }
 
     /**
      * 중복된 아이디인지 확인
-     * @param id 아이디
+     * @param serialId 아이디
      * @return 중복된 아이디인지 여부
      */
-    private Boolean isValidateId(String id) {
-        return accountRepository.findBySerialId(id).isEmpty();
+    private Boolean isValidateId(String serialId) {
+        return accountRepository.findBySerialId(serialId).isEmpty();
     }
 }

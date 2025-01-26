@@ -65,3 +65,8 @@ Content-Type: application/json
     "phone_number": "{{auth.API_2_7.phone_number}}",
     "authentication_code": {{authentication_code}}
 }
+
+### 2.11 계정 간단 정보 조회
+// @no-log
+GET {{host_url}}/v1/auth/briefs
+Authorization: Bearer {{access_token}}
