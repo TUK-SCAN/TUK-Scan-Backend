@@ -2,7 +2,6 @@ package com.tookscan.tookscan.account.application.controller.query;
 
 import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserOverviewResponseDto;
 import com.tookscan.tookscan.account.application.usecase.ReadAdminUserOverviewUseCase;
-import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,16 +23,16 @@ public class AdminQueryV1Controller {
      */
     @GetMapping("/users/overviews")
     public ResponseDto<ReadAdminUserOverviewResponseDto> readAdminUserOverview(
-            @AccountID UUID accountId,
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) Long groupId,
-            @RequestParam(required = false) LocalDate startDate,
-            @RequestParam(required = false) LocalDate endDate,
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer size
+            @RequestParam(value = "search-type", required = false) String searchType,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "group-id", required = false) Long groupId,
+            @RequestParam(value = "start-date", required = false) String startDate,
+            @RequestParam(value = "end-date", required = false) String endDate,
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size
     ) {
         return ResponseDto.ok(readAdminUserOverviewUseCase.execute(
-                accountId,
+                searchType,
                 search,
                 groupId,
                 startDate,

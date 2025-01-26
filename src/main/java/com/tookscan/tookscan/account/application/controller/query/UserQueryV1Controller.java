@@ -1,9 +1,9 @@
 package com.tookscan.tookscan.account.application.controller.query;
 
-import com.tookscan.tookscan.account.application.dto.response.ReadUserBriefResponseDto;
+import com.tookscan.tookscan.security.application.dto.response.ReadUserBriefResponseDto;
 import com.tookscan.tookscan.account.application.dto.response.ReadUserUserDetailResponseDto;
 import com.tookscan.tookscan.account.application.dto.response.ReadUserUserSummaryResponseDto;
-import com.tookscan.tookscan.account.application.usecase.ReadUserBriefUseCase;
+import com.tookscan.tookscan.security.application.usecase.ReadUserBriefUseCase;
 import com.tookscan.tookscan.account.application.usecase.ReadUserUserDetailUseCase;
 import com.tookscan.tookscan.account.application.usecase.ReadUserUserSummaryUseCase;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
