@@ -1,6 +1,6 @@
 package com.tookscan.tookscan.security.application.controller;
 
-import com.tookscan.tookscan.security.application.dto.response.ReadUserBriefResponseDto;
+import com.tookscan.tookscan.security.application.dto.response.ReadAccountBriefResponseDto;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.constant.Constants;
 import com.tookscan.tookscan.core.dto.ResponseDto;
@@ -38,7 +38,7 @@ public class AuthController {
     private final ReissuePasswordUseCase reissuePasswordUseCase;
     private final ChangePasswordUseCase changePasswordUseCase;
     private final DeleteAccountUseCase deleteAccountUseCase;
-    private final ReadUserBriefUseCase readUserBriefUseCase;
+    private final ReadAccountBriefUseCase readAccountBriefUseCase;
 
     /**
      * 1.3 JWT 재발급
@@ -172,7 +172,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
     })
-    public ResponseDto<ReadUserBriefResponseDto> readAccountBrief(@AccountID UUID accountId) {
-        return ResponseDto.ok(readUserBriefUseCase.execute(accountId));
+    public ResponseDto<ReadAccountBriefResponseDto> readAccountBrief(@AccountID UUID accountId) {
+        return ResponseDto.ok(readAccountBriefUseCase.execute(accountId));
     }
 }

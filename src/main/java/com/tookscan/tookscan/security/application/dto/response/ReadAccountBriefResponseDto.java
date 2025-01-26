@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ReadUserBriefResponseDto extends SelfValidating<ReadUserBriefResponseDto> {
+public class ReadAccountBriefResponseDto extends SelfValidating<ReadAccountBriefResponseDto> {
 
     @JsonProperty("account_type")
     @Schema(description = "계정 유형", example = "ADMIN | USER")
@@ -23,14 +23,14 @@ public class ReadUserBriefResponseDto extends SelfValidating<ReadUserBriefRespon
     private String name;
 
     @Builder
-    public ReadUserBriefResponseDto(ESecurityRole accountType, String name) {
+    public ReadAccountBriefResponseDto(ESecurityRole accountType, String name) {
         this.accountType = accountType;
         this.name = name;
         this.validateSelf();
     }
 
-    public static ReadUserBriefResponseDto fromEntity(Account account) {
-        return ReadUserBriefResponseDto.builder()
+    public static ReadAccountBriefResponseDto fromEntity(Account account) {
+        return ReadAccountBriefResponseDto.builder()
                 .accountType(account.getRole())
                 .name(account.getName())
                 .build();
