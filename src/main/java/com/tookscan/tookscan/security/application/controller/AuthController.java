@@ -77,7 +77,7 @@ public class AuthController {
     /**
      * 2.3 관리자 회원가입
      */
-    @PostMapping("/auth/admins/sign-up-default")
+    @PostMapping("/admins/sign-up-default")
     public ResponseDto<Void> adminSignUpDefault(
             @Valid @RequestBody AdminSignUpDefaultRequestDto requestDto
     ) {
