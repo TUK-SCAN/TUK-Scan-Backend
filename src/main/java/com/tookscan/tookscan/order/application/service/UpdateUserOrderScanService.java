@@ -4,7 +4,7 @@ import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.repository.mysql.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
-import com.tookscan.tookscan.order.application.usecase.UpdateOrderScanUseCase;
+import com.tookscan.tookscan.order.application.usecase.UpdateUserOrderScanUseCase;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateOrderScanService implements UpdateOrderScanUseCase {
+public class UpdateUserOrderScanService implements UpdateUserOrderScanUseCase {
 
     private final OrderService orderService;
     private final OrderRepository orderRepository;
