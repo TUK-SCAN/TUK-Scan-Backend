@@ -4,8 +4,8 @@ import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.repository.mysql.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
-import com.tookscan.tookscan.order.application.dto.response.ReadOrderOverviewResponseDto;
-import com.tookscan.tookscan.order.application.usecase.ReadOrderOverviewUseCase;
+import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderOverviewResponseDto;
+import com.tookscan.tookscan.order.application.usecase.ReadUserOrderOverviewUseCase;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
+public class ReadUserOrderOverviewService implements ReadUserOrderOverviewUseCase {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
@@ -28,7 +28,7 @@ public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
 
     @Override
     @Transactional
-    public ReadOrderOverviewResponseDto execute(UUID accountId, Integer page, Integer size, String sort, String search, String direction) {
+    public ReadUserOrderOverviewResponseDto execute(UUID accountId, Integer page, Integer size, String sort, String search, String direction) {
         // 사용자 조회
         User user = userRepository.findById(accountId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
@@ -41,7 +41,7 @@ public class ReadOrderOverviewService implements ReadOrderOverviewUseCase {
             throw new CommonException(ErrorCode.NOT_FOUND_ORDER);
         }
 
-        return ReadOrderOverviewResponseDto.fromEntity(orders);
+        return ReadUserOrderOverviewResponseDto.fromEntity(orders);
     }
 
 }

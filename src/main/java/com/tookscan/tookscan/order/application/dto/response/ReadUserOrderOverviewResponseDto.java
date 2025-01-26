@@ -18,7 +18,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 @Getter
-public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOverviewResponseDto> {
+public class ReadUserOrderOverviewResponseDto extends SelfValidating<ReadUserOrderOverviewResponseDto> {
 
     @JsonProperty("orders")
     @NotNull
@@ -105,14 +105,14 @@ public class ReadOrderOverviewResponseDto extends SelfValidating<ReadOrderOvervi
     }
 
     @Builder
-    public ReadOrderOverviewResponseDto(List<OrderInfoDto> orders, PageInfoDto pageInfo) {
+    public ReadUserOrderOverviewResponseDto(List<OrderInfoDto> orders, PageInfoDto pageInfo) {
         this.orders = orders;
         this.pageInfo = pageInfo;
         this.validateSelf();
     }
 
-    public static ReadOrderOverviewResponseDto fromEntity(Page<Order> orders) {
-        return ReadOrderOverviewResponseDto.builder()
+    public static ReadUserOrderOverviewResponseDto fromEntity(Page<Order> orders) {
+        return ReadUserOrderOverviewResponseDto.builder()
                 .orders(orders.stream()
                         .map(OrderInfoDto::fromEntity)
                         .toList())
