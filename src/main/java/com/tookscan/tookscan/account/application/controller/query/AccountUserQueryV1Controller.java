@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-public class UserQueryV1Controller {
+public class AccountUserQueryV1Controller {
 
     private final ReadUserUserDetailUseCase readUserUserDetailUseCase;
     private final ReadUserUserSummaryUseCase readUserUserSummaryUseCase;

@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/admins")
-public class AdminQueryV1Controller {
+public class AccountAdminQueryV1Controller {
 
     private final ReadAdminUserOverviewUseCase readAdminUserOverviewUseCase;
 

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-public class UserCommandV1Controller {
+public class AccountUserCommandV1Controller {
 
     private final UpdateUserUserUseCase updateUserUserUseCase;
 
