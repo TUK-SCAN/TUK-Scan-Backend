@@ -1,4 +1,4 @@
-package com.tookscan.tookscan.account.application.dto.response;
+package com.tookscan.tookscan.security.application.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.core.dto.SelfValidating;

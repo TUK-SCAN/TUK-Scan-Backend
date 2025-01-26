@@ -130,6 +130,16 @@ public class DateTimeUtil {
     }
 
     /**
+     * String을 Dart 날짜 형식으로 변환 (yyyy.MM.dd)
+     *
+     * @param date String
+     * @return LocalDate
+     */
+    public static LocalDate convertStringToDartDate(String date) {
+        return LocalDate.parse(date, DartDateFormatter);
+    }
+
+    /**
      * 두 날짜 사이의 일 수 계산
      *
      * @param startDate 시작 날짜
