@@ -56,13 +56,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        long total = jpaQueryFactory
-                .select(user.id)
+        Long total = jpaQueryFactory
+                .select(user.count())
                 .from(user)
                 .leftJoin(user.userGroups, userGroup)
                 .where(predicate)
-                .fetch()
-                .size();
+                .fetchOne();
+
+        total = (total == null) ? 0L : total;
 
         return new PageImpl<>(userIds, pageable, total);
     }
