@@ -3,6 +3,7 @@ package com.tookscan.tookscan.account.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.UserGroup;
+import com.tookscan.tookscan.account.repository.mysql.UserGroupRepository;
 import com.tookscan.tookscan.core.dto.PageInfoDto;
 import com.tookscan.tookscan.core.dto.SelfValidating;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
@@ -80,10 +81,10 @@ public class ReadAdminUserOverviewResponseDto extends SelfValidating<ReadAdminUs
 
         @JsonProperty("group_infos")
         @Schema(description = "그룹 정보 목록")
-        private final List<GroupInfoDto> groupInfos;
+        private final GroupInfoListDto groupInfos;
 
         @Builder
-        public UserOverviewDto(UUID id, String serialId, String name, String phoneNumber, String email, String signInDate, Integer totalOrderAmount, Integer totalOrderCount, String memo, List<GroupInfoDto> groupInfos) {
+        public UserOverviewDto(UUID id, String serialId, String name, String phoneNumber, String email, String signInDate, Integer totalOrderAmount, Integer totalOrderCount, String memo, GroupInfoListDto groupInfos) {
             this.id = id;
             this.serialId = serialId;
             this.name = name;
@@ -113,12 +114,39 @@ public class ReadAdminUserOverviewResponseDto extends SelfValidating<ReadAdminUs
                             .filter(order -> order.getUser().getId().equals(user.getId()))
                             .count())
                     .memo(user.getMemo())
-                    .groupInfos(user.getUserGroups().stream()
-                            .map(group -> GroupInfoDto.builder()
-                                    .id(group.getGroup().getId())
-                                    .name(group.getGroup().getName())
-                                    .build())
-                            .toList())
+                    .groupInfos(GroupInfoListDto.of(user))
+                    .build();
+        }
+    }
+
+    @Getter
+    public static class GroupInfoListDto extends SelfValidating<GroupInfoListDto> {
+
+        @JsonProperty("total_count")
+        @Schema(description = "전체 그룹 수", example = "3")
+        @NotNull
+        private final Integer totalCount;
+
+        @JsonProperty("groups")
+        @Schema(description = "그룹 정보 목록")
+        private final List<GroupInfoDto> groups;
+
+        @Builder
+        public GroupInfoListDto(Integer totalCount, List<GroupInfoDto> groups) {
+            this.totalCount = totalCount;
+            this.groups = groups;
+            this.validateSelf();
+        }
+
+        public static GroupInfoListDto of(User user) {
+
+            return GroupInfoListDto.builder()
+                    .totalCount(user.getUserGroups().size())
+                    .groups(
+                            user.getUserGroups().stream()
+                                    .map(GroupInfoDto::fromEntity)
+                                    .toList()
+                    )
                     .build();
         }
     }
