@@ -22,17 +22,16 @@ public class Constants {
      */
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             // Authentication/Authorization
-            "/v1/users/auth/validations/id",
-            "/v1/auth/authentication-code",
-            "/v1/auth/reissue/token",
-            "/v1/auth/reissue/authentication-code",
-            "/v1/users/auth/sign-up",
-            "/v1/admins/auth/sign-up",
-            "/v1/users/oauth/sign-up",
-            "/v1/users/auth/serial-id",
-            "/v1/users/auth/authentication-code",
-            "/v1/users/auth/reissue/password",
             "/v1/auth/login",
+            "/v1/auth/reissue/token",
+            "/v1/auth/authentication-code",
+            "/v1/auth/users/sign-up-default",
+            "/v1/auth/admins/sign-up-default",
+            "/v1/auth/users/sign-up-oauth",
+            "/v1/auth/verification/serial-id",
+            "/v1/auth/existence/serial-id",
+            "/v1/auth/reissue/authentication-code",
+            "/v1/users/auth/reissue/password",
 
             // Guest
             "/v1/guests/**",
@@ -58,6 +57,14 @@ public class Constants {
      * 사용자 URL
      */
     public static List<String> USER_URLS = List.of(
+            "/v1/users/**"
+    );
+
+    public static List<String> ADMIN_URLS = List.of(
+            "/v1/admins/**"
+    );
+
+    public static List<String> COMMON_URLS = List.of(
             "/v1/**"
     );
 }
