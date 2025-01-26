@@ -4,6 +4,7 @@ import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.user.dto.request.CreateGuestOrderRequestDto;
 import com.tookscan.tookscan.order.application.user.dto.response.CreateGuestOrderResponseDto;
 import com.tookscan.tookscan.order.application.user.usecase.CreateGuestOrderUseCase;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class OrderGuestCommandV1Controller {
     /**
      * 4.2 비회원 스캔 주문
      */
+    @Operation(summary = "비회원 스캔 주문", description = "비회원이 주문을 생성합니다.")
     @PostMapping()
     public ResponseDto<CreateGuestOrderResponseDto> createOrder(
             @RequestBody @Valid CreateGuestOrderRequestDto requestDto

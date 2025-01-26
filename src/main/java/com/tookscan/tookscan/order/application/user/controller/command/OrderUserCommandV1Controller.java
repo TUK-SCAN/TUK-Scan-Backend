@@ -6,6 +6,7 @@ import com.tookscan.tookscan.order.application.user.dto.request.CreateUserOrderR
 import com.tookscan.tookscan.order.application.user.dto.response.CreateUserOrderResponseDto;
 import com.tookscan.tookscan.order.application.user.usecase.CreateUserOrderUseCase;
 import com.tookscan.tookscan.order.application.user.usecase.UpdateUserOrderScanUseCase;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public class OrderUserCommandV1Controller {
     /**
      * 4.1 회원 스캔 주문
      */
+    @Operation(summary = "회원 스캔 주문", description = "회원이 주문을 생성합니다.")
     @PostMapping()
     public ResponseDto<CreateUserOrderResponseDto> createOrder(
             @Parameter(hidden = true) @AccountID UUID accountId,
@@ -40,6 +42,7 @@ public class OrderUserCommandV1Controller {
     /**
      * 4.4 회원 스캔하기
      */
+    @Operation(summary = "회원 스캔하기", description = "회원이 주문을 스캔합니다.")
     @PatchMapping(value = "/{orderId}/scan")
     public ResponseDto<Void> updateOrderScan(
             @Parameter(hidden = true) @AccountID UUID accountId,

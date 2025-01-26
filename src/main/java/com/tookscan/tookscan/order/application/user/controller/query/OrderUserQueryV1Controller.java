@@ -6,6 +6,7 @@ import com.tookscan.tookscan.order.application.user.dto.response.ReadUserOrderOv
 import com.tookscan.tookscan.order.application.user.dto.response.ReadUserOrderDetailResponseDto;
 import com.tookscan.tookscan.order.application.user.usecase.ReadUserOrderOverviewUseCase;
 import com.tookscan.tookscan.order.application.user.usecase.ReadUserOrderDetailUseCase;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
@@ -28,6 +29,7 @@ public class OrderUserQueryV1Controller {
     /**
      * 4.10 회원 주문 내역 조회
      */
+    @Operation(summary = "회원 주문 내역 조회", description = "회원이 주문 내역을 조회합니다.")
     @GetMapping(value = "/users/orders/overviews")
     public ResponseDto<ReadUserOrderOverviewResponseDto> getOrderOverview(
             @Parameter(hidden = true) @AccountID UUID accountId,
@@ -44,6 +46,7 @@ public class OrderUserQueryV1Controller {
     /**
      * 4.11 회원 주문 상세 조회
      */
+    @Operation(summary = "회원 주문 상세 조회", description = "회원이 주문 상세를 조회합니다.")
     @GetMapping(value = "/users/orders/{orderId}/details")
     public ResponseDto<ReadUserOrderDetailResponseDto> getUserOrderDetail(
             @Parameter(hidden = true) @AccountID UUID accountId,

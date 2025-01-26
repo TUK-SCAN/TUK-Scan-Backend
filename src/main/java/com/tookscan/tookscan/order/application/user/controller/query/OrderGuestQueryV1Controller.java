@@ -3,6 +3,7 @@ package com.tookscan.tookscan.order.application.user.controller.query;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.user.dto.response.ReadGuestOrderDetailResponseDto;
 import com.tookscan.tookscan.order.application.user.usecase.ReadGuestOrderDetailUseCase;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class OrderGuestQueryV1Controller {
     /**
      * 4.12 비회원 주문 상세 조회
      */
+    @Operation(summary = "비회원 주문 상세 조회", description = "비회원이 주문 상세를 조회합니다.")
     @GetMapping(value = "/details")
     public ResponseDto<ReadGuestOrderDetailResponseDto> getGuestOrderDetail(
             @RequestParam(value = "name") String name,
