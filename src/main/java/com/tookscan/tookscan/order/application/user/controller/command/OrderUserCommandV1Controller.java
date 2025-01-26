@@ -7,6 +7,7 @@ import com.tookscan.tookscan.order.application.user.dto.response.CreateUserOrder
 import com.tookscan.tookscan.order.application.user.usecase.CreateUserOrderUseCase;
 import com.tookscan.tookscan.order.application.user.usecase.UpdateUserOrderScanUseCase;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Order", description = "Order 관련 API 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/users/orders")

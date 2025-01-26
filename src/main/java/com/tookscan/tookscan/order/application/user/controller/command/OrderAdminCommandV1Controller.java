@@ -5,6 +5,7 @@ import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.user.dto.request.CreateAdminOrderMemoRequestDto;
 import com.tookscan.tookscan.order.application.user.usecase.CreateAdminOrderMemoUseCase;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Order", description = "Order 관련 API 입니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/admin/orders")
+@RequestMapping("/v1/admins/orders")
 public class OrderAdminCommandV1Controller {
 
     private final CreateAdminOrderMemoUseCase createAdminOrderMemoUseCase;
