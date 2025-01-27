@@ -30,4 +30,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.user.id IN :userIds")
     List<Order> findAllByUserIds(@Param("userIds") List<UUID> userIds);
 
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "LEFT JOIN FETCH o.documents d " +
+            "LEFT JOIN FETCH d.pricePolicy p " +
+            "LEFT JOIN FETCH o.delivery del " +
+            "LEFT JOIN FETCH o.user u " +
+            "WHERE o.id IN :ids")
+    List<Order> findAllWithDocumentsByIdIn(@Param("ids") List<Long> ids);
 }

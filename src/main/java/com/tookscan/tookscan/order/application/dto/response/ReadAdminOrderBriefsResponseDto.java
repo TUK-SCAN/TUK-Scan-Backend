@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ReadAdminOrderBriefResponseDto extends SelfValidating<ReadAdminOrderBriefResponseDto> {
+public class ReadAdminOrderBriefsResponseDto extends SelfValidating<ReadAdminOrderBriefsResponseDto> {
 
     @JsonProperty("total_count")
     @NotNull
@@ -73,7 +73,7 @@ public class ReadAdminOrderBriefResponseDto extends SelfValidating<ReadAdminOrde
     private final Integer allCompletedCount;
 
     @Builder
-    public ReadAdminOrderBriefResponseDto(Integer totalCount, Integer applyCompletedCount, Integer companyArrivedCount, Integer paymentWaitingCount, Integer paymentCompletedCount, Integer scanWaitingCount, Integer scanInProgressCount, Integer recoveryInProgressCount, Integer postWaitingCount, Integer cancelCount, Integer asCount, Integer allCompletedCount) {
+    public ReadAdminOrderBriefsResponseDto(Integer totalCount, Integer applyCompletedCount, Integer companyArrivedCount, Integer paymentWaitingCount, Integer paymentCompletedCount, Integer scanWaitingCount, Integer scanInProgressCount, Integer recoveryInProgressCount, Integer postWaitingCount, Integer cancelCount, Integer asCount, Integer allCompletedCount) {
         this.totalCount = totalCount;
         this.applyCompletedCount = applyCompletedCount;
         this.companyArrivedCount = companyArrivedCount;
@@ -89,8 +89,8 @@ public class ReadAdminOrderBriefResponseDto extends SelfValidating<ReadAdminOrde
         this.validateSelf();
     }
 
-    public static ReadAdminOrderBriefResponseDto of(Map<EOrderStatus, Integer> counts){
-        return ReadAdminOrderBriefResponseDto.builder()
+    public static ReadAdminOrderBriefsResponseDto of(Map<EOrderStatus, Integer> counts){
+        return ReadAdminOrderBriefsResponseDto.builder()
                 .totalCount(counts.values().stream().mapToInt(Integer::intValue).sum())
                 .applyCompletedCount(counts.get(EOrderStatus.APPLY_COMPLETED))
                 .companyArrivedCount(counts.get(EOrderStatus.COMPANY_ARRIVED))

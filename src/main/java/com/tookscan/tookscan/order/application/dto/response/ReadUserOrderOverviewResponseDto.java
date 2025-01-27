@@ -26,7 +26,7 @@ public class ReadUserOrderOverviewResponseDto extends SelfValidating<ReadUserOrd
 
     @JsonProperty("page_info")
     @NotNull
-    private final  PageInfoDto pageInfo;
+    private final PageInfoDto pageInfo;
 
     @Getter
     public static class OrderInfoDto extends SelfValidating<OrderInfoDto> {
