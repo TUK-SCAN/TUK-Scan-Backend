@@ -6,7 +6,6 @@ import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.core.infrastructure.TsidFactory;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Order;
-import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderService {
 
-    public Order createOrder(User user, boolean isByUser, Delivery delivery, PricePolicy pricePolicy) {
+    public Order createOrder(User user, boolean isByUser, Delivery delivery) {
         String orderNumber = TsidFactory.getFactory().generate().toString();
         return Order.builder()
                 .orderNumber(orderNumber)
@@ -25,7 +24,6 @@ public class OrderService {
                 .isByUser(isByUser)
                 .user(user)
                 .delivery(delivery)
-                .pricePolicy(pricePolicy)
                 .build();
     }
 

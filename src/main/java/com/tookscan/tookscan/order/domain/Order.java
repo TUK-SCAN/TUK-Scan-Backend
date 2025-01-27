@@ -61,13 +61,6 @@ public class Order extends BaseEntity {
     private String memo;
 
     /* -------------------------------------------- */
-    /* Many To One Mapping ------------------------ */
-    /* -------------------------------------------- */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "price_policy_id", nullable = false)
-    private PricePolicy pricePolicy;
-
-    /* -------------------------------------------- */
     /* One To One Mapping ------------------------- */
     /* -------------------------------------------- */
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -88,13 +81,12 @@ public class Order extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Order(String orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery, PricePolicy pricePolicy) {
+    public Order(String orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery) {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
         this.isByUser = isByUser;
         this.user = user;
         this.delivery = delivery;
-        this.pricePolicy = pricePolicy;
     }
 
     /**
@@ -115,15 +107,12 @@ public class Order extends BaseEntity {
         return documentName + " 외 " + (documents.size() - 1) + "건";
     }
 
-    public int getDocumentsTotalAmount() {
+    public Integer getDocumentsTotalAmount() {
 
-        int totalAmount = 0;
-
-        for (Document document : documents) {
-            totalAmount += pricePolicy.calculatePrice(document.getPageCount(), document.getRecoveryOption());
-        }
-
-        return totalAmount;
+        return documents.stream()
+                .map(Document::calculatePrice)
+                .reduce(Integer::sum)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCUMENT));
     }
 
     public int getTotalAmount() {

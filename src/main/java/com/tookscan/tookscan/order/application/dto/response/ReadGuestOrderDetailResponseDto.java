@@ -92,11 +92,11 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
             this.validateSelf();
         }
 
-        public static DocumentInfoDto fromEntity(Document document, Order order) {
+        public static DocumentInfoDto fromEntity(Document document) {
             return DocumentInfoDto.builder()
                     .name(document.getName())
                     .page(document.getPageCount())
-                    .price(order.getPricePolicy().calculatePrice(document.getPageCount(), document.getRecoveryOption()))
+                    .price(document.calculatePrice())
                     .recoveryOption(document.getRecoveryOption())
                     .build();
         }
@@ -150,7 +150,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
                 .address(order.getDelivery().getAddress().getFullAddress())
                 .documentDescription(order.getDocumentsDescription())
                 .documents(order.getDocuments().stream()
-                        .map(document -> DocumentInfoDto.fromEntity(document, order))
+                        .map(DocumentInfoDto::fromEntity)
                         .toList())
                 .trackingNumber(order.getDelivery().getTrackingNumber())
                 .paymentMethod(paymentMethod)
