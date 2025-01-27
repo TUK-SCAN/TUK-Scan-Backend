@@ -44,7 +44,7 @@ public class Order extends BaseEntity {
     /* Information Column ------------------------- */
     /* -------------------------------------------- */
     @Column(name = "order_number", nullable = false, unique = true)
-    private Long orderNumber;
+    private String orderNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
@@ -88,7 +88,7 @@ public class Order extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery, PricePolicy pricePolicy) {
+    public Order(String orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery, PricePolicy pricePolicy) {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
         this.isByUser = isByUser;
@@ -124,6 +124,10 @@ public class Order extends BaseEntity {
         }
 
         return totalAmount;
+    }
+
+    public int getTotalAmount() {
+        return getDocumentsTotalAmount() + delivery.getDeliveryPrice();
     }
 
     public void createMemo(String memo) {

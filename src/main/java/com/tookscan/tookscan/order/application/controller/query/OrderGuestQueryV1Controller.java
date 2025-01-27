@@ -26,7 +26,7 @@ public class OrderGuestQueryV1Controller {
     @GetMapping(value = "/details")
     public ResponseDto<ReadGuestOrderDetailResponseDto> getGuestOrderDetail(
             @RequestParam(value = "name") String name,
-            @RequestParam(value = "order-number") Long orderNumber
+            @RequestParam(value = "order-number") String orderNumber
     ) {
         return ResponseDto.ok(readGuestOrderDetailUseCase.execute(name, orderNumber));
     }

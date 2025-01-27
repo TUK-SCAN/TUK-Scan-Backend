@@ -44,7 +44,7 @@ public class ReadUserOrderOverviewResponseDto extends SelfValidating<ReadUserOrd
 
         @JsonProperty("order_number")
         @NotNull
-        private final Long orderNumber;
+        private final String orderNumber;
 
         @JsonProperty("order_date")
         @NotNull
@@ -68,7 +68,7 @@ public class ReadUserOrderOverviewResponseDto extends SelfValidating<ReadUserOrd
         private final Integer paymentTotal;
 
         @Builder
-        public OrderInfoDto(Long orderId, EOrderStatus orderStatus, String documentDescription, Long orderNumber, String orderDate, String receiverName, String address, EPaymentMethod paymentMethod, EEasyPaymentProvider easyPaymentProvider, Integer paymentTotal) {
+        public OrderInfoDto(Long orderId, EOrderStatus orderStatus, String documentDescription, String orderNumber, String orderDate, String receiverName, String address, EPaymentMethod paymentMethod, EEasyPaymentProvider easyPaymentProvider, Integer paymentTotal) {
             this.orderId = orderId;
             this.orderStatus = orderStatus;
             this.documentDescription = documentDescription;

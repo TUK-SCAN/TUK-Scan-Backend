@@ -24,7 +24,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
 
     @JsonProperty("order_number")
     @NotNull
-    private final Long orderNumber;
+    private final String orderNumber;
 
     @JsonProperty("order_status")
     @NotNull
@@ -104,7 +104,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
     @Builder
     public ReadGuestOrderDetailResponseDto(
             Long orderId,
-            Long orderNumber,
+            String orderNumber,
             EOrderStatus orderStatus,
             String orderDate,
             String receiverName,

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 
     public Order createOrder(User user, boolean isByUser, Delivery delivery, PricePolicy pricePolicy) {
-        Long orderNumber = TsidFactory.getFactory().generate().toLong();
+        String orderNumber = TsidFactory.getFactory().generate().toString();
         return Order.builder()
                 .orderNumber(orderNumber)
                 .orderStatus(EOrderStatus.APPLY_COMPLETED)
@@ -41,7 +41,7 @@ public class OrderService {
         }
     }
 
-    public void validateOrderNumber(Order order, String name, Long orderNumber) {
+    public void validateOrderNumber(Order order, String name, String orderNumber) {
         if (!order.getDelivery().getReceiverName().equals(name) || !order.getOrderNumber().equals(orderNumber)) {
             throw new CommonException(ErrorCode.ACCESS_DENIED);
         }
