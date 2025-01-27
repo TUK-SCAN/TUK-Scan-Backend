@@ -3,6 +3,8 @@ package com.tookscan.tookscan.order.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.core.dto.SelfValidating;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,39 +13,63 @@ import lombok.Getter;
 public class ReadAdminOrderBriefResponseDto extends SelfValidating<ReadAdminOrderBriefResponseDto> {
 
     @JsonProperty("total_count")
+    @NotNull
+    @Min(0)
     private final Integer totalCount;
 
     @JsonProperty("apply_completed_count")
+    @NotNull
+    @Min(0)
     private final Integer applyCompletedCount;
 
     @JsonProperty("company_arrived_count")
+    @NotNull
+    @Min(0)
     private final Integer companyArrivedCount;
 
     @JsonProperty("payment_waiting_count")
+    @NotNull
+    @Min(0)
     private final Integer paymentWaitingCount;
 
     @JsonProperty("payment_completed_count")
+    @NotNull
+    @Min(0)
     private final Integer paymentCompletedCount;
 
     @JsonProperty("scan_waiting_count")
+    @NotNull
+    @Min(0)
     private final Integer scanWaitingCount;
 
     @JsonProperty("scan_in_progress_count")
+    @NotNull
+    @Min(0)
     private final Integer scanInProgressCount;
 
     @JsonProperty("recovery_in_progress_count")
+    @NotNull
+    @Min(0)
     private final Integer recoveryInProgressCount;
 
     @JsonProperty("post_waiting_count")
+    @NotNull
+    @Min(0)
     private final Integer postWaitingCount;
 
     @JsonProperty("cancel_count")
+    @NotNull
+    @Min(0)
     private final Integer cancelCount;
 
     @JsonProperty("as_count")
+    @NotNull
+    @Min(0)
     private final Integer asCount;
 
     @JsonProperty("all_completed_count")
+    @NotNull
+    @Min(0)
     private final Integer allCompletedCount;
 
     @Builder
