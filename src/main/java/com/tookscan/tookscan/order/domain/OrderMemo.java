@@ -6,11 +6,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "order_memos")
+@SQLDelete(sql = "UPDATE order_memos SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class OrderMemo extends BaseEntity {
 
     /* -------------------------------------------- */
@@ -27,10 +31,9 @@ public class OrderMemo extends BaseEntity {
     private String memo;
 
     /* -------------------------------------------- */
-    /* Many to One Column ------------------------- */
+    /* One to One Column ------------------------- */
     /* -------------------------------------------- */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
+    @OneToOne(mappedBy = "orderMemo")
     private Order order;
 
     /* -------------------------------------------- */
