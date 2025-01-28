@@ -16,7 +16,6 @@ import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
 
-// TODO: 배송비 추가
 @Getter
 public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrderDetailResponseDto> {
     @JsonProperty("id")

@@ -2,7 +2,6 @@ package com.tookscan.tookscan.order.repository.mysql;
 
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.order.domain.Order;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    Optional<Long> countByCreatedAtBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
     @Query("SELECT o FROM Order o " +
             "JOIN o.documents d " +
@@ -31,4 +29,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "JOIN FETCH o.documents d " +
             "WHERE o.user.id IN :userIds")
     List<Order> findAllByUserIds(@Param("userIds") List<UUID> userIds);
+
 }

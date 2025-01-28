@@ -3,6 +3,7 @@ package com.tookscan.tookscan.account.application.controller.query;
 import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserOverviewResponseDto;
 import com.tookscan.tookscan.account.application.usecase.ReadAdminUserOverviewUseCase;
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Account", description = "Account 관련 API 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/admins")
