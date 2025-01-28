@@ -35,7 +35,7 @@ public class UpdateAdminOrdersStatusService implements UpdateAdminOrdersStatusUs
                     .filter(id -> !foundIds.contains(id))
                     .toList();
 
-            throw new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 ID: " + notFoundIds.toString());
+            throw new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 ID: " + notFoundIds);
         }
 
         requestDto.orderIds().forEach(orderId -> {
