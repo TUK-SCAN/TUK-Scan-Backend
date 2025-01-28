@@ -23,11 +23,18 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "OR d.name LIKE %:search%)")
     Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search , Pageable pageable);
 
-    Optional<Order> findByOrderNumber(Long orderNumber);
+    Optional<Order> findByOrderNumber(String orderNumber);
 
     @Query("SELECT DISTINCT o FROM Order o " +
             "JOIN FETCH o.documents d " +
             "WHERE o.user.id IN :userIds")
     List<Order> findAllByUserIds(@Param("userIds") List<UUID> userIds);
 
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "LEFT JOIN FETCH o.documents d " +
+            "LEFT JOIN FETCH d.pricePolicy p " +
+            "LEFT JOIN FETCH o.delivery del " +
+            "LEFT JOIN FETCH o.user u " +
+            "WHERE o.id IN :ids")
+    List<Order> findAllWithDocumentsByIdIn(@Param("ids") List<Long> ids);
 }

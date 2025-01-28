@@ -78,7 +78,7 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         deliveryRepository.save(delivery);
 
         // 주문 생성
-        Order order = orderService.createOrder(user, true, delivery, pricePolicy);
+        Order order = orderService.createOrder(user, true, delivery);
         orderRepository.save(order);
 
         // 문서 생성
@@ -88,8 +88,10 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
                             doc.request(),
                             doc.pagePrediction(),
                             doc.recoveryOption(),
-                            order
+                            order,
+                            pricePolicy
                     );
+                    order.getDocuments().add(document);
                     documentRepository.save(document);
         });
 
