@@ -8,5 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface OrderRepositoryCustom {
     Map<EOrderStatus, Integer> findOrderStatusCounts();
 
-    Page<Long> findOrderSummaries(Integer page, Integer size, String startDate, String endDate, String search, String searchType, String sort, String direction, Pageable pageable);
+    Page<Long> findOrderSummaries(String startDate, String endDate, String search, String searchType, String sort,
+                                  String direction, Pageable pageable);
 }
