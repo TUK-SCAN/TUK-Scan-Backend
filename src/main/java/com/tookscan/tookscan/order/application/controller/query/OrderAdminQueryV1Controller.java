@@ -44,7 +44,7 @@ public class OrderAdminQueryV1Controller {
             @RequestParam(value = "end-date", required = false) String endDate,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "search-type", required = false) String searchType,
-            @RequestParam(value = "sort", defaultValue = "apply-date") String sort,
+            @RequestParam(value = "sort", defaultValue = "created-at") String sort,
             @RequestParam(value = "direction", defaultValue = "asc") String direction
     ) {
         return ResponseDto.ok(readAdminOrderSummariesUseCase.execute(page, size, startDate, endDate, search, searchType, sort, direction));
