@@ -2,16 +2,33 @@ package com.tookscan.tookscan.core.exception.type;
 
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class CommonException extends RuntimeException {
 
     private final ErrorCode errorCode;
+    private final String message;
+
+    public CommonException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+        this.message = errorCode.getMessage();
+    }
+
+    public CommonException(ErrorCode errorCode, String customMessage) {
+        this.errorCode = errorCode;
+        this.message = errorCode.getMessage() + " " + customMessage;
+    }
 
     @Override
     public String getMessage() {
-        return errorCode.getMessage();
+        return message;
+    }
+
+    public static CommonException of(ErrorCode errorCode, String message) {
+        return new CommonException(errorCode, message);
+    }
+
+    public static CommonException of(ErrorCode errorCode) {
+        return new CommonException(errorCode);
     }
 }

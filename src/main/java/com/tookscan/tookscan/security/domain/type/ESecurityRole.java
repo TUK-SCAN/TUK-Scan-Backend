@@ -17,6 +17,9 @@ public enum ESecurityRole {
     private final String securityName;
 
     public static ESecurityRole fromString(String value) {
+        if (value == null) {
+            throw new SecurityException("Security Role이 null입니다.");
+        }
         return switch (value.toUpperCase()) {
             case "USER" -> USER;
             case "ADMIN" -> ADMIN;

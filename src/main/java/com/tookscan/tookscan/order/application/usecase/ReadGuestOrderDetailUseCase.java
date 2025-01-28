@@ -5,5 +5,5 @@ import com.tookscan.tookscan.order.application.dto.response.ReadGuestOrderDetail
 
 @UseCase
 public interface ReadGuestOrderDetailUseCase {
-    ReadGuestOrderDetailResponseDto execute(String name, Long orderNumber);
+    ReadGuestOrderDetailResponseDto execute(String name, String orderNumber);
 }

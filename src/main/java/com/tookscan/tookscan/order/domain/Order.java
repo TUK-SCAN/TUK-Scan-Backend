@@ -26,11 +26,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "orders")
+@SQLDelete(sql = "UPDATE orders SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class Order extends BaseEntity {
 
     /* -------------------------------------------- */
@@ -44,7 +48,7 @@ public class Order extends BaseEntity {
     /* Information Column ------------------------- */
     /* -------------------------------------------- */
     @Column(name = "order_number", nullable = false, unique = true)
-    private Long orderNumber;
+    private String orderNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
@@ -61,22 +65,19 @@ public class Order extends BaseEntity {
     private String memo;
 
     /* -------------------------------------------- */
-    /* Many To One Mapping ------------------------ */
-    /* -------------------------------------------- */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "price_policy_id", nullable = false)
-    private PricePolicy pricePolicy;
-
-    /* -------------------------------------------- */
     /* One To One Mapping ------------------------- */
     /* -------------------------------------------- */
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "delivery_id", nullable = false)
     private Delivery delivery;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "payment_id")
     private Payment payment;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_memo_id")
+    private OrderMemo orderMemo;
 
     /* -------------------------------------------- */
     /* One To Many Mapping ------------------------ */
@@ -88,13 +89,12 @@ public class Order extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Order(Long orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery, PricePolicy pricePolicy) {
+    public Order(String orderNumber, EOrderStatus orderStatus, boolean isByUser, User user, Delivery delivery) {
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
         this.isByUser = isByUser;
         this.user = user;
         this.delivery = delivery;
-        this.pricePolicy = pricePolicy;
     }
 
     /**
@@ -115,18 +115,23 @@ public class Order extends BaseEntity {
         return documentName + " 외 " + (documents.size() - 1) + "건";
     }
 
-    public int getDocumentsTotalAmount() {
+    public Integer getDocumentsTotalAmount() {
 
-        int totalAmount = 0;
+        return documents.stream()
+                .map(Document::calculatePrice)
+                .reduce(Integer::sum)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCUMENT));
+    }
 
-        for (Document document : documents) {
-            totalAmount += pricePolicy.calculatePrice(document.getPageCount(), document.getRecoveryOption());
-        }
-
-        return totalAmount;
+    public int getTotalAmount() {
+        return getDocumentsTotalAmount() + delivery.getDeliveryPrice();
     }
 
     public void createMemo(String memo) {
         this.memo = memo;
+    }
+
+    public void updateStatus(EOrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

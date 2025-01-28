@@ -13,7 +13,7 @@ public class CreateUserOrderResponseDto extends SelfValidating<CreateUserOrderRe
 
     @JsonProperty("order_number")
     @NotNull
-    private final Long orderNumber;
+    private final String orderNumber;
 
     @JsonProperty("name")
     private final String name;
@@ -31,7 +31,7 @@ public class CreateUserOrderResponseDto extends SelfValidating<CreateUserOrderRe
 
 
     @Builder
-    public CreateUserOrderResponseDto(Long orderNumber, String name, Integer paymentPrediction, String email, String address) {
+    public CreateUserOrderResponseDto(String orderNumber, String name, Integer paymentPrediction, String email, String address) {
         this.orderNumber = orderNumber;
         this.name = name;
         this.paymentPrediction = paymentPrediction;
@@ -40,7 +40,7 @@ public class CreateUserOrderResponseDto extends SelfValidating<CreateUserOrderRe
         this.validateSelf();
     }
 
-    public static CreateUserOrderResponseDto of(Long orderNumber, String name, Integer paymentPrediction, String email, String address) {
+    public static CreateUserOrderResponseDto of(String orderNumber, String name, Integer paymentPrediction, String email, String address) {
         return CreateUserOrderResponseDto.builder()
                 .orderNumber(orderNumber)
                 .name(name)

@@ -14,6 +14,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -25,6 +27,8 @@ import java.util.List;
 )
 @DiscriminatorValue("USER")
 @DynamicUpdate
+@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class User extends Account {
 
     /* -------------------------------------------- */

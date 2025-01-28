@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -20,6 +22,8 @@ import org.hibernate.annotations.DynamicUpdate;
 )
 @DiscriminatorValue("ADMIN")
 @DynamicUpdate
+@SQLDelete(sql = "UPDATE admins SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class Admin extends Account {
 
     private static final String ADMIN_NAME = "관리자";
