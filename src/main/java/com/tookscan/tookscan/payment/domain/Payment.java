@@ -63,7 +63,6 @@ public class Payment extends BaseEntity {
     /* One To One Mapping ------------------------- */
     /* -------------------------------------------- */
     @OneToOne(mappedBy = "payment")
-    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     /* -------------------------------------------- */
