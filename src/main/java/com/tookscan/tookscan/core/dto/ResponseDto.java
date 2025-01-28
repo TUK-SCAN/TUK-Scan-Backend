@@ -142,7 +142,7 @@ public class ResponseDto<T> extends SelfValidating<ResponseDto<T>> {
                 .httpStatus(e.getErrorCode().getHttpStatus())
                 .success(false)
                 .data(null)
-                .error(ExceptionDto.of(e.getErrorCode()))
+                .error(ExceptionDto.of(e.getErrorCode(), e.getMessage()))
                 .build();
     }
 }
