@@ -59,6 +59,13 @@ public class Document extends BaseEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "price_policy_id", nullable = false)
+    private PricePolicy pricePolicy;
+
+    /* -------------------------------------------- */
+    /* One to One Column -------------------------- */
+    /* -------------------------------------------- */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pdf_id")
     private Pdf pdf;
@@ -67,13 +74,17 @@ public class Document extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Document(String name, int pageCount, ERecoveryOption recoveryOption, String request, Order order) {
+    public Document(String name, int pageCount, ERecoveryOption recoveryOption, String request, Order order, PricePolicy pricePolicy) {
         this.name = name;
         this.pageCount = pageCount;
         this.recoveryOption = recoveryOption;
         this.request = request;
         this.order = order;
+        this.pricePolicy = pricePolicy;
     }
 
+    public int calculatePrice() {
+        return pricePolicy.calculatePrice(pageCount, recoveryOption);
+    }
 }
 

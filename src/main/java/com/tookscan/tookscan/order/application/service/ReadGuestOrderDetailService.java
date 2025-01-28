@@ -20,7 +20,7 @@ public class ReadGuestOrderDetailService implements ReadGuestOrderDetailUseCase 
 
     @Override
     @Transactional(readOnly = true)
-    public ReadGuestOrderDetailResponseDto execute(String name, Long orderNumber) {
+    public ReadGuestOrderDetailResponseDto execute(String name, String orderNumber) {
 
         // 주문 조회
         Order order = orderRepository.findByOrderNumber(orderNumber)

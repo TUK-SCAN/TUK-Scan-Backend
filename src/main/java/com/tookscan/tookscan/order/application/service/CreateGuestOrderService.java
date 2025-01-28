@@ -85,7 +85,7 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
         deliveryRepository.save(delivery);
 
         // 주문 생성
-        Order order = orderService.createOrder(null, false, delivery, pricePolicy);
+        Order order = orderService.createOrder(null, false, delivery);
         orderRepository.save(order);
 
         // 문서 생성
@@ -95,8 +95,10 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
                     doc.request(),
                     doc.pagePrediction(),
                     doc.recoveryOption(),
-                    order
+                    order,
+                    pricePolicy
             );
+            order.getDocuments().add(document);
             documentRepository.save(document);
         });
 
