@@ -66,4 +66,16 @@ public class OrderAdminCommandV1Controller {
      deleteAdminOrdersUseCase.execute(orderIds);
      return ResponseDto.ok(null);
     }
+
+    /**
+     * 4.3.2 관리자 주문 상태 일괄 변경
+     */
+    @Operation(summary = "관리자 주문 상태 일괄 변경", description = "관리자가 여러 주문의 상태를 일괄 변경합니다.")
+    @PostMapping(value = "/status")
+    public ResponseDto<Void> updateOrderStatus(
+         @RequestBody @Valid UpdateAdminOrdersStatusRequestDto requestDto
+    ) {
+        updateAdminOrdersStatusUseCase.execute(requestDto);
+        return ResponseDto.ok(null);
+    }
 }
