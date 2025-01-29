@@ -43,12 +43,12 @@ public class ReadUserUserSummaryResponseDto extends SelfValidating<ReadUserUserS
     public static class AddressDto extends SelfValidating<AddressDto> {
 
         @JsonProperty("address_name")
-        @Schema(description = "주소명", example = "서울특별시 강남구 역삼동")
+        @Schema(description = "주소명", example = "서울시 강남구 역삼동 역삼로1길")
         @NotNull(message = "주소명은 필수입니다")
         private final String addressName;
 
         @JsonProperty("region_1depth_name")
-        @Schema(description = "1차 지역명", example = "서울특별시")
+        @Schema(description = "1차 지역명", example = "서울시")
         @NotNull(message = "1차 지역명은 필수입니다")
         private final String region1DepthName;
 
@@ -63,7 +63,7 @@ public class ReadUserUserSummaryResponseDto extends SelfValidating<ReadUserUserS
         private final String region3DepthName;
 
         @JsonProperty("region_4depth_name")
-        @Schema(description = "4차 지역명", example = "00리")
+        @Schema(description = "4차 지역명", example = "역삼로1길")
         private final String region4DepthName;
 
         @JsonProperty("address_detail")

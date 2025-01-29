@@ -11,67 +11,72 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDetailResponseDto> {
+public class ReadAdminUserDetailResponseDto extends SelfValidating<ReadAdminUserDetailResponseDto> {
+
+    @JsonProperty("serial_id")
+    @Schema(description = "시리얼 ID", example = "user123")
+    private final String serialId;
 
     @JsonProperty("name")
     @Schema(description = "이름", example = "홍길동")
-    @NotNull(message = "이름은 필수입니다")
+    @NotNull
     private final String name;
 
     @JsonProperty("provider")
     @Schema(description = "제공자", example = "KAKAO | GOOGLE | DEFAULT")
-    @NotNull(message = "제공자는 필수입니다")
-    private ESecurityProvider provider;
-
-    @JsonProperty("serial_id")
-    @Schema(description = "시리얼 ID", example = "gildong123")
-    private String serialId;
+    @NotNull
+    private final ESecurityProvider provider;
 
     @JsonProperty("phone_number")
     @Schema(description = "전화번호", example = "01012345678")
-    @NotNull(message = "전화번호는 필수입니다")
-    private String phoneNumber;
+    @NotNull
+    private final String phoneNumber;
 
     @JsonProperty("email")
-    @Schema(description = "이메일", example = "gildong123@google.com")
-    private String email;
+    @Schema(description = "이메일", example = "user@example.com")
+    private final String email;
 
     @JsonProperty("address")
     @Schema(description = "주소")
-    private AddressDto address;
+    private final AddressDto address;
+
+    @JsonProperty("memo")
+    @Schema(description = "메모", example = "VIP 고객")
+    private final String memo;
 
     @Builder
-    public ReadUserUserDetailResponseDto(String name, ESecurityProvider provider, String serialId, String phoneNumber, String email, AddressDto address) {
+    public ReadAdminUserDetailResponseDto(String serialId, String name, ESecurityProvider provider, String phoneNumber, String email, AddressDto address, String memo) {
+        this.serialId = serialId;
         this.name = name;
         this.provider = provider;
-        this.serialId = serialId;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+        this.memo = memo;
         this.validateSelf();
     }
 
     @Getter
-    public static class AddressDto extends SelfValidating<AddressDto> {
+    public static class AddressDto {
 
         @JsonProperty("address_name")
         @Schema(description = "주소명", example = "서울시 강남구 역삼동 역삼로1길")
-        @NotNull(message = "주소명은 필수입니다")
+        @NotNull
         private final String addressName;
 
         @JsonProperty("region_1depth_name")
         @Schema(description = "1차 지역명", example = "서울시")
-        @NotNull(message = "1차 지역명은 필수입니다")
+        @NotNull
         private final String region1DepthName;
 
         @JsonProperty("region_2depth_name")
         @Schema(description = "2차 지역명", example = "강남구")
-        @NotNull(message = "2차 지역명은 필수입니다")
+        @NotNull
         private final String region2DepthName;
 
         @JsonProperty("region_3depth_name")
         @Schema(description = "3차 지역명", example = "역삼동")
-        @NotNull(message = "3차 지역명은 필수입니다")
+        @NotNull
         private final String region3DepthName;
 
         @JsonProperty("region_4depth_name")
@@ -80,17 +85,17 @@ public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDe
 
         @JsonProperty("address_detail")
         @Schema(description = "상세 주소", example = "3층 301호")
-        @NotNull(message = "상세 주소는 필수입니다")
+        @NotNull
         private final String addressDetail;
 
         @JsonProperty("longitude")
         @Schema(description = "경도", example = "127.123456")
-        @NotNull(message = "경도는 필수입니다")
+        @NotNull
         private final Double longitude;
 
         @JsonProperty("latitude")
         @Schema(description = "위도", example = "37.123456")
-        @NotNull(message = "위도는 필수입니다")
+        @NotNull
         private final Double latitude;
 
         @Builder
@@ -103,35 +108,31 @@ public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDe
             this.addressDetail = addressDetail;
             this.longitude = longitude;
             this.latitude = latitude;
-            this.validateSelf();
         }
 
         public static AddressDto fromEntity(Address address) {
-
-            if (address == null) {
-                return null;
-            }
-
             return AddressDto.builder()
                     .addressName(address.getAddressName())
                     .region1DepthName(address.getRegion1DepthName())
                     .region2DepthName(address.getRegion2DepthName())
                     .region3DepthName(address.getRegion3DepthName())
-                    .region4DepthName(address.getRegion4DepthName() != null ? address.getRegion4DepthName() : null)
+                    .region4DepthName(address.getRegion4DepthName())
                     .addressDetail(address.getAddressDetail())
                     .longitude(address.getLongitude())
                     .latitude(address.getLatitude())
                     .build();
         }
     }
-    public static ReadUserUserDetailResponseDto fromEntity(User user) {
-        return ReadUserUserDetailResponseDto.builder()
+
+    public static ReadAdminUserDetailResponseDto fromEntity(User user) {
+        return ReadAdminUserDetailResponseDto.builder()
+                .serialId(user.getSerialId())
                 .name(user.getName())
                 .provider(user.getProvider())
-                .serialId(user.getSerialId())
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail() != null ? user.getEmail() : null)
-                .address(user.getAddress() != null ? AddressDto.fromEntity(user.getAddress()) : null)
+                .address(AddressDto.fromEntity(user.getAddress()) != null ? AddressDto.fromEntity(user.getAddress()) : null)
+                .memo(user.getMemo() != null ? user.getMemo() : null)
                 .build();
     }
 }
