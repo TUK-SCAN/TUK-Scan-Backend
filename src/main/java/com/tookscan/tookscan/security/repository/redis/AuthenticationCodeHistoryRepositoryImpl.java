@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class AuthenticationCodeHistoryRepositoryImpl implements AuthenticationCodeHistoryRepository {
 
-    AuthenticationCodeHistoryRedisRepository authenticationCodeHistoryRedisRepository;
+    private final AuthenticationCodeHistoryRedisRepository authenticationCodeHistoryRedisRepository;
 
     @Override
     public AuthenticationCodeHistory save(AuthenticationCodeHistory authenticationCodeHistory) {
