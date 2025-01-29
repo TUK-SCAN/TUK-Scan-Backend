@@ -1,3 +1,13 @@
+### 3.1.1 (관리자) 그룹 만들기
+// @no-log
+POST {{host_url}}/v1/admins/groups
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "name": "{{account.API_3_1_1.name}}"
+}
+
 ### 3.2.1 유저 배송 정보 조회
 // @no-log
 GET {{host_url}}/v1/users/summaries
