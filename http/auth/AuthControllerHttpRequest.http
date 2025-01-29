@@ -1,37 +1,37 @@
-### 1.1 일반 로그인
+### 1.1.1 일반 로그인
 // @no-log
 POST {{host_url}}/v1/auth/login
 Content-Type: application/x-www-form-urlencoded
 
-serial_id={{auth.API_1_1.serial_id}}&
-password={{auth.API_1_1.password}}
+serial_id={{auth.API_1_1_1.serial_id}}&
+password={{auth.API_1_1_1.password}}
 
 > {%
     client.global.set("access_token", response.body.data.access_token);
     client.global.set("refresh_token", response.body.data.refresh_token);
 %}
 
-### 1.3 JWT 재발급
+### 1.2.1 JWT 재발급
 // @no-log
 POST {{host_url}}/v1/auth/reissue/token
 Authorization: Bearer {{refresh_token}}
 
-### 1.4 사용자 로그아웃
+### 1.3.1 사용자 로그아웃
 // @no-log
 POST {{host_url}}/v1/auth/logout
 Authorization: Bearer {{access_token}}
 
-### 2.1 휴대폰 인증번호 발송
+### 2.1.1 휴대폰 인증번호 발송
 // @no-log
 POST {{host_url}}/v1/auth/authentication-code
 Content-Type: application/json
 
 {
-    "name": "{{auth.API_2_1.name}}",
-    "phone_number": "{{auth.API_2_1.phone_number}}"
+    "name": "{{auth.API_2_1_1.name}}",
+    "phone_number": "{{auth.API_2_1_1.phone_number}}"
 }
 
-### 2.2 유저 회원가입
+### 2.1.2 유저 회원가입
 // @no-log
 POST {{host_url}}/v1/users/auth/sign-up
 Content-Type: application/json
@@ -44,17 +44,17 @@ Content-Type: application/json
     "marketing_allowed": {{auth.API_2_2.marketing_allowed}}
 }
 
-### 2.3 관리자 회원가입
+### 2.1.5 관리자 회원가입
 // @no-log
 POST {{host_url}}/v1/admins/auth/sign-up
 Content-Type: application/json
 
 {
-    "serial_id": "{{auth.API_2_3.serial_id}}",
-    "password": "{{auth.API_2_3.password}}"
+    "serial_id": "{{auth.API_2_1_5.serial_id}}",
+    "password": "{{auth.API_2_1_5.password}}"
 }
 
-### 2.7 휴대폰 인증번호 검증
+### 2.3.1 휴대폰 인증번호 검증
 // @no-log
 @authentication_code = "995659"
 PATCH {{host_url}}/v1/users/auth/authentication-code
@@ -62,11 +62,11 @@ Content-Type: application/json
 
 {
 
-    "phone_number": "{{auth.API_2_7.phone_number}}",
+    "phone_number": "{{auth.API_2_3_1.phone_number}}",
     "authentication_code": {{authentication_code}}
 }
 
-### 2.11 계정 간단 정보 조회
+### 2.2.2 계정 간단 정보 조회
 // @no-log
 GET {{host_url}}/v1/auth/briefs
 Authorization: Bearer {{access_token}}

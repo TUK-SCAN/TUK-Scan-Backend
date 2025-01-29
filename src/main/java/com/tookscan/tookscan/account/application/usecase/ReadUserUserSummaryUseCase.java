@@ -8,7 +8,7 @@ import java.util.UUID;
 @UseCase
 public interface ReadUserUserSummaryUseCase {
     /**
-     * 사용자 요약 정보 조회 유스케이스
+     * 3.2.1 유저 배송 정보 조회 유스케이스
      * @param accountId UUID
      * @return ReadUserSummaryResponseDto
      */

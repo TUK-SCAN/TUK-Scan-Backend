@@ -1,15 +1,16 @@
 package com.tookscan.tookscan.account.application.controller.query;
 
+import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserDetailResponseDto;
 import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserOverviewResponseDto;
+import com.tookscan.tookscan.account.application.usecase.ReadAdminUserDetailUseCase;
 import com.tookscan.tookscan.account.application.usecase.ReadAdminUserOverviewUseCase;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Tag(name = "Account", description = "Account 관련 API 입니다.")
 @RestController
@@ -18,9 +19,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountAdminQueryV1Controller {
 
     private final ReadAdminUserOverviewUseCase readAdminUserOverviewUseCase;
+    private final ReadAdminUserDetailUseCase readAdminUserDetailUseCase;
 
     /**
-     * 3.6 (관리자) 유저 리스트 조회
+     * 3.2.3 (관리자) 유저 상세 조회
+     */
+    @GetMapping("/users/{id}/details")
+    public ResponseDto<ReadAdminUserDetailResponseDto> readAdminUserDetail(
+            @PathVariable("id") UUID id
+            ) {
+        return ResponseDto.ok(readAdminUserDetailUseCase.execute(id));
+    }
+
+    /**
+     * 3.2.4 (관리자) 유저 리스트 조회
      */
     @GetMapping("/users/overviews")
     public ResponseDto<ReadAdminUserOverviewResponseDto> readAdminUserOverview(
