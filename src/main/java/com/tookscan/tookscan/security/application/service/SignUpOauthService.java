@@ -11,8 +11,8 @@ import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import com.tookscan.tookscan.security.repository.AccountRepository;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,8 +56,7 @@ public class SignUpOauthService implements SignUpOauthUseCase {
         accountRepository.existsByPhoneNumberThenThrow(requestDto.phoneNumber());
 
         // 해당 번호에 관련된 인증번호 조회
-        AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.phoneNumber())
-                .orElse(null);
+        AuthenticationCode authenticationCode = authenticationCodeRepository.findByIdOrElseNull(requestDto.phoneNumber());
 
         // 인증번호 인증이 완료되었는지 확인
         authenticationCodeService.validateAuthenticationCode(authenticationCode);

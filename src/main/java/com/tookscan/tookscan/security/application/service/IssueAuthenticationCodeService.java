@@ -9,8 +9,8 @@ import com.tookscan.tookscan.security.domain.redis.AuthenticationCodeHistory;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeHistoryService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.event.CompletePhoneNumberValidationEvent;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,8 +38,7 @@ public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUs
                 .orElse(null);
 
         // 과거에 발급된 인증코드 조회
-        AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.phoneNumber())
-                .orElse(null);
+        AuthenticationCode authenticationCode = authenticationCodeRepository.findByIdOrElseNull(requestDto.phoneNumber());
 
         // 인증코드 발급 제한, 발급 속도 제한 유효성 검사
         authenticationCodeHistoryService.validateAuthenticationCodeHistory(history);

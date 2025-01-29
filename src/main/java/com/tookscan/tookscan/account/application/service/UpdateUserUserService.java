@@ -7,8 +7,8 @@ import com.tookscan.tookscan.account.domain.service.UserService;
 import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +37,7 @@ public class UpdateUserUserService implements UpdateUserUserUseCase {
         if (userService.isPhoneNumberChanged(user, requestDto.phoneNumber())) {
 
             // 해당 번호에 관련된 인증번호 조회
-            AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.phoneNumber())
-                    .orElse(null);
+            AuthenticationCode authenticationCode = authenticationCodeRepository.findByIdOrElseNull(requestDto.phoneNumber());
 
             // 인증번호 인증이 완료되었는지 확인
             authenticationCodeService.validateAuthenticationCode(authenticationCode);
