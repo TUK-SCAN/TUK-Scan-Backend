@@ -6,7 +6,7 @@ import com.tookscan.tookscan.security.info.CustomTemporaryUserPrincipal;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
 import com.tookscan.tookscan.security.info.factory.Oauth2UserInfo;
 import com.tookscan.tookscan.security.info.factory.Oauth2UserInfoFactory;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -30,8 +30,7 @@ public class CustomOauth2UserDetailService extends DefaultOAuth2UserService {
         Oauth2UserInfo oauth2UserInfo = Oauth2UserInfoFactory.getOauth2UserInfo(provider, super.loadUser(userRequest).getAttributes());
 
         // 이미 존재하는 사용자인지 확인. 존재하지 않다면 null
-        Account account = accountRepository.findBySerialIdAndProvider(oauth2UserInfo.getId(), provider)
-                .orElse(null);
+        Account account = accountRepository.findBySerialIdOrProviderOrElseNull(oauth2UserInfo.getId(), provider);
 
         // 최초 가입 유저라면 CustomTemporaryUserPrincipal 반환
         if (account == null) {

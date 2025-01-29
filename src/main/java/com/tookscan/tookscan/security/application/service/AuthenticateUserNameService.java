@@ -4,7 +4,7 @@ import com.tookscan.tookscan.security.application.usecase.AuthenticateUserNameUs
 import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.service.AccountService;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,8 +19,7 @@ public class AuthenticateUserNameService implements AuthenticateUserNameUseCase 
 
     @Override
     public UserDetails loadUserByUsername(String serialId) throws UsernameNotFoundException {
-        Account account = accountRepository.findBySerialIdAndProvider(serialId, ESecurityProvider.DEFAULT)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with serialId: " + serialId));
+        Account account = accountRepository.findBySerialIdAndProviderOrElseThrow(serialId, ESecurityProvider.DEFAULT);
 
         return accountService.createCustomUserPrincipalByAccount(account);
     }

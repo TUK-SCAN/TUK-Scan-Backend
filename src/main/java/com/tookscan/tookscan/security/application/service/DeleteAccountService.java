@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.security.application.service;
 
 import com.tookscan.tookscan.security.application.usecase.DeleteAccountUseCase;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

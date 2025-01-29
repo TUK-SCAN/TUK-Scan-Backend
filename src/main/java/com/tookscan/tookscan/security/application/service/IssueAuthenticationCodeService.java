@@ -9,7 +9,6 @@ import com.tookscan.tookscan.security.domain.redis.AuthenticationCodeHistory;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeHistoryService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.event.CompletePhoneNumberValidationEvent;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUseCase {
-    private final AccountRepository accountRepository;
     private final AuthenticationCodeRepository authenticationCodeRepository;
     private final AuthenticationCodeHistoryRepository authenticationCodeHistoryRepository;
 

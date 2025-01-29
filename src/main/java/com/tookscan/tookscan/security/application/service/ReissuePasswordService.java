@@ -9,7 +9,7 @@ import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AccountService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,8 +45,7 @@ public class ReissuePasswordService implements ReissuePasswordUseCase {
         authenticationCodeService.validateAuthenticationCode(authenticationCode);
 
         // 계정 조회
-        Account account = accountRepository.findByPhoneNumberAndSerialId(requestDto.phoneNumber(), requestDto.serialId())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        Account account = accountRepository.findByPhoneNumberAndSerialIdOrElseThrow(requestDto.phoneNumber(), requestDto.serialId());
 
         // 비밀번호 재발급 (랜덤한 숫자 + 영소문자 8자)
         String newPassword = generateRandomPassword();

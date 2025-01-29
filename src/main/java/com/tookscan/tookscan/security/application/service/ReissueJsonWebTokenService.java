@@ -8,7 +8,7 @@ import com.tookscan.tookscan.security.application.usecase.ReissueJsonWebTokenUse
 import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.redis.RefreshToken;
 import com.tookscan.tookscan.security.domain.service.RefreshTokenService;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import com.tookscan.tookscan.security.repository.redis.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,7 @@ public class ReissueJsonWebTokenService implements ReissueJsonWebTokenUseCase {
         UUID accountId = refreshToken.getAccountId();
 
         // Account 조회
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_TOKEN_ERROR));
+        Account account = accountRepository.findByIdOrElseThrow(accountId);
 
         // Default Json Web Token 생성
         DefaultJsonWebTokenDto defaultJsonWebTokenDto = jsonWebTokenUtil.generateDefaultJsonWebTokens(

@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, UUID> {
+public interface AccountJpaRepository extends JpaRepository<Account, UUID> {
 
     Optional<Account> findBySerialIdAndProvider(String serialId, ESecurityProvider provider);
 

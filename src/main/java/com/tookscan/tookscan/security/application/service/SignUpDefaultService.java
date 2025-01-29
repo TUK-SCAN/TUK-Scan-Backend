@@ -3,14 +3,12 @@ package com.tookscan.tookscan.security.application.service;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.service.UserService;
 import com.tookscan.tookscan.account.repository.UserRepository;
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.application.dto.request.SignUpDefaultRequestDto;
 import com.tookscan.tookscan.security.application.usecase.SignUpDefaultUseCase;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,14 +35,10 @@ public class SignUpDefaultService implements SignUpDefaultUseCase {
     public void execute(SignUpDefaultRequestDto requestDto) {
 
         // 중복된 아이디인지 확인
-        if (isDuplicatedId(requestDto.serialId())) {
-            throw new CommonException(ErrorCode.ALREADY_EXIST_ID);
-        }
+        accountRepository.existsBySerialIdAndProviderThenThrow(requestDto.serialId(), ESecurityProvider.DEFAULT);
 
         // 중복된 전화번호인지 확인
-        if (isDuplicatedPhoneNumber(requestDto.phoneNumber())) {
-            throw new CommonException(ErrorCode.ALREADY_EXIST_PHONE_NUMBER);
-        }
+        accountRepository.existsByPhoneNumberThenThrow(requestDto.phoneNumber());
 
         // 해당 번호에 관련된 인증번호 조회
         AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.phoneNumber())
@@ -69,23 +63,5 @@ public class SignUpDefaultService implements SignUpDefaultUseCase {
 
         // 인증번호 발급 이력 삭제
         authenticationCodeHistoryRepository.deleteById(requestDto.phoneNumber());
-    }
-
-    /**
-     * 중복된 아이디인지 확인
-     * @param serialId 아이디
-     * @return 중복된 아이디인지 여부
-     */
-    private Boolean isDuplicatedId(String serialId) {
-        return accountRepository.findBySerialIdAndProvider(serialId, ESecurityProvider.DEFAULT).isPresent();
-    }
-
-    /**
-     * 중복된 전화번호인지 확인
-     * @param phoneNumber 전화번호
-     * @return 중복된 전화번호인지 여부
-     */
-    private Boolean isDuplicatedPhoneNumber(String phoneNumber) {
-        return accountRepository.findByPhoneNumber(phoneNumber).isPresent();
     }
 }
