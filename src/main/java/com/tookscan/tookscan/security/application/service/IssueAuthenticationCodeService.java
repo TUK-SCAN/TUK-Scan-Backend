@@ -9,8 +9,8 @@ import com.tookscan.tookscan.security.domain.redis.AuthenticationCodeHistory;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeHistoryService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.event.CompletePhoneNumberValidationEvent;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,8 +34,7 @@ public class IssueAuthenticationCodeService implements IssueAuthenticationCodeUs
     public IssueAuthenticationCodeResponseDto execute(IssueAuthenticationCodeRequestDto requestDto) {
 
         // 인증코드 발급 이력 조회
-        AuthenticationCodeHistory history = authenticationCodeHistoryRepository.findById(requestDto.phoneNumber())
-                .orElse(null);
+        AuthenticationCodeHistory history = authenticationCodeHistoryRepository.findByIdOrElseNull(requestDto.phoneNumber());
 
         // 과거에 발급된 인증코드 조회
         AuthenticationCode authenticationCode = authenticationCodeRepository.findByIdOrElseNull(requestDto.phoneNumber());

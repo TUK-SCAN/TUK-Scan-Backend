@@ -21,8 +21,8 @@ import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
 
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;

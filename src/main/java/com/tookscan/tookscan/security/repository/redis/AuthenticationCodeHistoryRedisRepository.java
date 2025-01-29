@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuthenticationCodeHistoryRepository extends CrudRepository<AuthenticationCodeHistory, String> {
+public interface AuthenticationCodeHistoryRedisRepository extends CrudRepository<AuthenticationCodeHistory, String> {
 }
