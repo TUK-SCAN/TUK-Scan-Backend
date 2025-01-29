@@ -8,8 +8,8 @@ import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.UserGroup;
 import com.tookscan.tookscan.account.domain.service.UserGroupService;
 import com.tookscan.tookscan.account.repository.UserGroupRepository;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.account.repository.mysql.GroupRepository;
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class CreateAdminUserGroupService implements CreateAdminUserGroupUseCase 
 
         List<UserGroup> userGroups = objectPairs.stream()
                 .map(pair -> {
-                    User user = userRepository.findById(pair.getLeft()).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                    User user = userRepository.findByIdOrElseThrow(pair.getLeft());
                     Group group = groupRepository.findById(pair.getRight()).orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
                     return userGroupService.createUserGroup(user, group);

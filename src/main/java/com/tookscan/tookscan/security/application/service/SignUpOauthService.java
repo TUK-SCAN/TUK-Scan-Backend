@@ -2,7 +2,7 @@ package com.tookscan.tookscan.security.application.service;
 
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.service.UserService;
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.constant.Constants;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;

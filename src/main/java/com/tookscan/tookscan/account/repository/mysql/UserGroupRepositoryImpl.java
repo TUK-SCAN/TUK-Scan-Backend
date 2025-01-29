@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserGroupRepositoryImpl implements UserGroupRepository {
 
-    private final UserGroupJPARepository userGroupJPARepository;
+    private final UserGroupJpaRepository userGroupJPARepository;
 
     @Override
     public Set<Pair<UUID, Long>> findNotDuplicatedUserGroupInUserIdsAndGroupIds(List<UUID> userIds, List<Long> groupIds) {

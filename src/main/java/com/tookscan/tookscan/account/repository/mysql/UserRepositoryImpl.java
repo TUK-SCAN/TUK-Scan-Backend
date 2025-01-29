@@ -1,10 +1,12 @@
-package com.tookscan.tookscan.account.repository.mysql.custom;
+package com.tookscan.tookscan.account.repository.mysql;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.tookscan.tookscan.account.domain.QUser;
 import com.tookscan.tookscan.account.domain.QUserGroup;
+import com.tookscan.tookscan.account.domain.User;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,31 @@ import java.util.function.Function;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryCustomImpl implements UserRepositoryCustom {
+public class UserRepositoryImpl implements UserRepository {
+
+    private final UserJpaRepository userJpaRepository;
+
+    @Override
+    public User findByIdOrElseThrow(UUID userId) {
+        return userJpaRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+    }
+
+    @Override
+    public void save(User user) {
+        userJpaRepository.save(user);
+    }
+
+    @Override
+    public User findByPhoneNumberAndNameOrElseThrow(String phoneNumber, String name) {
+        return userJpaRepository.findByPhoneNumberAndName(phoneNumber, name)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+    }
+
+    @Override
+    public List<User> findByIdsWithDetails(List<UUID> userIds) {
+        return userJpaRepository.findUserByIdsWithDetails(userIds);
+    }
 
     private final JPAQueryFactory jpaQueryFactory;
 

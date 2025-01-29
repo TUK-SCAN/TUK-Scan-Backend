@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.order.application.service;
 
 import com.tookscan.tookscan.account.domain.User;
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.address.domain.service.AddressService;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
@@ -21,11 +21,12 @@ import com.tookscan.tookscan.order.repository.mysql.DeliveryRepository;
 import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
-import java.time.LocalDate;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +47,7 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
     @Transactional
     public CreateUserOrderResponseDto execute(UUID accountId, CreateUserOrderRequestDto requestDto) {
         // 계정 조회
-        User user = userRepository.findById(accountId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
+        User user = userRepository.findByIdOrElseThrow(accountId);
 
         // 가격 정책 조회
         PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())

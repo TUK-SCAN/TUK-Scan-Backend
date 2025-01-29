@@ -1,6 +1,6 @@
 package com.tookscan.tookscan.security.application.service;
 
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.application.dto.request.ReadSerialIdAndProviderRequestDto;
@@ -35,8 +35,7 @@ public class ReadSerialIdAndProviderService implements ReadSerialIdAndProviderUs
         authenticationCodeService.validateAuthenticationCode(authenticationCode);
 
         // 계정 조회
-        Account account = (Account) userRepository.findByPhoneNumberAndName(requestDto.phoneNumber(), requestDto.name())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        Account account = userRepository.findByPhoneNumberAndNameOrElseThrow(requestDto.phoneNumber(), requestDto.name());
 
         return ReadSerialIdAndProviderResponseDto.fromEntity(account);
     }

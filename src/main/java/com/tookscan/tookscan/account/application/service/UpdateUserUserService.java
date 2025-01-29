@@ -4,9 +4,7 @@ import com.tookscan.tookscan.account.application.dto.request.UpdateUserUserReque
 import com.tookscan.tookscan.account.application.usecase.UpdateUserUserUseCase;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.service.UserService;
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
@@ -33,8 +31,7 @@ public class UpdateUserUserService implements UpdateUserUserUseCase {
     public void execute(UUID accountId, UpdateUserUserRequestDto requestDto) {
 
         // User 조회
-        User user = userRepository.findById(accountId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        User user = userRepository.findByIdOrElseThrow(accountId);
 
         // 휴대폰 번호가 변경되었을 경우, 인증 코드 인증 여부 확인
         if (userService.isPhoneNumberChanged(user, requestDto.phoneNumber())) {

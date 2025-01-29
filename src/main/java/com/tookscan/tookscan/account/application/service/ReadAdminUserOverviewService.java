@@ -3,7 +3,7 @@ package com.tookscan.tookscan.account.application.service;
 import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserOverviewResponseDto;
 import com.tookscan.tookscan.account.application.usecase.ReadAdminUserOverviewUseCase;
 import com.tookscan.tookscan.account.domain.User;
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.dto.PageInfoDto;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.domain.Order;
@@ -56,7 +56,7 @@ public class ReadAdminUserOverviewService implements ReadAdminUserOverviewUseCas
         List<Order> orders = orderRepository.findAllByUserIds(userIds);
 
         // User 리스트 조회
-        List<User> users = userRepository.findUserByIdsWithDetails(userIds);
+        List<User> users = userRepository.findByIdsWithDetails(userIds);
 
         return ReadAdminUserOverviewResponseDto.of(
                 users,
