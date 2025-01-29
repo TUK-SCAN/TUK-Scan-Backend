@@ -48,3 +48,14 @@ Content-Type: application/json
       "longitude": {{account.API_3_4_1.address.longitude}}
     }
 }
+
+### 3.4.3 (관리자) 사용자 그룹 지정
+// @no-log
+PUT {{host_url}}/v1/admins/groups/users
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "user_ids": ["{{account.API_3_4_3.user_ids}}"],
+  "group_ids": [{{account.API_3_4_3.group_ids}}]
+}
