@@ -9,14 +9,17 @@ import com.tookscan.tookscan.order.application.dto.response.CreateGuestOrderResp
 import com.tookscan.tookscan.order.application.usecase.CreateGuestOrderUseCase;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Document;
+import com.tookscan.tookscan.order.domain.InitialDocument;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.service.DeliveryService;
 import com.tookscan.tookscan.order.domain.service.DocumentService;
+import com.tookscan.tookscan.order.domain.service.InitialDocumentService;
 import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.domain.type.EDeliveryStatus;
 import com.tookscan.tookscan.order.repository.mysql.DeliveryRepository;
 import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
+import com.tookscan.tookscan.order.repository.mysql.InitialDocumentRepository;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
@@ -35,6 +38,7 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
     private final PricePolicyRepository pricePolicyRepository;
     private final OrderRepository orderRepository;
     private final DocumentRepository documentRepository;
+    private final InitialDocumentRepository initialDocumentRepository;
     private final AuthenticationCodeRepository authenticationCodeRepository;
     private final AuthenticationCodeHistoryRepository authenticationCodeHistoryRepository;
 
@@ -42,6 +46,7 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
     private final AddressService addressService;
     private final DeliveryService deliveryService;
     private final DocumentService documentService;
+    private final InitialDocumentService initialDocumentService;
     private final AuthenticationCodeService authenticationCodeService;
 
     @Override
@@ -100,6 +105,18 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
             );
             order.getDocuments().add(document);
             documentRepository.save(document);
+        });
+
+        requestDto.documents().forEach(doc -> {
+            InitialDocument initialDocument = initialDocumentService.createInitialDocument(
+                    doc.name(),
+                    doc.request(),
+                    doc.pagePrediction(),
+                    doc.recoveryOption(),
+                    order,
+                    pricePolicy
+            );
+            initialDocumentRepository.save(initialDocument);
         });
 
         // 인증번호 삭제
