@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface RefreshTokenRepository extends CrudRepository<RefreshToken, UUID> {
+public interface RefreshTokenRedisRepository extends CrudRepository<RefreshToken, UUID> {
     Optional<RefreshToken> findByValue(String value);
 }

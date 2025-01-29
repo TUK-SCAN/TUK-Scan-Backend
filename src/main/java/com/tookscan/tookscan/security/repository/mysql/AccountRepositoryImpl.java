@@ -65,12 +65,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account findByPhoneNumberOrElseThrow(String phoneNumber) {
-        return accountJpaRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
-    }
-
-    @Override
     public Account findByPhoneNumberAndSerialIdOrElseThrow(String phoneNumber, String serialId) {
         return accountJpaRepository.findByPhoneNumberAndSerialId(phoneNumber, serialId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));

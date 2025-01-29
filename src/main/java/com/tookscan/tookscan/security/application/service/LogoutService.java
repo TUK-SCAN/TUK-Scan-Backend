@@ -2,7 +2,7 @@ package com.tookscan.tookscan.security.application.service;
 
 import com.tookscan.tookscan.security.application.usecase.LogoutUseCase;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
-import com.tookscan.tookscan.security.repository.redis.RefreshTokenRepository;
+import com.tookscan.tookscan.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

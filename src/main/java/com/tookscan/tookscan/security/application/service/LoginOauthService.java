@@ -8,7 +8,7 @@ import com.tookscan.tookscan.security.domain.service.RefreshTokenService;
 import com.tookscan.tookscan.security.info.CustomTemporaryUserPrincipal;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
 import com.tookscan.tookscan.security.repository.AccountRepository;
-import com.tookscan.tookscan.security.repository.redis.RefreshTokenRepository;
+import com.tookscan.tookscan.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

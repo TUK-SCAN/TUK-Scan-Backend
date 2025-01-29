@@ -23,7 +23,5 @@ public interface AccountRepository {
 
     boolean existsBySerialId(String serialId);
 
-    Account findByPhoneNumberOrElseThrow(String phoneNumber);
-
     Account findByPhoneNumberAndSerialIdOrElseThrow(String phoneNumber, String serialId);
 }
