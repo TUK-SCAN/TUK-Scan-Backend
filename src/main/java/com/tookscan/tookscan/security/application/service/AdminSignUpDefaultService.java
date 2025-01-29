@@ -2,7 +2,7 @@ package com.tookscan.tookscan.security.application.service;
 
 import com.tookscan.tookscan.account.domain.Admin;
 import com.tookscan.tookscan.account.domain.service.AdminService;
-import com.tookscan.tookscan.account.repository.mysql.AdminRepository;
+import com.tookscan.tookscan.account.repository.AdminRepository;
 import com.tookscan.tookscan.security.application.dto.request.AdminSignUpDefaultRequestDto;
 import com.tookscan.tookscan.security.application.usecase.AdminSignUpDefaultUseCase;
 import lombok.RequiredArgsConstructor;
