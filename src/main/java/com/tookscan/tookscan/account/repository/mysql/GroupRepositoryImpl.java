@@ -32,6 +32,11 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     @Override
+    public void deleteById(Long id) {
+        groupJpaRepository.deleteById(id);
+    }
+
+    @Override
     public List<Group> findByIds(List<Long> groupIds) {
         return groupJpaRepository.findGroupByIds(groupIds);
     }

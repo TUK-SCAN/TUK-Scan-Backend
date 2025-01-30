@@ -4,14 +4,11 @@ import com.tookscan.tookscan.account.application.dto.request.CreateAdminGroupReq
 import com.tookscan.tookscan.account.application.dto.request.CreateAdminUserGroupRequestDto;
 import com.tookscan.tookscan.account.application.usecase.CreateAdminGroupUseCase;
 import com.tookscan.tookscan.account.application.usecase.CreateAdminUserGroupUseCase;
+import com.tookscan.tookscan.account.application.usecase.DeleteAdminGroupUseCase;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +17,7 @@ public class AccountAdminCommandV1Controller {
 
     private final CreateAdminGroupUseCase createAdminGroupUseCase;
     private final CreateAdminUserGroupUseCase createAdminUserGroupUseCase;
+    private final DeleteAdminGroupUseCase deleteAdminGroupUseCase;
 
     /**
      * 3.1.1 (관리자) 그룹 만들기
@@ -40,6 +38,17 @@ public class AccountAdminCommandV1Controller {
             @RequestBody @Valid CreateAdminUserGroupRequestDto requestDto
     ) {
         createAdminUserGroupUseCase.execute(requestDto);
+        return ResponseDto.ok(null);
+    }
+
+    /**
+     * 3.5.1 (관리자) 그룹 삭제
+     */
+    @DeleteMapping("/groups/{id}")
+    public ResponseDto<Void> deleteAdminGroup(
+            @PathVariable Long id
+    ) {
+        deleteAdminGroupUseCase.execute(id);
         return ResponseDto.ok(null);
     }
 
