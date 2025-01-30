@@ -2,6 +2,7 @@ package com.tookscan.tookscan.order.domain;
 
 import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
+import com.tookscan.tookscan.order.domain.type.EScanStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,9 +46,16 @@ public class Document extends BaseEntity {
     @Column(name = "page_count", nullable = false)
     private Integer pageCount;
 
+    @Column(name = "additional_price", nullable = false)
+    private Integer additionalPrice;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "recovery_option", nullable = false)
     private ERecoveryOption recoveryOption;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "scan_status", nullable = false)
+    private EScanStatus scanStatus;
 
     /* -------------------------------------------- */
     /* Many to One Column ------------------------- */
@@ -71,16 +79,19 @@ public class Document extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Document(String name, int pageCount, ERecoveryOption recoveryOption, Order order, PricePolicy pricePolicy) {
+    public Document(String name, int pageCount, ERecoveryOption recoveryOption, Order order, PricePolicy pricePolicy,
+                    int additionalPrice, EScanStatus scanStatus) {
         this.name = name;
         this.pageCount = pageCount;
         this.recoveryOption = recoveryOption;
         this.order = order;
         this.pricePolicy = pricePolicy;
+        this.additionalPrice = additionalPrice;
+        this.scanStatus = scanStatus;
     }
 
     public int calculatePrice() {
-        return pricePolicy.calculatePrice(pageCount, recoveryOption);
+        return pricePolicy.calculatePrice(pageCount, recoveryOption) + additionalPrice;
     }
 }
 

@@ -4,6 +4,7 @@ import com.tookscan.tookscan.order.domain.Document;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
+import com.tookscan.tookscan.order.domain.type.EScanStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +22,8 @@ public class DocumentService {
                 .recoveryOption(recoveryOption)
                 .order(order)
                 .pricePolicy(pricePolicy)
+                .additionalPrice(0)
+                .scanStatus(EScanStatus.UNABLE)
                 .build();
     }
 
