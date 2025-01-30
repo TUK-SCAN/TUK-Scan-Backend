@@ -26,7 +26,7 @@ public interface OrderRepository {
 
     Page<Order> findAllByUserAndSearch(User user, String search, Pageable pageable);
 
-    Order findByOrderNumber(String orderNumber);
+    Order findByOrderNumberOrElseThrow(String orderNumber);
 
     List<Order> findAllByUserIds(List<UUID> userIds);
 
