@@ -3,7 +3,6 @@ package com.tookscan.tookscan.account.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.domain.UserGroup;
-import com.tookscan.tookscan.account.repository.mysql.UserGroupRepository;
 import com.tookscan.tookscan.core.dto.PageInfoDto;
 import com.tookscan.tookscan.core.dto.SelfValidating;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
@@ -12,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.UUID;
 
