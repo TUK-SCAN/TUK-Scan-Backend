@@ -49,9 +49,6 @@ public class Document extends BaseEntity {
     @Column(name = "recovery_option", nullable = false)
     private ERecoveryOption recoveryOption;
 
-    @Column(name = "request", length = 100)
-    private String request;
-
     /* -------------------------------------------- */
     /* Many to One Column ------------------------- */
     /* -------------------------------------------- */
@@ -74,11 +71,10 @@ public class Document extends BaseEntity {
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Document(String name, int pageCount, ERecoveryOption recoveryOption, String request, Order order, PricePolicy pricePolicy) {
+    public Document(String name, int pageCount, ERecoveryOption recoveryOption, Order order, PricePolicy pricePolicy) {
         this.name = name;
         this.pageCount = pageCount;
         this.recoveryOption = recoveryOption;
-        this.request = request;
         this.order = order;
         this.pricePolicy = pricePolicy;
     }

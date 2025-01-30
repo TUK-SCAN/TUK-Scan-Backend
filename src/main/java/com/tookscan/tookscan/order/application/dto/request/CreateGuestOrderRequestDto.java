@@ -29,10 +29,6 @@ public record CreateGuestOrderRequestDto(
             @JsonProperty("name")
             String name,
 
-            @JsonProperty("request")
-            @Pattern(regexp = "^[\\s\\S]{0,100}$", message = "요청사항은 100자를 초과할 수 없습니다")
-            String request,
-
             @NotNull(message = "page_prediction은 null일 수 없습니다.")
             @Min(value = 0, message = "page_prediction은 0 이상이어야 합니다.")
             @JsonProperty("page_prediction")

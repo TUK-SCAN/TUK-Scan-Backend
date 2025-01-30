@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class InitialDocumentService {
     public InitialDocument createInitialDocument(
             String name,
-            String request,
             int pageCount,
             ERecoveryOption recoveryOption,
             Order order,
@@ -18,7 +17,6 @@ public class InitialDocumentService {
     ) {
         return InitialDocument.builder()
                 .name(name)
-                .request(request)
                 .pageCount(pageCount)
                 .recoveryOption(recoveryOption)
                 .order(order)

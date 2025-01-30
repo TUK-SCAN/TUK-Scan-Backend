@@ -90,7 +90,6 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         requestDto.documents().forEach(doc -> {
                     Document document = documentService.createDocument(
                             doc.name(),
-                            doc.request(),
                             doc.pagePrediction(),
                             doc.recoveryOption(),
                             order,
@@ -103,7 +102,6 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         requestDto.documents().forEach(doc -> {
             InitialDocument initialDocument = initialDocumentService.createInitialDocument(
                     doc.name(),
-                    doc.request(),
                     doc.pagePrediction(),
                     doc.recoveryOption(),
                     order,
