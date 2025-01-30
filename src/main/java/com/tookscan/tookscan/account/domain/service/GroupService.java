@@ -17,4 +17,13 @@ public class GroupService {
                 .name(name)
                 .build();
     }
+
+    public Group updateGroupName(Group group, String name, boolean isExists) {
+        if (isExists) {
+            throw new CommonException(ErrorCode.ALREADY_EXIST_RESOURCE);
+        }
+
+        group.updateName(name);
+        return group;
+    }
 }
