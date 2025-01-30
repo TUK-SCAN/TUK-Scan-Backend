@@ -13,6 +13,7 @@ import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersStatusUs
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +81,7 @@ public class OrderAdminCommandV1Controller {
     @Operation(summary = "관리자 주문 일괄 삭제", description = "관리자가 여러 주문을 삭제합니다.")
     @DeleteMapping(value = "/orders")
     public ResponseDto<Void> deleteOrders(
-         @RequestBody @JsonProperty("order_ids") @NotNull List<Long> orderIds
+            @RequestBody @JsonProperty("order_ids") @NotNull @NotEmpty List<Long> orderIds
     ) {
      deleteAdminOrdersUseCase.execute(orderIds);
      return ResponseDto.ok(null);
