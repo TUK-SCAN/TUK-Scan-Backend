@@ -2,9 +2,11 @@ package com.tookscan.tookscan.order.application.controller.query;
 
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefsResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDeliveryOverviewResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDocumentsOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefsUseCase;
+import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDeliveryOverviewUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDocumentsOverviewsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderSummariesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +28,7 @@ public class OrderAdminQueryV1Controller {
     private final ReadAdminOrderBriefsUseCase readAdminOrderBriefsUseCase;
     private final ReadAdminOrderSummariesUseCase readAdminOrderSummariesUseCase;
     private final ReadAdminOrderDocumentsOverviewsUseCase readAdminOrderDocumentsOverviewsUseCase;
+    private final ReadAdminOrderDeliveryOverviewUseCase readAdminOrderDeliveryOverviewUseCase;
 
     /**
      * 4.2.5 관리자 주문 요약 정보 조회
@@ -55,7 +58,7 @@ public class OrderAdminQueryV1Controller {
     }
 
     /**
-     * 4.2.8 관리자 주문 상세 상품 내역 조회
+     * 4.2.8 관리자 주문 상세 상품 조회
      */
     @Operation(summary = "관리자 주문 상세 상품 내역 조회", description = "관리자가 주문 상세 상품 내역을 조회합니다.")
     @GetMapping("/orders/{orderId}/documents/overviews")
@@ -63,5 +66,16 @@ public class OrderAdminQueryV1Controller {
             @PathVariable Long orderId
     ) {
         return ResponseDto.ok(readAdminOrderDocumentsOverviewsUseCase.execute(orderId));
+    }
+
+    /**
+     * 4.2.10 관리자 주문 상세 배송 조회
+     */
+    @Operation(summary = "관리자 주문 상세 배송 조회", description = "관리자가 주문 상세 배송 정보를 조회합니다.")
+    @GetMapping("/orders/{orderId}/delivery/overview")
+    public ResponseDto<ReadAdminOrderDeliveryOverviewResponseDto> readOrderDeliveriesOverviews(
+            @PathVariable Long orderId
+    ) {
+        return ResponseDto.ok(readAdminOrderDeliveryOverviewUseCase.execute(orderId));
     }
 }
