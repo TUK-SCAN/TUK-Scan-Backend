@@ -26,7 +26,8 @@ public class CreateAdminTermService implements CreateAdminTermUseCase {
                 requestDto.type(),
                 requestDto.title(),
                 requestDto.content(),
-                requestDto.isRequired()
+                requestDto.isRequired(),
+                requestDto.isVisible()
         );
 
         termRepository.save(term);

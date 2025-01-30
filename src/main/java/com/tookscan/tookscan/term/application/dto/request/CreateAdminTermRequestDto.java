@@ -20,6 +20,10 @@ public record CreateAdminTermRequestDto(
 
         @JsonProperty("is_required")
         @NotNull(message = "is_required는 필수입니다.")
-        Boolean isRequired
+        Boolean isRequired,
+
+        @JsonProperty("is_visible")
+        @NotNull(message = "is_visible는 필수입니다.")
+        Boolean isVisible
 ) {
 }
