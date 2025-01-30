@@ -5,5 +5,5 @@ import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDocum
 
 @UseCase
 public interface UpdateAdminOrderDocumentsUseCase {
-    void execute(UpdateAdminOrderDocumentsRequestDto requestDto);
+    void execute(Long orderId, UpdateAdminOrderDocumentsRequestDto requestDto);
 }

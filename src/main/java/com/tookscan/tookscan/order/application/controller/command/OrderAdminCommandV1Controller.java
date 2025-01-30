@@ -79,11 +79,12 @@ public class OrderAdminCommandV1Controller {
      * 4.4.1 관리자 주문 상세 상품 수정
      */
     @Operation(summary = "관리자 주문 상세 상품 수정", description = "관리자가 주문의 상세 상품을 수정합니다.")
-    @PutMapping(value = "/documents")
+    @PutMapping(value = "orders/{orderId}/documents")
     public ResponseDto<Void> updateOrderDocuments(
+            @PathVariable Long orderId,
             @RequestBody @Valid UpdateAdminOrderDocumentsRequestDto requestDto
     ) {
-        updateAdminOrderDocumentsUseCase.execute(requestDto);
+        updateAdminOrderDocumentsUseCase.execute(orderId, requestDto);
         return ResponseDto.ok(null);
     }
 
