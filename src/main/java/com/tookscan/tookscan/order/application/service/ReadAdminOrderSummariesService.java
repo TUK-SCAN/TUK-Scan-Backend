@@ -27,7 +27,8 @@ public class ReadAdminOrderSummariesService implements ReadAdminOrderSummariesUs
                                                       String search, String searchType, String sort, String direction) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Long> orderIdPages = orderRepositoryCustomImpl.findOrderSummaries(page, size, startDate, endDate, search, searchType, sort, direction, pageable);
+        Page<Long> orderIdPages = orderRepositoryCustomImpl.findOrderSummaries(startDate, endDate, search, searchType,
+                sort, direction, pageable);
 
         List<Order> orders = orderRepository.findAllWithDocumentsByIdIn(orderIdPages.getContent());
 

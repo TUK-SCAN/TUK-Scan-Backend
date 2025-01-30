@@ -45,7 +45,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
     }
 
     @Override
-    public Page<Long> findOrderSummaries(Integer page, Integer size, String startDate, String endDate,
+    public Page<Long> findOrderSummaries(String startDate, String endDate,
                                           String search, String searchType, String sort, String direction, Pageable pageable) {
         QOrder order = QOrder.order;
 

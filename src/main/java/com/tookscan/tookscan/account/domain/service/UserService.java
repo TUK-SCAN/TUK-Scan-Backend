@@ -44,4 +44,20 @@ public class UserService {
         user.updateAddress(addressDto.toEntity());
         return user;
     }
+
+    public User updateByAdmin(
+            User user,
+            String name,
+            String phoneNumber,
+            String email,
+            AddressRequestDto address,
+            String memo
+    ) {
+        user.updateName(name);
+        user.updatePhone(phoneNumber);
+        user.updateEmail(email);
+        user.updateAddress(address!=null ? address.toEntity() : null);
+        user.updateMemo(memo);
+        return user;
+    }
 }

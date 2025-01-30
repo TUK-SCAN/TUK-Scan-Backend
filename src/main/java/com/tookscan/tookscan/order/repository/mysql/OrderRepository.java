@@ -5,7 +5,6 @@ import com.tookscan.tookscan.order.domain.Order;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o " +
             "JOIN o.documents d " +
             "WHERE o.user = :user " +
-            "AND (CAST(o.orderNumber AS string) LIKE %:search% " +
+            "AND (o.orderNumber LIKE %:search% " +
             "OR d.name LIKE %:search%)")
     Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search , Pageable pageable);
 

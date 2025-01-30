@@ -7,19 +7,22 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ERecoveryOption {
-    DISCARD("폐기", 0),
-    RAW("원본", 2500),
-    SPRING("스프링", 5000);
+public enum EScanStatus {
+    UNABLE("스캔불가"),
+    ENABLE("스캔가능"),
+    IN_PROGRESS("스캔중"),
+    COMPLETED("스캔완료"),
+    FAILED("스캔실패");
 
     private final String description;
-    private final Integer price;
 
-    public static ERecoveryOption fromString(String value) {
+    public static EScanStatus fromString(String value) {
         return switch (value.toUpperCase()) {
-            case "DISCARD" -> DISCARD;
-            case "RAW" -> RAW;
-            case "SPRING" -> SPRING;
+            case "UNABLE" -> UNABLE;
+            case "ENABLE" -> ENABLE;
+            case "IN_PROGRESS" -> IN_PROGRESS;
+            case "COMPLETED" -> COMPLETED;
+            case "FAILED" -> FAILED;
             default -> throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
         };
     }

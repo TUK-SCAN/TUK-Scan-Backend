@@ -15,4 +15,6 @@ public interface GroupRepository {
     void deleteByIdOrElseThrow(Long id);
 
     List<Group> findByIds(List<Long> groupIds);
+
+    List<Group> findAll();
 }
