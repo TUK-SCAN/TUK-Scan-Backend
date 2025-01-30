@@ -6,6 +6,7 @@ import com.tookscan.tookscan.order.application.dto.request.CreateAdminOrderMemoR
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrdersStatusRequestDto;
 import com.tookscan.tookscan.order.application.usecase.CreateAdminOrderMemoUseCase;
+import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersStatusUseCase;
@@ -33,6 +34,7 @@ public class OrderAdminCommandV1Controller {
     private final UpdateAdminOrdersStatusUseCase updateAdminOrdersStatusUseCase;
     private final DeleteAdminOrdersUseCase deleteAdminOrdersUseCase;
     private final UpdateAdminOrderDeliveryUseCase updateAdminOrderDeliveryUseCase;
+    private final DeleteAdminDocumentsUseCase deleteAdminDocumentsUseCase;
 
     /**
      * 4.3.2 관리자 주문 상태 일괄 변경
@@ -82,5 +84,17 @@ public class OrderAdminCommandV1Controller {
     ) {
      deleteAdminOrdersUseCase.execute(orderIds);
      return ResponseDto.ok(null);
+    }
+
+    /**
+     * 4.5.2 관리자 상품 일괄 삭제
+     */
+    @Operation(summary = "관리자 상품 일괄 삭제", description = "관리자가 여러 상품을 삭제합니다.")
+    @DeleteMapping(value = "/documents")
+    public ResponseDto<Void> deleteDocuments(
+            @RequestBody @JsonProperty("document_ids") @NotNull List<Long> documentIds
+    ) {
+        deleteAdminDocumentsUseCase.execute(documentIds);
+        return ResponseDto.ok(null);
     }
 }
