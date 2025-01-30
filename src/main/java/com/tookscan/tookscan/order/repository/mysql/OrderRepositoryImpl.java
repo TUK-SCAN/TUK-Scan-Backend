@@ -118,7 +118,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Order findByOrderNumber(String orderNumber) {
+    public Order findByOrderNumberOrElseThrow(String orderNumber) {
         return orderJpaRepository.findByOrderNumber(orderNumber)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 번호: " + orderNumber));
     }
