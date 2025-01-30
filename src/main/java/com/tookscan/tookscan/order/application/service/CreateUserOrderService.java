@@ -11,14 +11,17 @@ import com.tookscan.tookscan.order.application.dto.response.CreateUserOrderRespo
 import com.tookscan.tookscan.order.application.usecase.CreateUserOrderUseCase;
 import com.tookscan.tookscan.order.domain.Delivery;
 import com.tookscan.tookscan.order.domain.Document;
+import com.tookscan.tookscan.order.domain.InitialDocument;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.service.DeliveryService;
 import com.tookscan.tookscan.order.domain.service.DocumentService;
+import com.tookscan.tookscan.order.domain.service.InitialDocumentService;
 import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.domain.type.EDeliveryStatus;
 import com.tookscan.tookscan.order.repository.mysql.DeliveryRepository;
 import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
+import com.tookscan.tookscan.order.repository.mysql.InitialDocumentRepository;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +38,13 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final DocumentRepository documentRepository;
+    private final InitialDocumentRepository initialDocumentRepository;
     private final DeliveryRepository deliveryRepository;
     private final PricePolicyRepository pricePolicyRepository;
 
     private final OrderService orderService;
     private final DocumentService documentService;
+    private final InitialDocumentService initialDocumentService;
     private final AddressService addressService;
     private final DeliveryService deliveryService;
 
@@ -85,7 +90,6 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         requestDto.documents().forEach(doc -> {
                     Document document = documentService.createDocument(
                             doc.name(),
-                            doc.request(),
                             doc.pagePrediction(),
                             doc.recoveryOption(),
                             order,
@@ -93,6 +97,17 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
                     );
                     order.getDocuments().add(document);
                     documentRepository.save(document);
+        });
+
+        requestDto.documents().forEach(doc -> {
+            InitialDocument initialDocument = initialDocumentService.createInitialDocument(
+                    doc.name(),
+                    doc.pagePrediction(),
+                    doc.recoveryOption(),
+                    order,
+                    pricePolicy
+            );
+            initialDocumentRepository.save(initialDocument);
         });
 
         return CreateUserOrderResponseDto.of(order.getOrderNumber(), delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
