@@ -4,7 +4,7 @@ import com.tookscan.tookscan.security.application.dto.response.DefaultJsonWebTok
 import com.tookscan.tookscan.security.application.usecase.LoginByDefaultUseCase;
 import com.tookscan.tookscan.security.domain.service.RefreshTokenService;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
-import com.tookscan.tookscan.security.repository.redis.RefreshTokenRepository;
+import com.tookscan.tookscan.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

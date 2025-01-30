@@ -2,10 +2,8 @@ package com.tookscan.tookscan.security.application.service;
 
 import com.tookscan.tookscan.security.application.dto.response.ReadAccountBriefResponseDto;
 import com.tookscan.tookscan.security.application.usecase.ReadAccountBriefUseCase;
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.domain.mysql.Account;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +21,7 @@ public class ReadAccountBriefService implements ReadAccountBriefUseCase {
     public ReadAccountBriefResponseDto execute(UUID accountId) {
 
         // Account 조회
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
+        Account account = accountRepository.findByIdOrElseThrow(accountId);
 
         // Account 정보를 ReadAccountBriefResponseDto로 변환
         return ReadAccountBriefResponseDto.fromEntity(account);

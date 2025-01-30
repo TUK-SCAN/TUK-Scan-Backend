@@ -1,7 +1,5 @@
 package com.tookscan.tookscan.security.application.service;
 
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.application.dto.request.ReissuePasswordRequestDto;
 import com.tookscan.tookscan.security.application.dto.response.ReissuePasswordResponseDto;
 import com.tookscan.tookscan.security.application.usecase.ReissuePasswordUseCase;
@@ -9,8 +7,8 @@ import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AccountService;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,15 +36,13 @@ public class ReissuePasswordService implements ReissuePasswordUseCase {
     public ReissuePasswordResponseDto execute(ReissuePasswordRequestDto requestDto) {
 
         // 인증 코드 조회
-        AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.phoneNumber())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        AuthenticationCode authenticationCode = authenticationCodeRepository.findByIdOrElseThrow(requestDto.phoneNumber());
 
         // 인증 코드 검증 확인
         authenticationCodeService.validateAuthenticationCode(authenticationCode);
 
         // 계정 조회
-        Account account = accountRepository.findByPhoneNumberAndSerialId(requestDto.phoneNumber(), requestDto.serialId())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        Account account = accountRepository.findByPhoneNumberAndSerialIdOrElseThrow(requestDto.phoneNumber(), requestDto.serialId());
 
         // 비밀번호 재발급 (랜덤한 숫자 + 영소문자 8자)
         String newPassword = generateRandomPassword();

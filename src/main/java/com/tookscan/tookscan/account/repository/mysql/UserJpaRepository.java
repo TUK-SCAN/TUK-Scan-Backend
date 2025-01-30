@@ -1,7 +1,6 @@
 package com.tookscan.tookscan.account.repository.mysql;
 
 import com.tookscan.tookscan.account.domain.User;
-import com.tookscan.tookscan.account.repository.mysql.custom.UserRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID>, UserRepositoryCustom {
+public interface UserJpaRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByPhoneNumberAndName(String phoneNumber, String name);
 
@@ -21,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, UUID>, UserRepositor
             "WHERE u.id IN :userIds")
     List<User> findUserByIdsWithDetails(@Param("userIds") List<UUID> userIds);
 
+    @Query("SELECT u From User u " +
+            "WHERE u.id IN :userIds")
+    List<User> findUserByIds(@Param("userIds") List<UUID> userIds);
 }

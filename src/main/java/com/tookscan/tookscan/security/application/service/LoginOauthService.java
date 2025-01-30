@@ -1,7 +1,5 @@
 package com.tookscan.tookscan.security.application.service;
 
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.core.utility.JsonWebTokenUtil;
 import com.tookscan.tookscan.security.application.dto.response.OauthJsonWebTokenDto;
 import com.tookscan.tookscan.security.application.usecase.LoginOauthUseCase;
@@ -9,8 +7,8 @@ import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.service.RefreshTokenService;
 import com.tookscan.tookscan.security.info.CustomTemporaryUserPrincipal;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
-import com.tookscan.tookscan.security.repository.redis.RefreshTokenRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
+import com.tookscan.tookscan.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +32,7 @@ public class LoginOauthService implements LoginOauthUseCase {
 
     public OauthJsonWebTokenDto execute(CustomUserPrincipal principal) {
         // 임시유저가 아니라면 Account 조회
-        Account account = accountRepository.findById(principal.getId())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+        Account account = accountRepository.findByIdOrElseThrow(principal.getId());
 
         // Account 정보를 이용하여 Oauth Json Web Token 생성
         OauthJsonWebTokenDto jsonWebTokenDto = jsonWebTokenUtil.generateOauthJsonWebTokens(

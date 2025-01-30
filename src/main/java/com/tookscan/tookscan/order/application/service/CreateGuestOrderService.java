@@ -21,8 +21,9 @@ import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
 import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeHistoryRepository;
-import com.tookscan.tookscan.security.repository.redis.AuthenticationCodeRepository;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeHistoryRepository;
+import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
+
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,8 +50,7 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
     public CreateGuestOrderResponseDto execute(CreateGuestOrderRequestDto requestDto) {
 
         // 해당 번호에 관련된 인증번호 조회
-        AuthenticationCode authenticationCode = authenticationCodeRepository.findById(requestDto.deliveryInfo().phoneNumber())
-                .orElse(null);
+        AuthenticationCode authenticationCode = authenticationCodeRepository.findByIdOrElseNull(requestDto.deliveryInfo().phoneNumber());
 
         // 인증번호 인증이 완료되었는지 확인
         authenticationCodeService.validateAuthenticationCode(authenticationCode);

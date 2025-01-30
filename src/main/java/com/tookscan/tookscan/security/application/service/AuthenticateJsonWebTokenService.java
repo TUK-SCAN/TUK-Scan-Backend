@@ -1,12 +1,10 @@
 package com.tookscan.tookscan.security.application.service;
 
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.application.usecase.AuthenticateJsonWebTokenUseCase;
 import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.service.AccountService;
 import com.tookscan.tookscan.security.info.CustomUserPrincipal;
-import com.tookscan.tookscan.security.repository.mysql.AccountRepository;
+import com.tookscan.tookscan.security.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +19,7 @@ public class AuthenticateJsonWebTokenService implements AuthenticateJsonWebToken
 
     @Override
     public CustomUserPrincipal execute(UUID accountId) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
+        Account account = accountRepository.findByIdOrElseThrow(accountId);
 
         return accountService.createCustomUserPrincipalByAccount(account);
     }

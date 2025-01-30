@@ -1,7 +1,7 @@
 package com.tookscan.tookscan.order.application.service;
 
 import com.tookscan.tookscan.account.domain.User;
-import com.tookscan.tookscan.account.repository.mysql.UserRepository;
+import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.order.application.usecase.UpdateUserOrderScanUseCase;
@@ -10,9 +10,10 @@ import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
 import jakarta.transaction.Transactional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +27,7 @@ public class UpdateUserOrderScanService implements UpdateUserOrderScanUseCase {
     @Transactional
     public void execute(UUID accountId, Long orderId) {
         // 사용자 조회
-        User user = userRepository.findById(accountId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
+        User user = userRepository.findByIdOrElseThrow(accountId);
 
         // 주문 조회
         Order order = orderRepository.findById(orderId)
