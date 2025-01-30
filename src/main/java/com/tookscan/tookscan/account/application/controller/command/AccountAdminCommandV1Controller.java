@@ -2,16 +2,16 @@ package com.tookscan.tookscan.account.application.controller.command;
 
 import com.tookscan.tookscan.account.application.dto.request.CreateAdminGroupRequestDto;
 import com.tookscan.tookscan.account.application.dto.request.CreateAdminUserGroupRequestDto;
+import com.tookscan.tookscan.account.application.dto.request.UpdateAdminUserRequestDto;
 import com.tookscan.tookscan.account.application.usecase.CreateAdminGroupUseCase;
 import com.tookscan.tookscan.account.application.usecase.CreateAdminUserGroupUseCase;
+import com.tookscan.tookscan.account.application.usecase.UpdateAdminUserUseCase;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountAdminCommandV1Controller {
 
     private final CreateAdminGroupUseCase createAdminGroupUseCase;
+    private final UpdateAdminUserUseCase updateAdminUserUseCase;
     private final CreateAdminUserGroupUseCase createAdminUserGroupUseCase;
 
     /**
@@ -30,6 +31,18 @@ public class AccountAdminCommandV1Controller {
     ) {
         createAdminGroupUseCase.execute(requestDto);
         return ResponseDto.created(null);
+    }
+
+    /**
+     * 3.4.2 (관리자) 유저 정보 수정
+     */
+    @PutMapping("/users/{id}")
+    public ResponseDto<Void> updateAdminUser(
+            @RequestBody @Valid UpdateAdminUserRequestDto requestDto,
+            @PathVariable UUID id
+    ) {
+        updateAdminUserUseCase.execute(requestDto, id);
+        return ResponseDto.ok(null);
     }
 
     /**
