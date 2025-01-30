@@ -18,6 +18,7 @@ public class TermAdminCommandV1Controller {
     private final CreateAdminTermUseCase createAdminTermUseCase;
     private final UpdateAdminTermUseCase updateAdminTermUseCase;
     private final DeleteAdminTermUseCase deleteAdminTermUseCase;
+    private final UpdateAdminTermUseCase updateAdminTermUseCase;
 
     /**
      * 8.1.1 (관리자) 약관 추가
@@ -49,6 +50,17 @@ public class TermAdminCommandV1Controller {
             @PathVariable Long id
     ) {
         deleteAdminTermUseCase.execute(id);
+        return ResponseDto.ok(null);
+    }
+
+    /**
+     * 8.4.1 (관리자) 약관 수정
+     */
+    @PutMapping("/terms")
+    public ResponseDto<Void> updateAdminTerm(
+            @RequestBody @Valid UpdateAdminTermRequestDto requestDto
+    ) {
+        updateAdminTermUseCase.execute(requestDto);
         return ResponseDto.ok(null);
     }
 }
