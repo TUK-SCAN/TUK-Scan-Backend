@@ -102,5 +102,13 @@ public class User extends Account {
     public void updatePhone(String phoneNumber) {
         super.updatePhoneNumber(phoneNumber);
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateMemo(String memo) {
+        this.memo = memo;
+    }
 }
 
