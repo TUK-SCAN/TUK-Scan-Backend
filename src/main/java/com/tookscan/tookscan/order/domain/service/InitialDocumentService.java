@@ -1,30 +1,26 @@
 package com.tookscan.tookscan.order.domain.service;
 
-import com.tookscan.tookscan.order.domain.Document;
+import com.tookscan.tookscan.order.domain.InitialDocument;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.PricePolicy;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
-import com.tookscan.tookscan.order.domain.type.EScanStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DocumentService {
-    public Document createDocument(
+public class InitialDocumentService {
+    public InitialDocument createInitialDocument(
             String name,
             int pageCount,
             ERecoveryOption recoveryOption,
             Order order,
             PricePolicy pricePolicy
     ) {
-        return Document.builder()
+        return InitialDocument.builder()
                 .name(name)
                 .pageCount(pageCount)
                 .recoveryOption(recoveryOption)
                 .order(order)
                 .pricePolicy(pricePolicy)
-                .additionalPrice(0)
-                .scanStatus(EScanStatus.UNABLE)
                 .build();
     }
-
 }
