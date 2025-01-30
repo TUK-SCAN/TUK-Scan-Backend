@@ -13,4 +13,6 @@ public interface GroupRepository {
     boolean existsByName(String name);
 
     List<Group> findByIds(List<Long> groupIds);
+
+    List<Group> findAll();
 }

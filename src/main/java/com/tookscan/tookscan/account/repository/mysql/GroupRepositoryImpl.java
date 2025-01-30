@@ -35,4 +35,9 @@ public class GroupRepositoryImpl implements GroupRepository {
     public List<Group> findByIds(List<Long> groupIds) {
         return groupJpaRepository.findGroupByIds(groupIds);
     }
+
+    @Override
+    public List<Group> findAll() {
+        return groupJpaRepository.findAll();
+    }
 }

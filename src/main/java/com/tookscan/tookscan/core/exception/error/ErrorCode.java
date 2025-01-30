@@ -21,6 +21,7 @@ public enum ErrorCode {
     NOT_FOUND_ORDER(40405, HttpStatus.NOT_FOUND, "존재하지 않는 주문입니다."),
     NOT_FOUND_DOCUMENT(40406, HttpStatus.NOT_FOUND, "존재하지 않는 문서입니다."),
     NOT_FOUND_PRICE_POLICY(40407, HttpStatus.NOT_FOUND, "존재하지 않는 가격 정책입니다."),
+    NOT_FOUND_DELIVERY(40408, HttpStatus.NOT_FOUND, "존재하지 않는 배송입니다."),
 
     // Invalid Argument Error
     MISSING_REQUEST_PARAMETER(40000, HttpStatus.BAD_REQUEST, "필수 요청 파라미터가 누락되었습니다."),

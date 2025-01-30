@@ -29,6 +29,11 @@ Authorization: Bearer {{access_token}}
 GET {{host_url}}/v1/admins/users/overviews?page=1&size=10&start-date=2025.01.01&end-date=2025.12.31
 Authorization: Bearer {{access_token}}
 
+### 3.2.5 (관리자) 그룹 간단 정보 조회
+// @no-log
+GET {{host_url}}/v1/admins/groups/briefs
+Authorization: Bearer {{access_token}}
+
 ### 3.3.1 (관리자) 그룹 수정
 // @no-log
 PATCH {{host_url}}/v1/admins/groups/{{account.API_3_3_1.id}}
