@@ -6,16 +6,17 @@ import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import com.tookscan.tookscan.security.domain.type.ESecurityRole;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -26,9 +27,8 @@ import org.hibernate.annotations.Where;
         foreignKey = @ForeignKey(name = "fk_user_account")
 )
 @DiscriminatorValue("USER")
+@OnDelete(action = OnDeleteAction.CASCADE)
 @DynamicUpdate
-@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
-@Where(clause = "deleted_at IS NULL")
 public class User extends Account {
 
     /* -------------------------------------------- */
@@ -80,7 +80,6 @@ public class User extends Account {
         this.memo = null;
         this.address = null;
     }
-
     @Override
     public ESecurityRole getRole() {
         return ESecurityRole.USER;
@@ -102,6 +101,7 @@ public class User extends Account {
     public void updatePhone(String phoneNumber) {
         super.updatePhoneNumber(phoneNumber);
     }
+
 
     public void updateName(String name) {
         this.name = name;

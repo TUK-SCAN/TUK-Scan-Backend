@@ -5,6 +5,7 @@ import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,4 +19,6 @@ public interface AccountJpaRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findByPhoneNumber(String phoneNumber);
 
     Optional<Account> findByPhoneNumberAndSerialId(String phoneNumber, String serialId);
+
+    void deleteByIdIn(List<UUID> ids);
 }

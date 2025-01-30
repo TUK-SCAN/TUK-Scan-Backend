@@ -8,6 +8,7 @@ import com.tookscan.tookscan.security.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -30,6 +31,11 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void deleteById(UUID id) {
         accountJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteByIdIn(List<UUID> ids) {
+        accountJpaRepository.deleteByIdIn(ids);
     }
 
     @Override
