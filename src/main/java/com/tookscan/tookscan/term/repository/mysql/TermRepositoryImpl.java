@@ -31,4 +31,9 @@ public class TermRepositoryImpl implements TermRepository {
     public List<Term> findAllByType(ETermType type) {
         return termJpaRepository.findAllByType(type);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        termJpaRepository.deleteById(id);
+    }
 }
