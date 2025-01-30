@@ -8,7 +8,36 @@ Content-Type: application/json
     "type": "{{term.API_8_1_1.type}}",
     "title": "{{term.API_8_1_1.title}}",
     "content": "{{term.API_8_1_1.content}}",
-    "is_required": {{term.API_8_1_1.is_required}}
+    "is_required": {{term.API_8_1_1.is_required}},
+    "is_visible": {{term.API_8_1_1.is_visible}}
+}
+
+### 8.2.1 (관리자) 약관 조회
+//@no-log
+GET {{host_url}}/v1/admins/terms/overviews?type=SIGN_UP
+Authorization: Bearer {{access_token}}
+
+### 8.2.2 약관 조회
+//@no-log
+GET {{host_url}}/v1/users/terms/overviews?type=SIGN_UP
+Authorization: Bearer {{access_token}}
+
+### 8.4.1 (관리자) 약관 수정
+//@no-log
+PUT {{host_url}}/v1/admins/terms
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "terms" : [
+    {
+      "id": {{term.API_8_4_1.id}},
+      "title": "{{term.API_8_4_1.title}}",
+      "content": "{{term.API_8_4_1.content}}",
+      "is_required": {{term.API_8_4_1.is_required}},
+      "is_visible": {{term.API_8_4_1.is_visible}}
+    }
+  ]
 }
 
 ### 8.2.1 (관리자) 약관 조회

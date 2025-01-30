@@ -55,5 +55,21 @@ public class Term extends BaseEntity {
         this.isRequired = isRequired;
         this.isVisible = isVisible;
     }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateIsRequired(Boolean isRequired) {
+        this.isRequired = isRequired;
+    }
+
+    public void updateIsVisible(Boolean isVisible) {
+        this.isVisible = isVisible;
+    }
 }
 
