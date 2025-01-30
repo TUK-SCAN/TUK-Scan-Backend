@@ -10,3 +10,8 @@ Content-Type: application/json
     "content": "{{term.API_8_1_1.content}}",
     "is_required": {{term.API_8_1_1.is_required}}
 }
+
+### 8.2.1 (관리자) 약관 조회
+//@no-log
+GET {{host_url}}/v1/admins/terms/overviews?type=SIGN_UP
+Authorization: Bearer {{access_token}}

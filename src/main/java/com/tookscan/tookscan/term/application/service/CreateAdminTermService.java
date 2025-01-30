@@ -4,7 +4,7 @@ import com.tookscan.tookscan.term.application.dto.request.CreateAdminTermRequest
 import com.tookscan.tookscan.term.application.usecase.CreateAdminTermUseCase;
 import com.tookscan.tookscan.term.domain.Term;
 import com.tookscan.tookscan.term.domain.service.TermService;
-import com.tookscan.tookscan.term.repository.mysql.TermRepository;
+import com.tookscan.tookscan.term.repository.TermRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
