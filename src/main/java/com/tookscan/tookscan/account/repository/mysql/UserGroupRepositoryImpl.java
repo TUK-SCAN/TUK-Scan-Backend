@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserGroupRepositoryImpl implements UserGroupRepository {
 
-    private final UserGroupJPARepository userGroupJPARepository;
+    private final UserGroupJpaRepository userGroupJpaRepository;
 
     @Override
     public Set<Pair<UUID, Long>> findNotDuplicatedUserGroupInUserIdsAndGroupIds(List<UUID> userIds, List<Long> groupIds) {
 
         // 이미 등록된 UserGroup 조회
-        Set<UserGroup> existingUserGroups = userGroupJPARepository.findAllByUserIdInAndGroupIdIn(userIds, groupIds);
+        Set<UserGroup> existingUserGroups = userGroupJpaRepository.findAllByUserIdInAndGroupIdIn(userIds, groupIds);
 
         // 이미 등록된 UserGroup에 대한 Pair 생성
         Set<Pair<UUID, Long>> existingPair = existingUserGroups.stream()
@@ -43,6 +43,6 @@ public class UserGroupRepositoryImpl implements UserGroupRepository {
 
     @Override
     public void saveAll(List<UserGroup> userGroups) {
-        userGroupJPARepository.saveAll(userGroups);
+        userGroupJpaRepository.saveAll(userGroups);
     }
 }
