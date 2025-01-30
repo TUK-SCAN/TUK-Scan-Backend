@@ -2,14 +2,17 @@ package com.tookscan.tookscan.order.application.controller.query;
 
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefsResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDocumentsOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefsUseCase;
+import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDocumentsOverviewsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderSummariesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,7 @@ public class OrderAdminQueryV1Controller {
 
     private final ReadAdminOrderBriefsUseCase readAdminOrderBriefsUseCase;
     private final ReadAdminOrderSummariesUseCase readAdminOrderSummariesUseCase;
+    private final ReadAdminOrderDocumentsOverviewsUseCase readAdminOrderDocumentsOverviewsUseCase;
 
     /**
      * 4.2.5 관리자 주문 요약 정보 조회
@@ -48,5 +52,16 @@ public class OrderAdminQueryV1Controller {
             @RequestParam(value = "direction", defaultValue = "asc") String direction
     ) {
         return ResponseDto.ok(readAdminOrderSummariesUseCase.execute(page, size, startDate, endDate, search, searchType, sort, direction));
+    }
+
+    /**
+     * 4.2.8 관리자 주문 상세 상품 내역 조회
+     */
+    @Operation(summary = "관리자 주문 상세 상품 내역 조회", description = "관리자가 주문 상세 상품 내역을 조회합니다.")
+    @GetMapping("/orders/{orderId}/documents/overviews")
+    public ResponseDto<ReadAdminOrderDocumentsOverviewsResponseDto> readOrderDocumentsOverviews(
+            @PathVariable Long orderId
+    ) {
+        return ResponseDto.ok(readAdminOrderDocumentsOverviewsUseCase.execute(orderId));
     }
 }
