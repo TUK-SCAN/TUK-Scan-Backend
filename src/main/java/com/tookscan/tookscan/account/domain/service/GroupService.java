@@ -17,4 +17,9 @@ public class GroupService {
                 .name(name)
                 .build();
     }
+
+    public Group updateGroupName(Group group, String name) {
+        group.updateName(name);
+        return group;
+    }
 }

@@ -50,4 +50,8 @@ public class Group extends BaseEntity {
     public Group(String name) {
         this.name = name;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }
