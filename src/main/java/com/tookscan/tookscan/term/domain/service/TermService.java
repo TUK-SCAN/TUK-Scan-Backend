@@ -16,4 +16,12 @@ public class TermService {
                 .isVisible(isVisible)
                 .build();
     }
+
+    public Term updateTerm(Term term, String title, String content, Boolean isRequired, Boolean isVisible) {
+        term.updateTitle(title);
+        term.updateContent(content);
+        term.updateIsRequired(isRequired);
+        term.updateIsVisible(isVisible);
+        return term;
+    }
 }
