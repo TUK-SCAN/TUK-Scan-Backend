@@ -7,6 +7,8 @@ import com.tookscan.tookscan.core.exception.type.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class GroupRepositoryImpl implements GroupRepository {
@@ -27,5 +29,10 @@ public class GroupRepositoryImpl implements GroupRepository {
     @Override
     public boolean existsByName(String name) {
         return groupJpaRepository.existsByName(name);
+    }
+
+    @Override
+    public List<Group> findByIds(List<Long> groupIds) {
+        return groupJpaRepository.findGroupByIds(groupIds);
     }
 }

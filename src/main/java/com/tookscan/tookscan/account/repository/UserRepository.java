@@ -12,6 +12,8 @@ public interface UserRepository {
 
     User findByIdOrElseThrow(UUID userId);
 
+    List<User> findByIds(List<UUID> userIds);
+
     void save(User user);
 
     User findByPhoneNumberAndNameOrElseThrow(String phoneNumber, String name);
