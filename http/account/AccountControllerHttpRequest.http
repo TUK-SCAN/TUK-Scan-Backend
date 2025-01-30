@@ -59,3 +59,18 @@ Content-Type: application/json
   "user_ids": ["{{account.API_3_4_3.user_ids}}"],
   "group_ids": [{{account.API_3_4_3.group_ids}}]
 }
+
+### 3.5.1 (관리자) 그룹 삭제
+// @no-log
+DELETE {{host_url}}/v1/admins/groups/{{account.API_3_5_1.id}}
+Authorization: Bearer {{access_token}}
+
+### 3.5.2 (관리자) 유저 삭제
+// @no-log
+DELETE {{host_url}}/v1/admins/users
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "user_ids": ["{{account.API_3_5_2.user_ids}}"]
+}
