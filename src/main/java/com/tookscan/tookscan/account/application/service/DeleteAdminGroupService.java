@@ -15,7 +15,7 @@ public class DeleteAdminGroupService implements DeleteAdminGroupUseCase {
     @Override
     @Transactional
     public void execute(Long groupId) {
-        groupRepository.deleteById(groupId);
+        groupRepository.deleteByIdOrElseThrow(groupId);
     }
 
 }

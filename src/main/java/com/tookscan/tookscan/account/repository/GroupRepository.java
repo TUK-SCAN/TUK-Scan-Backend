@@ -12,7 +12,7 @@ public interface GroupRepository {
 
     boolean existsByName(String name);
 
-    void deleteById(Long id);
+    void deleteByIdOrElseThrow(Long id);
 
     List<Group> findByIds(List<Long> groupIds);
 }
