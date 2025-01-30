@@ -7,6 +7,7 @@ import com.tookscan.tookscan.term.domain.service.TermService;
 import com.tookscan.tookscan.term.repository.mysql.TermRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class CreateAdminTermService implements CreateAdminTermUseCase {
     private final TermService termService;
 
     @Override
+    @Transactional
     public void execute(CreateAdminTermRequestDto requestDto) {
 
         // Term 생성
