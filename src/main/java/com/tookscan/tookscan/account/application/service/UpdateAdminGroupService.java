@@ -23,8 +23,11 @@ public class UpdateAdminGroupService implements UpdateAdminGroupUseCase {
         // 그룹 조회
         Group group = groupRepository.findByIdOrElseThrow(groupId);
 
+        // 중복 그룹명 체크
+        boolean isExists = groupRepository.existsByName(requestDto.name());
+
         // 그룹 정보 수정
-        group = groupService.updateGroupName(group, requestDto.name());
+        group = groupService.updateGroupName(group, requestDto.name(), isExists);
         groupRepository.save(group);
     }
 }
