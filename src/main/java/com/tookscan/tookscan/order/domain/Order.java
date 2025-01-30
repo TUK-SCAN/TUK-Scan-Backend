@@ -75,10 +75,6 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "order_memo_id")
-    private OrderMemo orderMemo;
-
     /* -------------------------------------------- */
     /* One To Many Mapping ------------------------ */
     /* -------------------------------------------- */

@@ -2,7 +2,7 @@ package com.tookscan.tookscan.order.application.service;
 
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefUseCase;
-import com.tookscan.tookscan.order.repository.mysql.custom.OrderRepositoryCustom;
+import com.tookscan.tookscan.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReadAdminOrderBriefService implements ReadAdminOrderBriefUseCase {
 
-    private final OrderRepositoryCustom orderRepositoryCustom;
+    private final OrderRepository orderRepository;
 
     @Override
     @Transactional(readOnly = true)
     public ReadAdminOrderBriefResponseDto execute() {
-        return ReadAdminOrderBriefResponseDto.of(orderRepositoryCustom.findOrderStatusCounts());
+        return ReadAdminOrderBriefResponseDto.of(orderRepository.findOrderStatusCounts());
     }
 
 }

@@ -13,14 +13,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderJpaRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o " +
             "JOIN o.documents d " +
             "WHERE o.user = :user " +
             "AND (o.orderNumber LIKE %:search% " +
             "OR d.name LIKE %:search%)")
-    Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search , Pageable pageable);
+    Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search, Pageable pageable);
 
     Optional<Order> findByOrderNumber(String orderNumber);
 

@@ -4,8 +4,6 @@ import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.address.domain.Address;
 import com.tookscan.tookscan.address.domain.service.AddressService;
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.order.application.dto.request.CreateUserOrderRequestDto;
 import com.tookscan.tookscan.order.application.dto.response.CreateUserOrderResponseDto;
 import com.tookscan.tookscan.order.application.usecase.CreateUserOrderUseCase;
@@ -19,17 +17,16 @@ import com.tookscan.tookscan.order.domain.service.DocumentService;
 import com.tookscan.tookscan.order.domain.service.InitialDocumentService;
 import com.tookscan.tookscan.order.domain.service.OrderService;
 import com.tookscan.tookscan.order.domain.type.EDeliveryStatus;
-import com.tookscan.tookscan.order.repository.mysql.DeliveryRepository;
-import com.tookscan.tookscan.order.repository.mysql.DocumentRepository;
-import com.tookscan.tookscan.order.repository.mysql.InitialDocumentRepository;
-import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
-import com.tookscan.tookscan.order.repository.mysql.PricePolicyRepository;
+import com.tookscan.tookscan.order.repository.DeliveryRepository;
+import com.tookscan.tookscan.order.repository.DocumentRepository;
+import com.tookscan.tookscan.order.repository.InitialDocumentRepository;
+import com.tookscan.tookscan.order.repository.OrderRepository;
+import com.tookscan.tookscan.order.repository.PricePolicyRepository;
+import java.time.LocalDate;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -55,8 +52,8 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
         User user = userRepository.findByIdOrElseThrow(accountId);
 
         // 가격 정책 조회
-        PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PRICE_POLICY));
+        PricePolicy pricePolicy = pricePolicyRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqualOrElseThrow(
+                LocalDate.now(), LocalDate.now());
 
         // 주소 정보 생성
         Address address = addressService.createAddress(
