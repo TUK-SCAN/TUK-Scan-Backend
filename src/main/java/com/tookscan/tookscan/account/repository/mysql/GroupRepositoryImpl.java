@@ -32,6 +32,15 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     @Override
+    public void deleteByIdOrElseThrow(Long id) {
+
+        Group group = groupJpaRepository.findById(id)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+        groupJpaRepository.delete(group);
+    }
+
+    @Override
     public List<Group> findByIds(List<Long> groupIds) {
         return groupJpaRepository.findGroupByIds(groupIds);
     }

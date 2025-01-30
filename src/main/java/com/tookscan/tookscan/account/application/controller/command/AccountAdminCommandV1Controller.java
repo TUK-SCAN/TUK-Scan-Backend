@@ -6,6 +6,7 @@ import com.tookscan.tookscan.account.application.dto.request.UpdateAdminUserRequ
 import com.tookscan.tookscan.account.application.dto.request.UpdateAdminGroupRequestDto;
 import com.tookscan.tookscan.account.application.usecase.CreateAdminGroupUseCase;
 import com.tookscan.tookscan.account.application.usecase.CreateAdminUserGroupUseCase;
+import com.tookscan.tookscan.account.application.usecase.DeleteAdminGroupUseCase;
 import com.tookscan.tookscan.account.application.usecase.UpdateAdminUserUseCase;
 import com.tookscan.tookscan.account.application.usecase.UpdateAdminGroupUseCase;
 import com.tookscan.tookscan.core.dto.ResponseDto;
@@ -24,6 +25,7 @@ public class AccountAdminCommandV1Controller {
     private final UpdateAdminUserUseCase updateAdminUserUseCase;
     private final UpdateAdminGroupUseCase updateAdminGroupUseCase;
     private final CreateAdminUserGroupUseCase createAdminUserGroupUseCase;
+    private final DeleteAdminGroupUseCase deleteAdminGroupUseCase;
 
     /**
      * 3.1.1 (관리자) 그룹 만들기
@@ -68,6 +70,17 @@ public class AccountAdminCommandV1Controller {
             @RequestBody @Valid CreateAdminUserGroupRequestDto requestDto
     ) {
         createAdminUserGroupUseCase.execute(requestDto);
+        return ResponseDto.ok(null);
+    }
+
+    /**
+     * 3.5.1 (관리자) 그룹 삭제
+     */
+    @DeleteMapping("/groups/{id}")
+    public ResponseDto<Void> deleteAdminGroup(
+            @PathVariable Long id
+    ) {
+        deleteAdminGroupUseCase.execute(id);
         return ResponseDto.ok(null);
     }
 
