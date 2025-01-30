@@ -86,4 +86,28 @@ public class Delivery extends BaseEntity {
         this.address = address;
         this.deliveryPrice = deliveryPrice;
     }
+
+    public void updateReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updateRequest(String request) {
+        this.request = request;
+    }
+
+    public void updateTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public void updateAddress(Address address) {
+        this.address = address;
+    }
 }

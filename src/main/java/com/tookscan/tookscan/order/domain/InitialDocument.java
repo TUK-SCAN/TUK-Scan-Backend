@@ -2,7 +2,6 @@ package com.tookscan.tookscan.order.domain;
 
 import com.tookscan.tookscan.core.dto.BaseEntity;
 import com.tookscan.tookscan.order.domain.type.ERecoveryOption;
-import com.tookscan.tookscan.order.domain.type.EScanStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,10 +23,10 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "documents")
-@SQLDelete(sql = "UPDATE documents SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Table(name = "initial_documents")
+@SQLDelete(sql = "UPDATE initial_documents SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
-public class Document extends BaseEntity {
+public class InitialDocument extends BaseEntity {
 
     /* -------------------------------------------- */
     /* Default Column ----------------------------- */
@@ -46,16 +44,9 @@ public class Document extends BaseEntity {
     @Column(name = "page_count", nullable = false)
     private Integer pageCount;
 
-    @Column(name = "additional_price", nullable = false)
-    private Integer additionalPrice;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "recovery_option", nullable = false)
     private ERecoveryOption recoveryOption;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "scan_status", nullable = false)
-    private EScanStatus scanStatus;
 
     /* -------------------------------------------- */
     /* Many to One Column ------------------------- */
@@ -69,29 +60,20 @@ public class Document extends BaseEntity {
     private PricePolicy pricePolicy;
 
     /* -------------------------------------------- */
-    /* One to One Column -------------------------- */
-    /* -------------------------------------------- */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pdf_id")
-    private Pdf pdf;
-
-    /* -------------------------------------------- */
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Document(String name, int pageCount, ERecoveryOption recoveryOption, Order order, PricePolicy pricePolicy,
-                    int additionalPrice, EScanStatus scanStatus) {
+    public InitialDocument(String name, int pageCount, ERecoveryOption recoveryOption, Order order,
+                           PricePolicy pricePolicy) {
         this.name = name;
         this.pageCount = pageCount;
         this.recoveryOption = recoveryOption;
         this.order = order;
         this.pricePolicy = pricePolicy;
-        this.additionalPrice = additionalPrice;
-        this.scanStatus = scanStatus;
     }
 
     public int calculatePrice() {
-        return pricePolicy.calculatePrice(pageCount, recoveryOption) + additionalPrice;
+        return pricePolicy.calculatePrice(pageCount, recoveryOption);
     }
 }
 

@@ -1,7 +1,9 @@
 package com.tookscan.tookscan.account.application.controller.query;
 
+import com.tookscan.tookscan.account.application.dto.response.ReadAdminGroupBriefResponseDto;
 import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserDetailResponseDto;
 import com.tookscan.tookscan.account.application.dto.response.ReadAdminUserOverviewResponseDto;
+import com.tookscan.tookscan.account.application.usecase.ReadAdminGroupBriefUseCase;
 import com.tookscan.tookscan.account.application.usecase.ReadAdminUserDetailUseCase;
 import com.tookscan.tookscan.account.application.usecase.ReadAdminUserOverviewUseCase;
 import com.tookscan.tookscan.core.dto.ResponseDto;
@@ -20,6 +22,7 @@ public class AccountAdminQueryV1Controller {
 
     private final ReadAdminUserOverviewUseCase readAdminUserOverviewUseCase;
     private final ReadAdminUserDetailUseCase readAdminUserDetailUseCase;
+    private final ReadAdminGroupBriefUseCase readAdminGroupBriefUseCase;
 
     /**
      * 3.2.3 (관리자) 유저 상세 조회
@@ -53,5 +56,13 @@ public class AccountAdminQueryV1Controller {
                 page,
                 size
         ));
+    }
+
+    /**
+     * 3.2.5 (관리자) 그룹 간단 정보 조회
+     */
+    @GetMapping("/groups/briefs")
+    public ResponseDto<ReadAdminGroupBriefResponseDto> readAdminGroupBrief() {
+        return ResponseDto.ok(readAdminGroupBriefUseCase.execute());
     }
 }
