@@ -11,4 +11,5 @@ import java.util.List;
 public interface TermJpaRepository extends JpaRepository<Term, Long> {
 
     List<Term> findAllByType(ETermType type);
+
 }

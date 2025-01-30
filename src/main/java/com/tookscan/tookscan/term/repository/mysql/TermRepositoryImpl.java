@@ -34,6 +34,8 @@ public class TermRepositoryImpl implements TermRepository {
 
     @Override
     public void deleteById(Long id) {
-        termJpaRepository.deleteById(id);
+        Term term = findByIdOrElseThrow(id);
+
+        termJpaRepository.delete(term);
     }
 }
