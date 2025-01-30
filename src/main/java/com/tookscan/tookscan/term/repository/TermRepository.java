@@ -12,4 +12,6 @@ public interface TermRepository {
     Term findByIdOrElseThrow(Long id);
 
     List<Term> findAllByType(ETermType type);
+
+    void deleteById(Long id);
 }

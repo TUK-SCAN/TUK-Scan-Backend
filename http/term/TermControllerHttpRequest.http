@@ -40,12 +40,7 @@ Content-Type: application/json
   ]
 }
 
-### 8.2.1 (관리자) 약관 조회
+### 8.5.1 (관리자) 약관 삭제
 //@no-log
-GET {{host_url}}/v1/admins/terms/overviews?type=SIGN_UP
-Authorization: Bearer {{access_token}}
-
-### 8.2.2 약관 조회
-//@no-log
-GET {{host_url}}/v1/users/terms/overviews?type=SIGN_UP
+DELETE {{host_url}}/v1/admins/terms/1
 Authorization: Bearer {{access_token}}
