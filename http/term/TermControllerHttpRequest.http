@@ -15,3 +15,8 @@ Content-Type: application/json
 //@no-log
 GET {{host_url}}/v1/admins/terms/overviews?type=SIGN_UP
 Authorization: Bearer {{access_token}}
+
+### 8.2.2 약관 조회
+//@no-log
+GET {{host_url}}/v1/users/terms/overviews?type=SIGN_UP
+Authorization: Bearer {{access_token}}
