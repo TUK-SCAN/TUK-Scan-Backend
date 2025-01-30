@@ -26,4 +26,22 @@ public class DeliveryService {
                 .deliveryPrice(deliveryPrice)
                 .build();
     }
+
+    public void updateSelf(
+            Delivery delivery,
+            String receiverName,
+            String phoneNumber,
+            Address address,
+            String request,
+            String trackingNumber,
+            String email
+    ) {
+        delivery.updateReceiverName(receiverName);
+        delivery.updatePhoneNumber(phoneNumber);
+        delivery.updateEmail(email);
+        delivery.updateRequest(request);
+        delivery.updateTrackingNumber(trackingNumber);
+        delivery.updateAddress(address);
+
+    }
 }

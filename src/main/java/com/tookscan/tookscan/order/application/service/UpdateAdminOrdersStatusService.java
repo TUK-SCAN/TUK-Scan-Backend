@@ -38,10 +38,7 @@ public class UpdateAdminOrdersStatusService implements UpdateAdminOrdersStatusUs
             throw new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 ID: " + notFoundIds);
         }
 
-        requestDto.orderIds().forEach(orderId -> {
-            orderRepository.findById(orderId)
-                    .ifPresent(order -> order.updateStatus(requestDto.status()));
-        });
+        orders.forEach(order -> order.updateOrderStatus(requestDto.status()));
     }
 
 }

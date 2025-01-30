@@ -130,8 +130,4 @@ public class Order extends BaseEntity {
     public void createMemo(String memo) {
         this.memo = memo;
     }
-
-    public void updateStatus(EOrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
-    }
 }
