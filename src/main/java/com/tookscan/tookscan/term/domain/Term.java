@@ -39,17 +39,21 @@ public class Term extends BaseEntity {
     private String content;
 
     @Column(name = "is_required", nullable = false)
-    private boolean isRequired;
+    private Boolean isRequired;
+
+    @Column(name = "is_visible", nullable = false)
+    private Boolean isVisible = true;
 
     /* -------------------------------------------- */
     /* Methods ------------------------------------ */
     /* -------------------------------------------- */
     @Builder
-    public Term(ETermType type, String title, String content, boolean isRequired) {
+    public Term(ETermType type, String title, String content, Boolean isRequired, Boolean isVisible) {
         this.type = type;
         this.title = title;
         this.content = content;
         this.isRequired = isRequired;
+        this.isVisible = isVisible;
     }
 }
 

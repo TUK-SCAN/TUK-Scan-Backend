@@ -1,5 +1,7 @@
 package com.tookscan.tookscan.term.domain.type;
 
+import com.tookscan.tookscan.core.exception.error.ErrorCode;
+import com.tookscan.tookscan.core.exception.type.CommonException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +17,7 @@ public enum ETermType {
         return switch (value.toUpperCase()) {
             case "SIGN_UP" -> SIGN_UP;
             case "SCAN" -> SCAN;
-            default -> throw new IllegalArgumentException();
+            default -> throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
         };
     }
 }
