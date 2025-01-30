@@ -7,16 +7,14 @@ import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderOverviewResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadUserOrderOverviewUseCase;
 import com.tookscan.tookscan.order.domain.Order;
-import com.tookscan.tookscan.order.domain.service.OrderService;
-import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
+import com.tookscan.tookscan.order.repository.OrderRepository;
 import jakarta.transaction.Transactional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +22,6 @@ public class ReadUserOrderOverviewService implements ReadUserOrderOverviewUseCas
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
-
-    private final OrderService orderService;
 
     @Override
     @Transactional

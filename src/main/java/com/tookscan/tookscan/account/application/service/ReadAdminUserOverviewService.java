@@ -7,7 +7,7 @@ import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.dto.PageInfoDto;
 import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.domain.Order;
-import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
+import com.tookscan.tookscan.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

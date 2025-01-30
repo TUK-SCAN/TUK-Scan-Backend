@@ -4,8 +4,7 @@ import com.tookscan.tookscan.core.dto.PageInfoDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderSummariesUseCase;
 import com.tookscan.tookscan.order.domain.Order;
-import com.tookscan.tookscan.order.repository.mysql.OrderRepository;
-import com.tookscan.tookscan.order.repository.mysql.custom.OrderRepositoryCustomImpl;
+import com.tookscan.tookscan.order.repository.OrderRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReadAdminOrderSummariesService implements ReadAdminOrderSummariesUseCase {
 
     private final OrderRepository orderRepository;
-    private final OrderRepositoryCustomImpl orderRepositoryCustomImpl;
 
     @Override
     @Transactional(readOnly = true)
@@ -27,7 +25,7 @@ public class ReadAdminOrderSummariesService implements ReadAdminOrderSummariesUs
                                                       String search, String searchType, String sort, String direction) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Long> orderIdPages = orderRepositoryCustomImpl.findOrderSummaries(startDate, endDate, search, searchType,
+        Page<Long> orderIdPages = orderRepository.findOrderSummaries(startDate, endDate, search, searchType,
                 sort, direction, pageable);
 
         List<Order> orders = orderRepository.findAllWithDocumentsByIdIn(orderIdPages.getContent());
