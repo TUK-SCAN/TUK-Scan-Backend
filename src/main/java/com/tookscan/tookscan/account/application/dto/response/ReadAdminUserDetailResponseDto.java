@@ -64,8 +64,7 @@ public class ReadAdminUserDetailResponseDto extends SelfValidating<ReadAdminUser
                 .provider(user.getProvider())
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail() != null ? user.getEmail() : null)
-                .address(AddressResponseDto.fromEntity(user.getAddress()) != null ? AddressResponseDto.fromEntity(
-                        user.getAddress()) : null)
+                .address(AddressResponseDto.fromEntity(user.getAddress()))
                 .memo(user.getMemo() != null ? user.getMemo() : null)
                 .build();
     }

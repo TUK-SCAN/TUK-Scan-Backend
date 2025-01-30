@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.validator.constraints.Range;
 
 @Getter
 public class AddressResponseDto extends SelfValidating<AddressResponseDto> {
@@ -42,11 +43,13 @@ public class AddressResponseDto extends SelfValidating<AddressResponseDto> {
     @JsonProperty("longitude")
     @Schema(description = "경도", example = "127.123456")
     @NotNull(message = "경도는 필수입니다")
+    @Range(min = -180, max = 180, message = "경도는 -180에서 180 사이의 값이어야 합니다")
     private final Double longitude;
 
     @JsonProperty("latitude")
     @Schema(description = "위도", example = "37.123456")
     @NotNull(message = "위도는 필수입니다")
+    @Range(min = -90, max = 90, message = "위도는 -90에서 90 사이의 값이어야 합니다")
     private final Double latitude;
 
     @Builder

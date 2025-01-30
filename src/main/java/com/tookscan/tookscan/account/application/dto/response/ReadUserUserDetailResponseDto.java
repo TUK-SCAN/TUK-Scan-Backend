@@ -59,7 +59,7 @@ public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDe
                 .serialId(user.getSerialId())
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail() != null ? user.getEmail() : null)
-                .address(user.getAddress() != null ? AddressResponseDto.fromEntity(user.getAddress()) : null)
+                .address(AddressResponseDto.fromEntity(user.getAddress()))
                 .build();
     }
 }
