@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Repository
-public interface UserGroupJpaRepository extends JpaRepository<UserGroup, Long> {
+public interface UserGroupJpaaRepository extends JpaRepository<UserGroup, Long> {
 
     @Query("SELECT ug FROM UserGroup ug WHERE ug.user.id IN :userIdList AND ug.group.id IN :groupIdList")
     Set<UserGroup> findAllByUserIdInAndGroupIdIn(@Param("userIdList") List<UUID> userIdList, @Param("groupIdList") List<Long> groupIdList);
