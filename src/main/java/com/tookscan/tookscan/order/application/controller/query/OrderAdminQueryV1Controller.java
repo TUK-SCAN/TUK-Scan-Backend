@@ -1,6 +1,7 @@
 package com.tookscan.tookscan.order.application.controller.query;
 
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadAdminDeliveriesOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminDeliveriesSummariesResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefsResponseDto;
@@ -8,6 +9,7 @@ import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDelive
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDocumentsOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
+import com.tookscan.tookscan.order.application.usecase.ReadAdminDeliveriesOverviewsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminDeliveriesSummariesUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefsUseCase;
@@ -40,6 +42,7 @@ public class OrderAdminQueryV1Controller {
     private final ReadAdminOrderDeliveryOverviewUseCase readAdminOrderDeliveryOverviewUseCase;
     private final ReadAdminOrderOverviewsUseCase readAdminOrderOverviewsUseCase;
     private final ReadAdminDeliveriesSummariesUseCase readAdminDeliveriesSummariesUseCase;
+    private final ReadAdminDeliveriesOverviewsUseCase readAdminDeliveriesOverviewsUseCase;
 
     /**
      * 4.2.5 관리자 주문 요약 정보 조회
@@ -137,5 +140,22 @@ public class OrderAdminQueryV1Controller {
     ) {
         return ResponseDto.ok(
                 readAdminDeliveriesSummariesUseCase.execute(page, size, startDate, endDate, search, searchType));
+    }
+
+    /**
+     * 4.2.14 관리자 배송 리스트 조회
+     */
+    @Operation(summary = "관리자 배송 리스트 조회", description = "관리자가 배송 리스트를 조회합니다.")
+    @GetMapping("/deliveries/overviews")
+    public ResponseDto<ReadAdminDeliveriesOverviewsResponseDto> readDeliveriesOverviews(
+            @RequestParam(value = "page", defaultValue = "1") @Min(value = 1, message = "페이지는 1 이상이어야 합니다") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") @Min(value = 1, message = "페이지 크기는 1 이상이어야 합니다") Integer size,
+            @RequestParam(value = "start-date", required = false) String startDate,
+            @RequestParam(value = "end-date", required = false) String endDate,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "search-type", required = false) String searchType
+    ) {
+        return ResponseDto.ok(
+                readAdminDeliveriesOverviewsUseCase.execute(page, size, startDate, endDate, search, searchType));
     }
 }
