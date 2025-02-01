@@ -4,14 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.dto.request.CreateAdminOrderMemoRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryRequestDto;
+import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDocumentsRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrdersStatusRequestDto;
 import com.tookscan.tookscan.order.application.usecase.CreateAdminOrderMemoUseCase;
+import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryUseCase;
+import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersStatusUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +37,8 @@ public class OrderAdminCommandV1Controller {
     private final UpdateAdminOrdersStatusUseCase updateAdminOrdersStatusUseCase;
     private final DeleteAdminOrdersUseCase deleteAdminOrdersUseCase;
     private final UpdateAdminOrderDeliveryUseCase updateAdminOrderDeliveryUseCase;
+    private final DeleteAdminDocumentsUseCase deleteAdminDocumentsUseCase;
+    private final UpdateAdminOrderDocumentsUseCase updateAdminOrderDocumentsUseCase;
 
     /**
      * 4.3.2 관리자 주문 상태 일괄 변경
@@ -73,14 +79,39 @@ public class OrderAdminCommandV1Controller {
     }
 
     /**
+     * 4.4.1 관리자 주문 상세 상품 수정
+     */
+    @Operation(summary = "관리자 주문 상세 상품 수정", description = "관리자가 주문의 상세 상품을 수정합니다.")
+    @PutMapping(value = "orders/{orderId}/documents")
+    public ResponseDto<Void> updateOrderDocuments(
+            @PathVariable Long orderId,
+            @RequestBody @Valid UpdateAdminOrderDocumentsRequestDto requestDto
+    ) {
+        updateAdminOrderDocumentsUseCase.execute(orderId, requestDto);
+        return ResponseDto.ok(null);
+    }
+
+    /**
      * 4.5.1 관리자 주문 일괄 삭제
      */
     @Operation(summary = "관리자 주문 일괄 삭제", description = "관리자가 여러 주문을 삭제합니다.")
     @DeleteMapping(value = "/orders")
     public ResponseDto<Void> deleteOrders(
-         @RequestBody @JsonProperty("order_ids") @NotNull List<Long> orderIds
+            @RequestBody @JsonProperty("order_ids") @NotNull @NotEmpty List<Long> orderIds
     ) {
      deleteAdminOrdersUseCase.execute(orderIds);
      return ResponseDto.ok(null);
+    }
+
+    /**
+     * 4.5.2 관리자 상품 일괄 삭제
+     */
+    @Operation(summary = "관리자 상품 일괄 삭제", description = "관리자가 여러 상품을 삭제합니다.")
+    @DeleteMapping(value = "/documents")
+    public ResponseDto<Void> deleteDocuments(
+            @RequestBody @JsonProperty("document_ids") @NotNull List<Long> documentIds
+    ) {
+        deleteAdminDocumentsUseCase.execute(documentIds);
+        return ResponseDto.ok(null);
     }
 }

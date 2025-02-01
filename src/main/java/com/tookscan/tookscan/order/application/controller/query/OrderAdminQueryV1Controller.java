@@ -1,11 +1,13 @@
 package com.tookscan.tookscan.order.application.controller.query;
 
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDeliveryOverviewResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDocumentsOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
+import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDeliveryOverviewUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDocumentsOverviewsUseCase;
@@ -32,6 +34,7 @@ public class OrderAdminQueryV1Controller {
     private final ReadAdminOrderBriefsUseCase readAdminOrderBriefsUseCase;
     private final ReadAdminOrderSummariesUseCase readAdminOrderSummariesUseCase;
     private final ReadAdminOrderDocumentsOverviewsUseCase readAdminOrderDocumentsOverviewsUseCase;
+    private final ReadAdminOrderBriefUseCase readAdminOrderBriefUseCase;
     private final ReadAdminOrderDeliveryOverviewUseCase readAdminOrderDeliveryOverviewUseCase;
     private final ReadAdminOrderOverviewsUseCase readAdminOrderOverviewsUseCase;
 
@@ -72,7 +75,7 @@ public class OrderAdminQueryV1Controller {
     ) {
         return ResponseDto.ok(readAdminOrderDocumentsOverviewsUseCase.execute(orderId));
     }
-
+  
     /**
      * 4.2.10 관리자 주문 상세 배송 조회
      */
@@ -84,6 +87,17 @@ public class OrderAdminQueryV1Controller {
         return ResponseDto.ok(readAdminOrderDeliveryOverviewUseCase.execute(orderId));
     }
 
+    /**
+     * 4.2.11 관리자 주문 상세 간단 조회
+     */
+    @Operation(summary = "관리자 주문 상세 간단 조회", description = "관리자가 주문 상세 간단 정보를 조회합니다.")
+    @GetMapping("/orders/{orderId}/brief")
+    public ResponseDto<ReadAdminOrderBriefResponseDto> readOrderBrief(
+            @PathVariable Long orderId
+    ) {
+        return ResponseDto.ok(readAdminOrderBriefUseCase.execute(orderId));
+    }
+  
     /**
      * 4.2.12 관리자 주문 리스트 조회
      */
