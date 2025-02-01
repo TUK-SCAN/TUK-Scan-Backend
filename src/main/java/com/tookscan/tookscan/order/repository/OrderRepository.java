@@ -3,6 +3,7 @@ package com.tookscan.tookscan.order.repository;
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -31,4 +32,8 @@ public interface OrderRepository {
     List<Order> findAllByUserIds(List<UUID> userIds);
 
     List<Order> findAllWithDocumentsByIdIn(List<Long> ids);
+
+    List<Long> findIdsByCreatedAtBefore(LocalDateTime dateTime);
+
+    void deleteAllById(List<Long> ids);
 }

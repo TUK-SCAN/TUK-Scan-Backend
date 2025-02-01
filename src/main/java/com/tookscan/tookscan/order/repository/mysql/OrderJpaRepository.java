@@ -2,6 +2,7 @@ package com.tookscan.tookscan.order.repository.mysql;
 
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.order.domain.Order;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,4 +37,7 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
             "LEFT JOIN FETCH o.user u " +
             "WHERE o.id IN :ids")
     List<Order> findAllWithDocumentsByIdIn(@Param("ids") List<Long> ids);
+
+    @Query("SELECT o.id FROM Order o WHERE o.createdAt < :dateTime")
+    List<Long> findIdsByCreatedAtBefore(@Param("dateTime") LocalDateTime dateTime);
 }

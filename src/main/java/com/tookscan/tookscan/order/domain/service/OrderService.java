@@ -33,6 +33,11 @@ public class OrderService {
         log.info("Order status changed. OrderNumber: {}, oldStatus: {}, newStatus: {}", order.getOrderNumber(), oldOrderStatus, newOrderStatus);
     }
 
+    public void deleteOldOrders() {
+        log.info("Delete old orders");
+
+    }
+
     public void validateOrderUser(Order order, User user) {
         if (!order.getUser().getId().equals(user.getId())) {
             throw new CommonException(ErrorCode.ACCESS_DENIED);

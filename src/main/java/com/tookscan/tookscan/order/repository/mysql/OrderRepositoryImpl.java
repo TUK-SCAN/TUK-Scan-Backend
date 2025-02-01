@@ -11,6 +11,7 @@ import com.tookscan.tookscan.order.domain.QOrder;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.OrderRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -63,6 +64,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void deleteAll(List<Order> orders) {
         orderJpaRepository.deleteAll(orders);
+    }
+
+    @Override
+    public void deleteAllById(List<Long> ids) {
+        orderJpaRepository.deleteAllById(ids);
     }
 
     @Override
@@ -136,6 +142,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Page<Order> findAllByUserAndSearch(User user, String search, Pageable pageable) {
         return orderJpaRepository.findAllByUserAndSearch(user, search, pageable);
+    }
+
+    @Override
+    public List<Long> findIdsByCreatedAtBefore(LocalDateTime dateTime) {
+        return orderJpaRepository.findIdsByCreatedAtBefore(dateTime);
     }
 
     private BooleanExpression buildPredicate(QOrder order, String startDate, String endDate, String search,
