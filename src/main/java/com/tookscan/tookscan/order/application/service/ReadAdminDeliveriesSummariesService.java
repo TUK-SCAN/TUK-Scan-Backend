@@ -27,7 +27,7 @@ public class ReadAdminDeliveriesSummariesService implements ReadAdminDeliveriesS
         Page<Long> orderIdPages = orderRepository.findDeliveriesSummaries(startDate, endDate, search, searchType,
                 pageable);
 
-        List<Order> orders = orderRepository.findAllWithDocumentsByIdIn(orderIdPages.getContent());
+        List<Order> orders = orderRepository.findAllWithDocumentsAndUserByIdIn(orderIdPages.getContent());
 
         return ReadAdminDeliveriesSummariesResponseDto.of(orders, orderIdPages);
     }

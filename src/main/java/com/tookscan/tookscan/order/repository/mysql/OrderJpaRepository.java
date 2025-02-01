@@ -38,6 +38,13 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
             "WHERE o.id IN :ids")
     List<Order> findAllWithDocumentsByIdIn(@Param("ids") List<Long> ids);
 
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "LEFT JOIN FETCH o.documents d " +
+            "LEFT JOIN FETCH o.delivery del " +
+            "LEFT JOIN FETCH o.user u " +
+            "WHERE o.id IN :ids")
+    List<Order> findAllWithDocumentsAndUserByIdIn(@Param("ids") List<Long> ids);
+
     List<Order> findAllByOrderNumberIn(List<String> orderNumber);
   
     @Query("SELECT o.id FROM Order o WHERE o.createdAt < :dateTime")

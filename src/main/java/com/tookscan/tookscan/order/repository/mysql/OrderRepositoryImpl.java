@@ -204,6 +204,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public List<Order> findAllWithDocumentsAndUserByIdIn(List<Long> ids) {
+        return orderJpaRepository.findAllWithDocumentsAndUserByIdIn(ids);
+    }
+
+    @Override
     public Page<Order> findAllByUserAndSearch(User user, String search, Pageable pageable) {
         return orderJpaRepository.findAllByUserAndSearch(user, search, pageable);
     }

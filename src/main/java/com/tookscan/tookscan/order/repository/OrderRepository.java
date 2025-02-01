@@ -41,6 +41,8 @@ public interface OrderRepository {
 
     List<Order> findAllWithDocumentsByIdIn(List<Long> ids);
 
+    List<Order> findAllWithDocumentsAndUserByIdIn(List<Long> ids);
+
     List<Order> findAllByOrderNumberIn(List<String> orderNumber);
   
     List<Long> findIdsByCreatedAtBefore(LocalDateTime dateTime);

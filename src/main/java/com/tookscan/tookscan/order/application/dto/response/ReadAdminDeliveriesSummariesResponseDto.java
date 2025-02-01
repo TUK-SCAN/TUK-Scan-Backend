@@ -118,8 +118,9 @@ public class ReadAdminDeliveriesSummariesResponseDto extends SelfValidating<Read
             return OrderDeliveryResponseDto.builder()
                     .orderId(order.getId())
                     .orderNumber(order.getOrderNumber())
-                    .name(order.getUser().getName())
-                    .phoneNumber(order.getUser().getPhoneNumber())
+                    .name(order.isByUser() ? order.getUser().getName() : order.getDelivery().getReceiverName())
+                    .phoneNumber(
+                            order.isByUser() ? order.getUser().getPhoneNumber() : order.getDelivery().getPhoneNumber())
                     .status(order.getOrderStatus())
                     .documents(DocumentsDto.fromEntities(order.getDocuments()))
                     .build();
