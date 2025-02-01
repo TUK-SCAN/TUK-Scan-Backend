@@ -143,7 +143,7 @@ public class ReadAdminOrderSummariesResponseDto extends SelfValidating<ReadAdmin
         return ReadAdminOrderSummariesResponseDto.builder()
                 .orders(orders.stream()
                         .map(OrderSummaryDto::fromEntity)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .pageInfoDto(pageInfoDto)
                 .build();
     }

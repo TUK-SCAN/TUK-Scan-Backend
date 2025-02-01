@@ -11,6 +11,7 @@ import com.tookscan.tookscan.order.domain.QOrder;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.OrderRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -66,6 +68,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public void deleteAllById(List<Long> ids) {
+        orderJpaRepository.deleteAllById(ids);
+    }
+
+    @Override
     public Map<EOrderStatus, Integer> findOrderStatusCounts() {
         QOrder order = QOrder.order;
 
@@ -89,12 +96,47 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Page<Long> findOrderSummaries(String startDate, String endDate,
-                                         String search, String searchType, String sort, String direction,
+                                         String search, String searchType, String sort, Direction direction,
                                          Pageable pageable) {
         QOrder order = QOrder.order;
 
         // 검색 조건 동적 생성
         BooleanExpression predicate = buildPredicate(order, startDate, endDate, search, searchType);
+
+        // 데이터 조회
+        List<Long> orderIds = jpaQueryFactory.select(order.id)
+                .from(order)
+                .where(predicate)
+                .orderBy(resolveSort(order, sort, direction))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        // 전체 데이터 개수 조회
+        long totalCount = Optional.ofNullable(
+                jpaQueryFactory.select(order.count())
+                        .from(order)
+                        .where(predicate)
+                        .fetchOne()
+        ).orElse(0L);
+
+        // Page 객체 생성
+        return new PageImpl<>(orderIds, pageable, totalCount);
+    }
+
+    @Override
+    public Page<Long> findOrderOverviews(String startDate, String endDate,
+                                         String search, String searchType, String sort, Direction direction,
+                                         Pageable pageable, EOrderStatus orderStatus) {
+        QOrder order = QOrder.order;
+
+        // 검색 조건 동적 생성
+        BooleanExpression predicate = buildPredicate(order, startDate, endDate, search, searchType);
+
+        // orderStatus가 null이 아닐 때만 필터링 추가
+        if (orderStatus != null) {
+            predicate = predicate.and(order.orderStatus.eq(orderStatus));
+        }
 
         // 데이터 조회
         List<Long> orderIds = jpaQueryFactory.select(order.id)
@@ -143,6 +185,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orderJpaRepository.findAllByOrderNumberIn(orderNumber);
     }
 
+    @Override
+    public List<Long> findIdsByCreatedAtBefore(LocalDateTime dateTime) {
+        return orderJpaRepository.findIdsByCreatedAtBefore(dateTime);
+    }
+
     private BooleanExpression buildPredicate(QOrder order, String startDate, String endDate, String search,
                                              String searchType) {
         BooleanExpression predicate = order.isNotNull();
@@ -181,17 +228,21 @@ public class OrderRepositoryImpl implements OrderRepository {
         };
     }
 
-    private OrderSpecifier<?> resolveSort(QOrder order, String sort, String direction) {
-        if ("asc".equalsIgnoreCase(direction)) {
+    private OrderSpecifier<?> resolveSort(QOrder order, String sort, Direction direction) {
+        if (direction.isAscending()) {
             return switch (sort.toLowerCase()) {
                 case "order-number" -> order.orderNumber.asc();
-                case "created-at" -> order.createdAt.asc();
+                case "order-date" -> order.createdAt.asc();
+                case "payment-amount" -> order.payment.totalAmount.asc();
+                case "payment-date" -> order.payment.createdAt.asc();
                 default -> order.id.asc();
             };
         } else {
             return switch (sort.toLowerCase()) {
                 case "order-number" -> order.orderNumber.desc();
-                case "created-at" -> order.createdAt.desc();
+                case "order-date" -> order.createdAt.desc();
+                case "payment-amount" -> order.payment.totalAmount.desc();
+                case "payment-date" -> order.payment.createdAt.desc();
                 default -> order.id.desc();
             };
         }

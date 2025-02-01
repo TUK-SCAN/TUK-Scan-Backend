@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.order.application.service;
 
+import com.tookscan.tookscan.order.application.dto.request.DeleteAdminOrdersRequestDto;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.repository.OrderRepository;
@@ -16,8 +17,8 @@ public class DeleteAdminOrdersService implements DeleteAdminOrdersUseCase {
 
     @Override
     @Transactional
-    public void execute(List<Long> orderIds) {
-        List<Order> orders = orderRepository.findAllByIdOrElseThrow(orderIds);
+    public void execute(DeleteAdminOrdersRequestDto requestDto) {
+        List<Order> orders = orderRepository.findAllByIdOrElseThrow(requestDto.orderIds());
         orderRepository.deleteAll(orders);
     }
 }

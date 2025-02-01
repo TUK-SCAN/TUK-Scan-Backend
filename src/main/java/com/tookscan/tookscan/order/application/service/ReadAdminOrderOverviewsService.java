@@ -1,9 +1,9 @@
 package com.tookscan.tookscan.order.application.service;
 
-import com.tookscan.tookscan.core.dto.PageInfoDto;
-import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
-import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderSummariesUseCase;
+import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderOverviewsResponseDto;
+import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderOverviewsUseCase;
 import com.tookscan.tookscan.order.domain.Order;
+import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import com.tookscan.tookscan.order.repository.OrderRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,24 +16,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ReadAdminOrderSummariesService implements ReadAdminOrderSummariesUseCase {
+public class ReadAdminOrderOverviewsService implements ReadAdminOrderOverviewsUseCase {
 
     private final OrderRepository orderRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public ReadAdminOrderSummariesResponseDto execute(Integer page, Integer size, String startDate, String endDate,
+    public ReadAdminOrderOverviewsResponseDto execute(int page, int size, String startDate, String endDate,
                                                       String search, String searchType, String sort,
-                                                      Direction direction) {
+                                                      Direction direction, EOrderStatus orderStatus) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Long> orderIdPages = orderRepository.findOrderSummaries(startDate, endDate, search, searchType,
-                sort, direction, pageable);
+        Page<Long> orderIdPages = orderRepository.findOrderOverviews(startDate, endDate, search,
+                searchType, sort, direction, pageable, orderStatus);
 
         List<Order> orders = orderRepository.findAllWithDocumentsByIdIn(orderIdPages.getContent());
 
-        PageInfoDto pageInfo = PageInfoDto.fromEntity(orderIdPages);
-
-        return ReadAdminOrderSummariesResponseDto.of(orders, pageInfo);
+        return ReadAdminOrderOverviewsResponseDto.of(orders, orderIdPages);
     }
 }
