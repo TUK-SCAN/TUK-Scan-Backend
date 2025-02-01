@@ -90,6 +90,26 @@ public class Document extends BaseEntity {
         this.scanStatus = scanStatus;
     }
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updatePageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public void updateRecoveryOption(ERecoveryOption recoveryOption) {
+        this.recoveryOption = recoveryOption;
+    }
+
+    public void updateAdditionalPrice(int additionalPrice) {
+        this.additionalPrice = additionalPrice;
+    }
+
+    public void updateScanStatus(EScanStatus scanStatus) {
+        this.scanStatus = scanStatus;
+    }
+
     public int calculatePrice() {
         return pricePolicy.calculatePrice(pageCount, recoveryOption) + additionalPrice;
     }
