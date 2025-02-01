@@ -31,4 +31,6 @@ public interface OrderRepository {
     List<Order> findAllByUserIds(List<UUID> userIds);
 
     List<Order> findAllWithDocumentsByIdIn(List<Long> ids);
+
+    List<Order> findAllByOrderNumberIn(List<String> orderNumber);
 }

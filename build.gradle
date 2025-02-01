@@ -79,6 +79,10 @@ dependencies {
 	// TSID
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.0'
 
+	// Apache POI
+	implementation 'org.apache.poi:poi:5.2.3'
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
 	// Testing Dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

@@ -138,6 +138,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orderJpaRepository.findAllByUserAndSearch(user, search, pageable);
     }
 
+    @Override
+    public List<Order> findAllByOrderNumberIn(List<String> orderNumber) {
+        return orderJpaRepository.findAllByOrderNumberIn(orderNumber);
+    }
+
     private BooleanExpression buildPredicate(QOrder order, String startDate, String endDate, String search,
                                              String searchType) {
         BooleanExpression predicate = order.isNotNull();

@@ -36,4 +36,6 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
             "LEFT JOIN FETCH o.user u " +
             "WHERE o.id IN :ids")
     List<Order> findAllWithDocumentsByIdIn(@Param("ids") List<Long> ids);
+
+    List<Order> findAllByOrderNumberIn(List<String> orderNumber);
 }
