@@ -171,6 +171,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         List<Long> orderIds = jpaQueryFactory.select(order.id)
                 .from(order)
                 .where(predicate)
+                .orderBy(order.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
