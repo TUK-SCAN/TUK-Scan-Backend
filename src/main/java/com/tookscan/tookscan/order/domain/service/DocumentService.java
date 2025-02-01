@@ -27,4 +27,18 @@ public class DocumentService {
                 .build();
     }
 
+    public void updateDocument(
+            Document document,
+            String name,
+            int pageCount,
+            ERecoveryOption recoveryOption,
+            int additionalPrice,
+            EScanStatus scanStatus
+    ) {
+        document.updateName(name);
+        document.updatePageCount(pageCount);
+        document.updateRecoveryOption(recoveryOption);
+        document.updateAdditionalPrice(additionalPrice);
+        document.updateScanStatus(scanStatus);
+    }
 }
