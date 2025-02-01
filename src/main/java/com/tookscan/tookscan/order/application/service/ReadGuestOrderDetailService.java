@@ -21,7 +21,7 @@ public class ReadGuestOrderDetailService implements ReadGuestOrderDetailUseCase 
     public ReadGuestOrderDetailResponseDto execute(String name, String orderNumber) {
 
         // 주문 조회
-        Order order = orderRepository.findByOrderNumber(orderNumber);
+        Order order = orderRepository.findByOrderNumberOrElseThrow(orderNumber);
 
         // 주문자 확인
         orderService.validateOrderNumber(order, name, orderNumber);
