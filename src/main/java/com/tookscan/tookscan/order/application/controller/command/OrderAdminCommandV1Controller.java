@@ -1,14 +1,16 @@
 package com.tookscan.tookscan.order.application.controller.command;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.dto.request.CreateAdminOrderMemoRequestDto;
+import com.tookscan.tookscan.order.application.dto.request.DeleteAdminOrdersRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryRequestDto;
+import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryTrackingNumberRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDocumentsRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrdersStatusRequestDto;
 import com.tookscan.tookscan.order.application.usecase.CreateAdminOrderMemoUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
+import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryTrackingNumberUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersStatusUseCase;
@@ -20,6 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +40,7 @@ public class OrderAdminCommandV1Controller {
     private final UpdateAdminOrdersStatusUseCase updateAdminOrdersStatusUseCase;
     private final DeleteAdminOrdersUseCase deleteAdminOrdersUseCase;
     private final UpdateAdminOrderDeliveryUseCase updateAdminOrderDeliveryUseCase;
+    private final UpdateAdminOrderDeliveryTrackingNumberUseCase updateAdminOrderDeliveryTrackingNumberUseCase;
     private final DeleteAdminDocumentsUseCase deleteAdminDocumentsUseCase;
     private final UpdateAdminOrderDocumentsUseCase updateAdminOrderDocumentsUseCase;
 
@@ -79,6 +83,18 @@ public class OrderAdminCommandV1Controller {
     }
 
     /**
+     * 4.3.7 관리자 운송장 번호 등록
+     */
+    @Operation(summary = "관리자 운송장 번호 등록", description = "관리자가 주문에 운송장 번호를 등록합니다.")
+    @PatchMapping(value = "/deliveries/{deliveryId}/tracking-number")
+    public ResponseDto<Void> updateOrderTrackingNumber(
+            @PathVariable Long deliveryId,
+            @RequestBody @Valid UpdateAdminOrderDeliveryTrackingNumberRequestDto requestDto
+    ) {
+        updateAdminOrderDeliveryTrackingNumberUseCase.execute(deliveryId, requestDto);
+    }
+  
+    /**
      * 4.4.1 관리자 주문 상세 상품 수정
      */
     @Operation(summary = "관리자 주문 상세 상품 수정", description = "관리자가 주문의 상세 상품을 수정합니다.")
@@ -97,10 +113,10 @@ public class OrderAdminCommandV1Controller {
     @Operation(summary = "관리자 주문 일괄 삭제", description = "관리자가 여러 주문을 삭제합니다.")
     @DeleteMapping(value = "/orders")
     public ResponseDto<Void> deleteOrders(
-            @RequestBody @JsonProperty("order_ids") @NotNull @NotEmpty List<Long> orderIds
+            @RequestBody @Valid DeleteAdminOrdersRequestDto requestDto
     ) {
-     deleteAdminOrdersUseCase.execute(orderIds);
-     return ResponseDto.ok(null);
+        deleteAdminOrdersUseCase.execute(requestDto);
+        return ResponseDto.ok(null);
     }
 
     /**

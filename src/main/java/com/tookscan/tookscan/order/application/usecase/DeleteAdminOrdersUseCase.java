@@ -1,9 +1,9 @@
 package com.tookscan.tookscan.order.application.usecase;
 
 import com.tookscan.tookscan.core.annotation.bean.UseCase;
-import java.util.List;
+import com.tookscan.tookscan.order.application.dto.request.DeleteAdminOrdersRequestDto;
 
 @UseCase
 public interface DeleteAdminOrdersUseCase {
-    void execute(List<Long> orderIds);
+    void execute(DeleteAdminOrdersRequestDto requestDto);
 }
