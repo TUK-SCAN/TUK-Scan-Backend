@@ -15,8 +15,8 @@ public class ReadAdminOrderBriefService implements ReadAdminOrderBriefUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public ReadAdminOrderBriefResponseDto execute() {
-        return ReadAdminOrderBriefResponseDto.of(orderRepository.findOrderStatusCounts());
+    public ReadAdminOrderBriefResponseDto execute(Long orderId) {
+        return ReadAdminOrderBriefResponseDto.fromEntity(orderRepository.findByIdOrElseThrow(orderId));
     }
 
 }

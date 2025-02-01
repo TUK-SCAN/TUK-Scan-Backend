@@ -55,5 +55,15 @@ public enum EOrderStatus {
             case AS -> AS;
         };
     }
+
+    public String toDisplayScanStatusString() {
+        return switch (this) {
+            case APPLY_COMPLETED, COMPANY_ARRIVED, PAYMENT_WAITING, PAYMENT_COMPLETED, SCAN_WAITING -> "스캔대기";
+            case SCAN_IN_PROGRESS -> "스캔중";
+            case RECOVERY_IN_PROGRESS, POST_WAITING, ALL_COMPLETED -> "스캔완료";
+            case CANCEL -> "취소";
+            case AS -> "A/S";
+        };
+    }
 }
 

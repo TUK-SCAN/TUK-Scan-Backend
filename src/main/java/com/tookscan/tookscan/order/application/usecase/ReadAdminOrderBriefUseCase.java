@@ -5,6 +5,5 @@ import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderBriefR
 
 @UseCase
 public interface ReadAdminOrderBriefUseCase {
-
-    ReadAdminOrderBriefResponseDto execute();
+    ReadAdminOrderBriefResponseDto execute(Long orderId);
 }
