@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 
 public interface OrderRepository {
 
@@ -20,7 +21,11 @@ public interface OrderRepository {
     Map<EOrderStatus, Integer> findOrderStatusCounts();
 
     Page<Long> findOrderSummaries(String startDate, String endDate, String search, String searchType, String sort,
-                                  String direction, Pageable pageable);
+                                  Direction direction, Pageable pageable);
+
+    Page<Long> findOrderOverviews(String startDate, String endDate,
+                                  String search, String searchType, String sort, Direction direction,
+                                  Pageable pageable, EOrderStatus orderStatus);
 
     void deleteAll(List<Order> orders);
 
