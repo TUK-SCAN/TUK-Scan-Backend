@@ -181,6 +181,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public List<Order> findAllByOrderNumberIn(List<String> orderNumber) {
+        return orderJpaRepository.findAllByOrderNumberIn(orderNumber);
+    }
+
+    @Override
     public List<Long> findIdsByCreatedAtBefore(LocalDateTime dateTime) {
         return orderJpaRepository.findIdsByCreatedAtBefore(dateTime);
     }

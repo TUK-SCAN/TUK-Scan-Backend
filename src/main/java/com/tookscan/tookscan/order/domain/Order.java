@@ -104,7 +104,6 @@ public class Order extends BaseEntity {
         this.orderStatus = orderStatus;
     }
 
-
     public String getDocumentsDescription() {
         String documentName = documents.stream()
                 .findFirst()
