@@ -1,8 +1,8 @@
 package com.tookscan.tookscan.order.application.service;
 
+import com.tookscan.tookscan.order.application.dto.request.DeleteAdminDocumentsRequestDto;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCase;
 import com.tookscan.tookscan.order.repository.DocumentRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ public class DeleteAdminDocumentsService implements DeleteAdminDocumentsUseCase 
 
     @Override
     @Transactional
-    public void execute(List<Long> documentIds) {
-        documentIds.forEach(documentRepository::deleteByIdOrElseThrow);
+    public void execute(DeleteAdminDocumentsRequestDto requestDto) {
+        requestDto.documentIds().forEach(documentRepository::deleteByIdOrElseThrow);
     }
 }

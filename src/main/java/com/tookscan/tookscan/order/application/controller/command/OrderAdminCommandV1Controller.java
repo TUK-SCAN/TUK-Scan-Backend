@@ -2,6 +2,7 @@ package com.tookscan.tookscan.order.application.controller.command;
 
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import com.tookscan.tookscan.order.application.dto.request.CreateAdminOrderMemoRequestDto;
+import com.tookscan.tookscan.order.application.dto.request.DeleteAdminDocumentsRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.DeleteAdminOrdersRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryTrackingNumberRequestDto;
@@ -12,15 +13,12 @@ import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCa
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryTrackingNumberUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryUseCase;
-import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersDeliveriesTrackingNumberUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDocumentsUseCase;
+import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersDeliveriesTrackingNumberUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrdersStatusUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -95,6 +93,7 @@ public class OrderAdminCommandV1Controller {
             @RequestParam("file") MultipartFile file
     ) {
         updateAdminOrdersDeliveriesTrackingNumber.execute(file);
+        return ResponseDto.ok(null);
     }
   
     /**
@@ -107,6 +106,7 @@ public class OrderAdminCommandV1Controller {
             @RequestBody @Valid UpdateAdminOrderDeliveryTrackingNumberRequestDto requestDto
     ) {
         updateAdminOrderDeliveryTrackingNumberUseCase.execute(deliveryId, requestDto);
+        return ResponseDto.ok(null);
     }
   
     /**
@@ -140,9 +140,9 @@ public class OrderAdminCommandV1Controller {
     @Operation(summary = "관리자 상품 일괄 삭제", description = "관리자가 여러 상품을 삭제합니다.")
     @DeleteMapping(value = "/documents")
     public ResponseDto<Void> deleteDocuments(
-            @RequestBody @JsonProperty("document_ids") @NotNull List<Long> documentIds
+            @RequestBody @Valid DeleteAdminDocumentsRequestDto requestDto
     ) {
-        deleteAdminDocumentsUseCase.execute(documentIds);
+        deleteAdminDocumentsUseCase.execute(requestDto);
         return ResponseDto.ok(null);
     }
 }
