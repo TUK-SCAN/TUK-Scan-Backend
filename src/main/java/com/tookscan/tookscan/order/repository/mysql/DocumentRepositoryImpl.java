@@ -22,6 +22,12 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
+    public void deleteByIdOrElseThrow(Long id) {
+        documentJpaRepository.findById(id)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCUMENT, "문서 ID: " + id));
+        documentJpaRepository.deleteById(id);
+
+    @Override
     public Document findByIdOrElseThrow(Long id) {
         return documentJpaRepository.findById(id)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_DOCUMENT, "문서 ID: " + id));
