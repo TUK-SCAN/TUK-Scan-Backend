@@ -160,6 +160,34 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public Page<Long> findDeliveriesSummaries(String startDate, String endDate, String search, String searchType,
+                                              Pageable pageable) {
+        QOrder order = QOrder.order;
+
+        // 검색 조건 동적 생성
+        BooleanExpression predicate = buildPredicate(order, startDate, endDate, search, searchType);
+
+        // 데이터 조회
+        List<Long> orderIds = jpaQueryFactory.select(order.id)
+                .from(order)
+                .where(predicate)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        // 전체 데이터 개수 조회
+        long totalCount = Optional.ofNullable(
+                jpaQueryFactory.select(order.count())
+                        .from(order)
+                        .where(predicate)
+                        .fetchOne()
+        ).orElse(0L);
+
+        // Page 객체 생성
+        return new PageImpl<>(orderIds, pageable, totalCount);
+    }
+
+    @Override
     public Order findByOrderNumberOrElseThrow(String orderNumber) {
         return orderJpaRepository.findByOrderNumber(orderNumber)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 번호: " + orderNumber));

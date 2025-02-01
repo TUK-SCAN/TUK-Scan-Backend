@@ -41,7 +41,7 @@ public class OrderAdminCommandV1Controller {
     private final UpdateAdminOrdersStatusUseCase updateAdminOrdersStatusUseCase;
     private final DeleteAdminOrdersUseCase deleteAdminOrdersUseCase;
     private final UpdateAdminOrderDeliveryUseCase updateAdminOrderDeliveryUseCase;
-    private final UpdateAdminOrdersDeliveriesTrackingNumberUseCase updateAdminOrdersDeliveriesTrackingNumber;
+    private final UpdateAdminOrdersDeliveriesTrackingNumberUseCase updateAdminOrdersDeliveriesTrackingNumberUseCase;
     private final UpdateAdminOrderDeliveryTrackingNumberUseCase updateAdminOrderDeliveryTrackingNumberUseCase;
     private final DeleteAdminDocumentsUseCase deleteAdminDocumentsUseCase;
     private final UpdateAdminOrderDocumentsUseCase updateAdminOrderDocumentsUseCase;
@@ -85,18 +85,6 @@ public class OrderAdminCommandV1Controller {
     }
 
     /**
-     * 4.3.8 관리자 운송장 번호 일괄 등록
-     */
-    @Operation(summary = "관리자 운송장 번호 일괄 등록", description = "관리자가 여러 주문의 운송장 번호를 일괄 등록합니다.")
-    @PostMapping(value = "/deliveries/tracking-number", consumes = "multipart/form-data")
-    public ResponseDto<Void> updateOrderTrackingNumber(
-            @RequestParam("file") MultipartFile file
-    ) {
-        updateAdminOrdersDeliveriesTrackingNumber.execute(file);
-        return ResponseDto.ok(null);
-    }
-  
-    /**
      * 4.3.7 관리자 운송장 번호 등록
      */
     @Operation(summary = "관리자 운송장 번호 등록", description = "관리자가 주문에 운송장 번호를 등록합니다.")
@@ -108,7 +96,19 @@ public class OrderAdminCommandV1Controller {
         updateAdminOrderDeliveryTrackingNumberUseCase.execute(deliveryId, requestDto);
         return ResponseDto.ok(null);
     }
-  
+
+    /**
+     * 4.3.8 관리자 운송장 번호 일괄 등록
+     */
+    @Operation(summary = "관리자 운송장 번호 일괄 등록", description = "관리자가 여러 주문의 운송장 번호를 일괄 등록합니다.")
+    @PostMapping(value = "/deliveries/tracking-number", consumes = "multipart/form-data")
+    public ResponseDto<Void> updateOrderTrackingNumber(
+            @RequestParam("file") MultipartFile file
+    ) {
+        updateAdminOrdersDeliveriesTrackingNumberUseCase.execute(file);
+        return ResponseDto.ok(null);
+    }
+
     /**
      * 4.4.1 관리자 주문 상세 상품 수정
      */

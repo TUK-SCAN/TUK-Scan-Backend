@@ -28,6 +28,9 @@ public interface OrderRepository {
                                   String search, String searchType, String sort, Direction direction,
                                   Pageable pageable, EOrderStatus orderStatus);
 
+    Page<Long> findDeliveriesSummaries(String startDate, String endDate, String search, String searchType,
+                                       Pageable pageable);
+
     void deleteAll(List<Order> orders);
 
     Page<Order> findAllByUserAndSearch(User user, String search, Pageable pageable);
