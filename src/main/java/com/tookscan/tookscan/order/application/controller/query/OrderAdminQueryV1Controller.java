@@ -9,6 +9,7 @@ import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDelive
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderDocumentsOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderOverviewsResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadAdminOrderSummariesResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadStatisticsSummariesResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminDeliveriesOverviewsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminDeliveriesSummariesUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderBriefUseCase;
@@ -17,6 +18,7 @@ import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDeliveryOve
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderDocumentsOverviewsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderOverviewsUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadAdminOrderSummariesUseCase;
+import com.tookscan.tookscan.order.application.usecase.ReadStatisticsSummariesUseCase;
 import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,6 +45,7 @@ public class OrderAdminQueryV1Controller {
     private final ReadAdminOrderOverviewsUseCase readAdminOrderOverviewsUseCase;
     private final ReadAdminDeliveriesSummariesUseCase readAdminDeliveriesSummariesUseCase;
     private final ReadAdminDeliveriesOverviewsUseCase readAdminDeliveriesOverviewsUseCase;
+    private final ReadStatisticsSummariesUseCase readStatisticsSummariesUseCase;
 
     /**
      * 4.2.5 관리자 주문 요약 정보 조회
@@ -157,5 +160,17 @@ public class OrderAdminQueryV1Controller {
     ) {
         return ResponseDto.ok(
                 readAdminDeliveriesOverviewsUseCase.execute(page, size, startDate, endDate, search, searchType));
+    }
+
+    /**
+     * 5.2.1 관리자 통계 조회
+     */
+    @Operation(summary = "관리자 통계 조회", description = "관리자가 통계 정보를 조회합니다.")
+    @GetMapping("/statistics/summaries")
+    public ResponseDto<ReadStatisticsSummariesResponseDto> readStatisticsSummaries(
+            @RequestParam(value = "start-year-month", required = false) String startYearMonth,
+            @RequestParam(value = "end-year-month", required = false) String endYearMonth
+    ) {
+        return ResponseDto.ok(readStatisticsSummariesUseCase.execute(startYearMonth, endYearMonth));
     }
 }
