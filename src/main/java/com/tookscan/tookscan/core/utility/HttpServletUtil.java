@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -119,8 +120,8 @@ public class HttpServletUtil {
         result.put("success", true);
         result.put("data", Map.of(
                         "temporary_token", tokenDto.getTemporaryToken(),
-                        "access_token", tokenDto.getAccessToken(),
-                        "refresh_token", tokenDto.getRefreshToken()
+                "access_token", Optional.ofNullable(tokenDto.getAccessToken()).orElse(""),
+                "refresh_token", Optional.ofNullable(tokenDto.getRefreshToken()).orElse("")
                 )
         );
         result.put("error", null);
