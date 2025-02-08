@@ -11,9 +11,6 @@ public class GoogleOauth2UserInfo extends Oauth2UserInfo {
 
     @Override
     public String getId() {
-        if (!attributes.containsKey("sub")) {
-            throw new IllegalStateException("Google OAuth2 User Info에 'sub' 키가 없습니다. attributes: " + attributes);
-        }
         return (String) attributes.get("sub");
     }
 }
