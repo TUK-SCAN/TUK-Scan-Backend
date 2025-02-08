@@ -10,10 +10,12 @@ import com.tookscan.tookscan.security.info.CustomUserPrincipal;
 import com.tookscan.tookscan.security.repository.AccountRepository;
 import com.tookscan.tookscan.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LoginOauthService implements LoginOauthUseCase {
 
     private final AccountRepository accountRepository;
@@ -25,6 +27,11 @@ public class LoginOauthService implements LoginOauthUseCase {
 
     @Override
     public OauthJsonWebTokenDto execute(CustomTemporaryUserPrincipal principal) {
+
+        log.info("principal: {}", principal);
+        log.info("principal.getSerialId(): {}", principal.getSerialId());
+        log.info("principal.getProvider(): {}", principal.getProvider());
+
         return jsonWebTokenUtil.generateOauthJsonWebTokens(
                 principal.getSerialId() + ":" + principal.getProvider()
         );
@@ -34,11 +41,19 @@ public class LoginOauthService implements LoginOauthUseCase {
         // 임시유저가 아니라면 Account 조회
         Account account = accountRepository.findByIdOrElseThrow(principal.getId());
 
+        log.info("account: {}", account);
+        log.info("account.getId(): {}", account.getId());
+        log.info("account.getRole(): {}", account.getRole());
+
         // Account 정보를 이용하여 Oauth Json Web Token 생성
         OauthJsonWebTokenDto jsonWebTokenDto = jsonWebTokenUtil.generateOauthJsonWebTokens(
                 account.getId(),
                 account.getRole()
         );
+
+        log.info("jsonWebTokenDto: {}", jsonWebTokenDto);
+        log.info("jsonWebTokenDto.getAccessToken(): {}", jsonWebTokenDto.getAccessToken());
+        log.info("jsonWebTokenDto.getRefreshToken(): {}", jsonWebTokenDto.getRefreshToken());
 
         String refreshToken = jsonWebTokenDto.getRefreshToken();
 

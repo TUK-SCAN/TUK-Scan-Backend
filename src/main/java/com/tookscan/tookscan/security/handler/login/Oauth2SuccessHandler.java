@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final LoginOauthUseCase loginOauthUseCase;
@@ -31,15 +33,23 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
 
         OAuth2User principal = (OAuth2User) authentication.getPrincipal();
 
+        log.info("🔍 OAuth2 Authentication Success - Principal Class: {}", principal.getClass().getName());
+        log.info("🔍 OAuth2 User Attributes: {}", principal.getAttributes());
+
         OauthJsonWebTokenDto oauthJsonWebTokenDto = null;
 
         if (principal instanceof CustomTemporaryUserPrincipal) {
+            log.info("✅ Principal is CustomTemporaryUserPrincipal");
             oauthJsonWebTokenDto = loginOauthUseCase.execute((CustomTemporaryUserPrincipal) principal);
         } else if (principal instanceof CustomUserPrincipal) {
+            log.info("✅ Principal is CustomUserPrincipal");
             oauthJsonWebTokenDto = loginOauthUseCase.execute((CustomUserPrincipal) principal);
         }
-        else
+        else {
+            log.error("❌ Invalid Principal Type: {}", principal.getClass().getName());
             throw new CommonException(ErrorCode.INVALID_PRINCIPAL_TYPE);
+        }
+        log.info("✅ OAuth2 Authentication Success - JWT Generated Successfully");
 
         httpServletUtil.onSuccessBodyResponseWithOauthJWTBody(response, oauthJsonWebTokenDto);
     }
