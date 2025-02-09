@@ -22,6 +22,8 @@ public class UpdateAdminOrdersDeliveriesTrackingNumberService implements
 
     private final OrderRepository orderRepository;
 
+    private final ExcelUtils excelUtils;
+
     @Override
     @Transactional
     public void execute(MultipartFile file) {
@@ -30,9 +32,9 @@ public class UpdateAdminOrdersDeliveriesTrackingNumberService implements
         }
 
         // 1) 엑셀 → (주문번호, 트래킹번호) 리스트
-        List<MyOrderExcelRow> rowDataList = ExcelUtils.parseExcel(file, 1, (row, rowNum) -> {
-                    String orderNumber = ExcelUtils.getStringCellValue(row.getCell(0)); // A열
-                    String trackingNumber = ExcelUtils.getStringCellValue(row.getCell(5)); // F열
+        List<MyOrderExcelRow> rowDataList = excelUtils.parseExcel(file, 1, (row, rowNum) -> {
+                    String orderNumber = excelUtils.getStringCellValue(row.getCell(0)); // A열
+                    String trackingNumber = excelUtils.getStringCellValue(row.getCell(5)); // F열
                     if (orderNumber.isEmpty() && trackingNumber.isEmpty()) {
                         return null;
                     }

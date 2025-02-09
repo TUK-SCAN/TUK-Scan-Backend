@@ -19,6 +19,9 @@ public interface OrderRepository {
 
     List<Order> findAllByIdOrElseThrow(List<Long> ids);
 
+    List<Order> findAllByOrderStatusDateBetweenOrElseThrow(LocalDateTime startDate, LocalDateTime endDate,
+                                                           EOrderStatus orderStatus);
+
     Map<EOrderStatus, Integer> findOrderStatusCounts();
 
     Page<Long> findOrderSummaries(String startDate, String endDate, String search, String searchType, String sort,

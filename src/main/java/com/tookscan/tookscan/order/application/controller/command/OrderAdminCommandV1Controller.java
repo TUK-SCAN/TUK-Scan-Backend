@@ -1,9 +1,11 @@
 package com.tookscan.tookscan.order.application.controller.command;
 
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import com.tookscan.tookscan.core.utility.DateTimeUtil;
 import com.tookscan.tookscan.order.application.dto.request.CreateAdminOrderMemoRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.DeleteAdminDocumentsRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.DeleteAdminOrdersRequestDto;
+import com.tookscan.tookscan.order.application.dto.request.ExportAdminDeliveriesRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryTrackingNumberRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDocumentsRequestDto;
@@ -12,6 +14,7 @@ import com.tookscan.tookscan.order.application.usecase.CreateAdminDocumentsPdfUs
 import com.tookscan.tookscan.order.application.usecase.CreateAdminOrderMemoUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
+import com.tookscan.tookscan.order.application.usecase.ExportAdminDeliveriesUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryTrackingNumberUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDeliveryUseCase;
 import com.tookscan.tookscan.order.application.usecase.UpdateAdminOrderDocumentsUseCase;
@@ -21,6 +24,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +54,31 @@ public class OrderAdminCommandV1Controller {
     private final UpdateAdminOrderDeliveryTrackingNumberUseCase updateAdminOrderDeliveryTrackingNumberUseCase;
     private final DeleteAdminDocumentsUseCase deleteAdminDocumentsUseCase;
     private final UpdateAdminOrderDocumentsUseCase updateAdminOrderDocumentsUseCase;
+    private final ExportAdminDeliveriesUseCase exportAdminDeliveriesUseCase;
     private final CreateAdminDocumentsPdfUseCase createAdminDocumentsPdfUseCase;
+
+    /**
+     * 4.1.3 관리자 배송 리스트 내보내기
+     */
+    @Operation(summary = "관리자 배송 리스트 내보내기", description = "관리자가 배송 리스트를 내보냅니다.")
+    @PostMapping(value = "/deliveries/export")
+    public ResponseEntity<Resource> exportDeliveries(
+            @RequestBody @Valid ExportAdminDeliveriesRequestDto requestDto
+    ) {
+        // 1) 서비스/UseCase를 호출해 "엑셀 파일(바이트배열)"을 생성
+        byte[] excelBytes = exportAdminDeliveriesUseCase.execute(requestDto);
+
+        // 2) 스프링에서 파일 다운로드를 위한 HTTP 응답 헤더 설정
+        String fileName = DateTimeUtil.convertStringToDartDate(requestDto.startDate()) + "~"
+                + DateTimeUtil.convertStringToDartDate(requestDto.endDate()) + "_deliveries.xlsx";
+        ByteArrayResource resource = new ByteArrayResource(excelBytes);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(excelBytes.length)
+                .body(resource);
+    }
 
     /**
      * 4.1.6 관리자 스캔 시작
