@@ -37,6 +37,7 @@ public enum ErrorCode {
     ALREADY_EXIST_RESOURCE(40010, HttpStatus.BAD_REQUEST, "이미 존재하는 리소스입니다."),
     INVALID_ENUM_TYPE(40011, HttpStatus.BAD_REQUEST, "유효하지 않은 Enum 타입입니다."),
     PAYMENT_INCOMPLETE(40012, HttpStatus.BAD_REQUEST, "결제가 완료되지 않았습니다."),
+    INVALID_ORDER_STATUS(40013, HttpStatus.BAD_REQUEST, "유효하지 않은 주문 상태입니다."),
 
     // SIGN UP Error
     ALREADY_EXIST_ID(40200, HttpStatus.BAD_REQUEST, "이미 존재하는 아이디입니다."),
