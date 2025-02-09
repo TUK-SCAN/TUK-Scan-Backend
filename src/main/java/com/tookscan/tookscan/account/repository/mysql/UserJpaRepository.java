@@ -1,14 +1,14 @@
 package com.tookscan.tookscan.account.repository.mysql;
 
 import com.tookscan.tookscan.account.domain.User;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public interface UserJpaRepository extends JpaRepository<User, UUID> {
@@ -23,4 +23,6 @@ public interface UserJpaRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u From User u " +
             "WHERE u.id IN :userIds")
     List<User> findUserByIds(@Param("userIds") List<UUID> userIds);
+
+    Integer countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 }

@@ -49,4 +49,6 @@ public interface OrderRepository {
 
     void deleteAllById(List<Long> ids);
 
+    Integer countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+
 }

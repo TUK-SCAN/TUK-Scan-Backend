@@ -50,4 +50,6 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o.id FROM Order o WHERE o.createdAt < :dateTime")
     List<Long> findIdsByCreatedAtBefore(@Param("dateTime") LocalDateTime dateTime);
 
+    Integer countByCreatedAtBetween(LocalDateTime createdAt, LocalDateTime createdAt2);
+
 }

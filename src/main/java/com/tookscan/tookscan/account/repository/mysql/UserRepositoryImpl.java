@@ -9,17 +9,17 @@ import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.repository.UserRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Function;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,6 +52,11 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findByIdsWithDetails(List<UUID> userIds) {
         return userJpaRepository.findUserByIdsWithDetails(userIds);
+    }
+
+    @Override
+    public Integer countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate) {
+        return userJpaRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
     private final JPAQueryFactory jpaQueryFactory;
