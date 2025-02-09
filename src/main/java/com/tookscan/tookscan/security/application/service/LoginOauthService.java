@@ -25,6 +25,7 @@ public class LoginOauthService implements LoginOauthUseCase {
 
     @Override
     public OauthJsonWebTokenDto execute(CustomTemporaryUserPrincipal principal) {
+
         return jsonWebTokenUtil.generateOauthJsonWebTokens(
                 principal.getSerialId() + ":" + principal.getProvider()
         );

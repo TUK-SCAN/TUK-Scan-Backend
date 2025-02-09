@@ -49,6 +49,9 @@ public class Document extends BaseEntity {
     @Column(name = "additional_price", nullable = false)
     private Integer additionalPrice;
 
+    @Column(name = "scan_task_id")
+    private String scanTaskId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "recovery_option", nullable = false)
     private ERecoveryOption recoveryOption;
@@ -108,6 +111,10 @@ public class Document extends BaseEntity {
 
     public void updateScanStatus(EScanStatus scanStatus) {
         this.scanStatus = scanStatus;
+    }
+
+    public void updateScanTaskId(String scanTaskId) {
+        this.scanTaskId = scanTaskId;
     }
 
     public int calculatePrice() {

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -114,15 +115,14 @@ public class HttpServletUtil {
         response.setCharacterEncoding("UTF-8");
         response.setStatus(HttpStatus.CREATED.value());
 
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+        data.put("temporary_token", tokenDto.getTemporaryToken());
+        data.put("access_token", tokenDto.getAccessToken());
+        data.put("refresh_token", tokenDto.getRefreshToken());
 
+        Map<String, Object> result = new HashMap<>();
         result.put("success", true);
-        result.put("data", Map.of(
-                        "temporary_token", tokenDto.getTemporaryToken(),
-                        "access_token", tokenDto.getAccessToken(),
-                        "refresh_token", tokenDto.getRefreshToken()
-                )
-        );
+        result.put("data", data);
         result.put("error", null);
 
         response.getWriter().write(objectMapper.writeValueAsString(result));
