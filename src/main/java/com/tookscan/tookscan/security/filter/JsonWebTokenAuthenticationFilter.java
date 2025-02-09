@@ -1,5 +1,6 @@
 package com.tookscan.tookscan.security.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tookscan.tookscan.core.constant.Constants;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
@@ -14,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -30,6 +35,10 @@ public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final JsonWebTokenUtil jsonWebTokenUtil;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    static final String AUTH_BRIEFS_URL = "/v1/auth/briefs";
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -37,8 +46,16 @@ public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String token = HeaderUtil.refineHeader(request, Constants.AUTHORIZATION_HEADER, Constants.BEARER_PREFIX)
-                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_HEADER_ERROR));
+        String requestURI = request.getRequestURI();
+
+        Optional<String> tokenOptional = HeaderUtil.refineHeader(request, Constants.AUTHORIZATION_HEADER, Constants.BEARER_PREFIX);
+
+        if (AUTH_BRIEFS_URL.equals(requestURI) && tokenOptional.isEmpty()) {
+            writeGuestResponse(response);
+            return;
+        }
+
+        String token = tokenOptional.orElseThrow(() -> new CommonException(ErrorCode.INVALID_HEADER_ERROR));
 
         Claims claims = jsonWebTokenUtil.validateToken(token);
 
@@ -67,6 +84,26 @@ public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
 
         // 다음 필터로 전달
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 헤더가 없을 경우, 게스트 응답(JSON)을 작성하여 반환
+     */
+    private void writeGuestResponse(HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpStatus.OK.value());
+
+        Map<String, Object> guestData = new HashMap<>();
+        guestData.put("account_type", ESecurityRole.GUEST);
+        guestData.put("name", null);
+
+        Map<String, Object> guestResponse = new HashMap<>();
+        guestResponse.put("success", true);
+        guestResponse.put("data", guestData);
+        guestResponse.put("error", null);
+
+        objectMapper.writeValue(response.getWriter(), guestResponse);
     }
 
     @Override
