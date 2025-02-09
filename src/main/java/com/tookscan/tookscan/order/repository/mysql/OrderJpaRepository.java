@@ -2,6 +2,7 @@ package com.tookscan.tookscan.order.repository.mysql;
 
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.order.domain.Order;
+import com.tookscan.tookscan.order.domain.type.EOrderStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,18 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
             "JOIN FETCH o.documents d " +
             "WHERE o.user.id IN :userIds")
     List<Order> findAllByUserIds(@Param("userIds") List<UUID> userIds);
+
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "LEFT JOIN FETCH o.documents d " +
+            "LEFT JOIN FETCH d.pricePolicy p " +
+            "LEFT JOIN FETCH o.delivery del " +
+            "LEFT JOIN FETCH o.user u " +
+            "WHERE o.createdAt BETWEEN :startDate AND :endDate " +
+            "AND o.orderStatus = :orderStatus")
+    List<Order> findAllByOrderStatusDateBetween(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("orderStatus") EOrderStatus orderStatus);
 
     @Query("SELECT DISTINCT o FROM Order o " +
             "LEFT JOIN FETCH o.documents d " +

@@ -63,6 +63,18 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public List<Order> findAllByOrderStatusDateBetweenOrElseThrow(LocalDateTime startDate, LocalDateTime endDate,
+                                                                  EOrderStatus orderStatus) {
+        List<Order> orders = orderJpaRepository.findAllByOrderStatusDateBetween(startDate, endDate, orderStatus);
+
+        if (orders.isEmpty()) {
+            throw new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 날짜: " + startDate + " ~ " + endDate);
+        }
+
+        return orders;
+    }
+
+    @Override
     public void deleteAll(List<Order> orders) {
         orderJpaRepository.deleteAll(orders);
     }
