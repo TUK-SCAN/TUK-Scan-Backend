@@ -236,6 +236,11 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orderJpaRepository.findIdsByCreatedAtBefore(dateTime);
     }
 
+    @Override
+    public Integer countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate) {
+        return orderJpaRepository.countByCreatedAtBetween(startDate, endDate);
+    }
+
     private BooleanExpression buildPredicate(QOrder order, String startDate, String endDate, String search,
                                              String searchType) {
         BooleanExpression predicate = order.isNotNull();

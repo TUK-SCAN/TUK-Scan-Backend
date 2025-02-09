@@ -10,6 +10,7 @@ import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliv
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDeliveryTrackingNumberRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrderDocumentsRequestDto;
 import com.tookscan.tookscan.order.application.dto.request.UpdateAdminOrdersStatusRequestDto;
+import com.tookscan.tookscan.order.application.usecase.CreateAdminDocumentsPdfUseCase;
 import com.tookscan.tookscan.order.application.usecase.CreateAdminOrderMemoUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminDocumentsUseCase;
 import com.tookscan.tookscan.order.application.usecase.DeleteAdminOrdersUseCase;
@@ -54,6 +55,7 @@ public class OrderAdminCommandV1Controller {
     private final DeleteAdminDocumentsUseCase deleteAdminDocumentsUseCase;
     private final UpdateAdminOrderDocumentsUseCase updateAdminOrderDocumentsUseCase;
     private final ExportAdminDeliveriesUseCase exportAdminDeliveriesUseCase;
+    private final CreateAdminDocumentsPdfUseCase createAdminDocumentsPdfUseCase;
 
     /**
      * 4.1.3 관리자 배송 리스트 내보내기
@@ -76,6 +78,18 @@ public class OrderAdminCommandV1Controller {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(excelBytes.length)
                 .body(resource);
+    }
+
+    /**
+     * 4.1.6 관리자 스캔 시작
+     */
+    @Operation(summary = "관리자 스캔 시작", description = "관리자가 주문에 대해 스캔을 시작합니다.")
+    @PostMapping(value = "/documents/{documentId}/scan")
+    public ResponseDto<Void> startScan(
+            @PathVariable Long documentId
+    ) {
+        createAdminDocumentsPdfUseCase.execute(documentId);
+        return ResponseDto.ok(null);
     }
 
     /**

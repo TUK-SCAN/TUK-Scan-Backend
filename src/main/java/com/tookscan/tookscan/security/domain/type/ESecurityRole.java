@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum ESecurityRole {
 
     USER("유저", "USER", "ROLE_USER"),
-    ADMIN("관리자", "ADMIN", "ROLE_ADMIN")
+    ADMIN("관리자", "ADMIN", "ROLE_ADMIN"),
+    GUEST("게스트", "GUEST", "ROLE_GUEST")
 
     ;
 

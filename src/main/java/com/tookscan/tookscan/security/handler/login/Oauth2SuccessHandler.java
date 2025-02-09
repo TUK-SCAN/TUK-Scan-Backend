@@ -38,8 +38,9 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         } else if (principal instanceof CustomUserPrincipal) {
             oauthJsonWebTokenDto = loginOauthUseCase.execute((CustomUserPrincipal) principal);
         }
-        else
+        else {
             throw new CommonException(ErrorCode.INVALID_PRINCIPAL_TYPE);
+        }
 
         httpServletUtil.onSuccessBodyResponseWithOauthJWTBody(response, oauthJsonWebTokenDto);
     }
