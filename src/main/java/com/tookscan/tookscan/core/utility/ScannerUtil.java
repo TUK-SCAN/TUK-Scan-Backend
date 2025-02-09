@@ -115,6 +115,11 @@ public class ScannerUtil {
 
     public Map<Long, EScanStatus> getScanStatuses(List<Document> documents) {
         return documents.stream()
-                .collect(Collectors.toMap(Document::getId, document -> getScanStatus(document.getScanTaskId())));
+                .collect(Collectors.toMap(Document::getId, document -> {
+                    if (document.getScanTaskId() == null) {
+                        return EScanStatus.ENABLE;
+                    }
+                    return getScanStatus(document.getScanTaskId());
+                }));
     }
 }
