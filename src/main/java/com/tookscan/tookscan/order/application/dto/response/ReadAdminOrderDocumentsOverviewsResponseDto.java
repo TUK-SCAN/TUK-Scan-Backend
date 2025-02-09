@@ -11,6 +11,7 @@ import com.tookscan.tookscan.order.domain.type.EScanStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -54,7 +55,7 @@ public class ReadAdminOrderDocumentsOverviewsResponseDto extends
         this.validateSelf();
     }
 
-    public static ReadAdminOrderDocumentsOverviewsResponseDto fromEntity(Order order) {
+    public static ReadAdminOrderDocumentsOverviewsResponseDto of(Order order, Map<Long, EScanStatus> scanStatuses) {
         return ReadAdminOrderDocumentsOverviewsResponseDto.builder()
                 .orderStatus(order.getOrderStatus())
                 .orderNumber(order.getOrderNumber())
@@ -63,7 +64,7 @@ public class ReadAdminOrderDocumentsOverviewsResponseDto extends
                         .map(InitialDocumentDto::fromEntity)
                         .toList())
                 .realDocumentDtos(order.getDocuments().stream()
-                        .map(RealDocumentDto::fromEntity)
+                        .map(document -> RealDocumentDto.of(document, scanStatuses.get(document.getId())))
                         .toList())
                 .paymentInfoDto(PaymentInfoDto.fromEntity(order))
                 .build();
@@ -158,7 +159,7 @@ public class ReadAdminOrderDocumentsOverviewsResponseDto extends
             this.validateSelf();
         }
 
-        public static RealDocumentDto fromEntity(Document document) {
+        public static RealDocumentDto of(Document document, EScanStatus scanStatus) {
             return RealDocumentDto.builder()
                     .id(document.getId())
                     .name(document.getName())
@@ -166,7 +167,7 @@ public class ReadAdminOrderDocumentsOverviewsResponseDto extends
                     .recoveryOption(document.getRecoveryOption())
                     .price(document.calculatePrice())
                     .additionalPrice(document.getAdditionalPrice())
-                    .scanStatus(document.getScanStatus())
+                    .scanStatus(scanStatus)
                     .build();
         }
     }
