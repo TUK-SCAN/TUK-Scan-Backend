@@ -33,7 +33,7 @@ public class Constants {
             "/v1/auth/verification/serial-id",
             "/v1/auth/existence/serial-id",
             "/v1/auth/reissue/authentication-code",
-            "/v1/users/auth/reissue/password",
+            "/v1/auth/reissue/password",
 
             // Guest
             "/v1/guests/**",
