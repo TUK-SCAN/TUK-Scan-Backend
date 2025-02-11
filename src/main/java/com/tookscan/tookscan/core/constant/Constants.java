@@ -23,7 +23,9 @@ public class Constants {
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             // Authentication/Authorization
             "/oauth2/authorization/kakao",
+            "/login/oauth2/code/kakao",
             "/oauth2/authorization/google",
+            "/login/oauth2/code/google",
             "/v1/auth/login",
             "/v1/auth/reissue/token",
             "/v1/auth/authentication-code",
