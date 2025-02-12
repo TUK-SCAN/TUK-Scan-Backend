@@ -5,18 +5,24 @@ import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.security.domain.mysql.Account;
 import com.tookscan.tookscan.security.domain.type.ESecurityProvider;
 import com.tookscan.tookscan.security.domain.type.ESecurityRole;
-import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -46,6 +52,12 @@ public class User extends Account {
     @Column(name = "memo", length = 500)
     private String memo;
 
+    @Column(name = "is_receive_email", nullable = false)
+    private Boolean isReceiveEmail;
+
+    @Column(name = "is_receive_sms", nullable = false)
+    private Boolean isReceiveSms;
+
     /* -------------------------------------------- */
     /* Embedded Column ---------------------------- */
     /* -------------------------------------------- */
@@ -71,7 +83,9 @@ public class User extends Account {
             String password,
             String name,
             String phoneNumber,
-            Boolean marketingAllowed
+            Boolean marketingAllowed,
+            Boolean isReceiveEmail,
+            Boolean isReceiveSms
     ) {
         super(provider, serialId, password, phoneNumber);
         this.name = name;
@@ -79,6 +93,8 @@ public class User extends Account {
         this.marketingAllowed = marketingAllowed;
         this.memo = null;
         this.address = null;
+        this.isReceiveEmail = isReceiveEmail;
+        this.isReceiveSms = isReceiveSms;
     }
     @Override
     public ESecurityRole getRole() {
@@ -102,6 +118,13 @@ public class User extends Account {
         super.updatePhoneNumber(phoneNumber);
     }
 
+    public void updateIsReceiveEmail(Boolean isReceiveEmail) {
+        this.isReceiveEmail = isReceiveEmail;
+    }
+
+    public void updateIsReceiveSms(Boolean isReceiveSms) {
+        this.isReceiveSms = isReceiveSms;
+    }
 
     public void updateName(String name) {
         this.name = name;
