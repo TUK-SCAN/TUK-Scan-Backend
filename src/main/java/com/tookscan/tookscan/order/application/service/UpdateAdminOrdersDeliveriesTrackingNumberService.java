@@ -28,7 +28,7 @@ public class UpdateAdminOrdersDeliveriesTrackingNumberService implements
     @Transactional
     public void execute(MultipartFile file) {
         if (file.isEmpty()) {
-            throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+            throw new CommonException(ErrorCode.INVALID_ARGUMENT, "파일이 비어있습니다.");
         }
 
         // 1) 엑셀 → (주문번호, 트래킹번호) 리스트

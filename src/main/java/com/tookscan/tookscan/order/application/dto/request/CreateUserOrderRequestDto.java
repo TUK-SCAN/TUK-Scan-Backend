@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.util.List;
@@ -15,26 +16,26 @@ public record CreateUserOrderRequestDto(
 
         @JsonProperty("documents")
         @Valid
-        @NotNull(message = "documents는 null일 수 없습니다.")
+        @NotEmpty(message = "문서를 1개 이상 입력해주세요.")
         List<RequestDocument> documents,
 
         @JsonProperty("delivery_info")
         @Valid
-        @NotNull(message = "delivery_info는 null일 수 없습니다.")
+        @NotNull(message = "배송 정보를 입력해주세요.")
         DeliveryInfo deliveryInfo
 ) {
     public record RequestDocument(
 
             @JsonProperty("name")
-            @NotBlank(message = "name은 null일 수 없습니다.")
+            @NotBlank(message = "문서 이름을 입력해주세요.")
             String name,
 
-            @NotNull(message = "page_prediction은 null일 수 없습니다.")
-            @Min(value = 0, message = "page_prediction은 0 이상이어야 합니다.")
+            @NotNull(message = "페이지 수를 입력해주세요.")
+            @Min(value = 0, message = "페이지 수는 0 이상이어야 합니다.")
             @JsonProperty("page_prediction")
             Integer pagePrediction,
 
-            @NotNull(message = "recovery_option은 null일 수 없습니다.")
+            @NotNull(message = "복원 옵션을 입력해주세요.")
             @JsonProperty("recovery_option")
             ERecoveryOption recoveryOption
     ) {
@@ -42,19 +43,19 @@ public record CreateUserOrderRequestDto(
 
     public record DeliveryInfo(
 
-            @NotBlank(message = "receiver_name은 null일 수 없습니다.")
+            @NotBlank(message = "받는 이를 입력해주세요.")
             @JsonProperty("receiver_name")
             String receiverName,
 
             @JsonProperty("phone_number")
-            @NotBlank(message = "phone_number는 null일 수 없습니다.")
+            @NotBlank(message = "전화번호를 입력해주세요.")
             @Pattern(
                     regexp = "^\\d{10,11}$",
                     message = "전화번호 형식이 올바르지 않습니다. (- 없이 입력해주세요, 예: 01012345678)"
             )
             String phoneNumber,
 
-            @NotBlank(message = "email은 null일 수 없습니다.")
+            @NotBlank(message = "이메일을 입력해주세요.")
             @Email(message = "올바른 email 형식이 아닙니다.")
             @JsonProperty("email")
             String email,
@@ -63,7 +64,7 @@ public record CreateUserOrderRequestDto(
             @Pattern(regexp = "^[\\s\\S]{0,100}$", message = "요청사항은 100자를 초과할 수 없습니다")
             String request,
 
-            @NotNull(message = "address는 null일 수 없습니다.")
+            @NotNull(message = "주소를 입력해주세요.")
             @JsonProperty("address")
             AddressRequestDto address
     ) {

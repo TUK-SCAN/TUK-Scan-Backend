@@ -9,7 +9,6 @@ public record SignUpOauthRequestDto(
 
         @JsonProperty("name")
         @NotBlank(message = "이름을 입력해주세요.")
-        @Pattern(regexp = "^[가-힣]{2,10}$", message = "이름은 2글자 이상 10자 이하의 한글로 입력해주세요.")
         String name,
 
         @JsonProperty("phone_number")

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 public record AdminSignUpDefaultRequestDto(
 
         @JsonProperty("serial_id")
-        @NotBlank(message = "시리얼 ID를 입력해주세요.")
+        @NotBlank(message = "아이디를 입력해주세요.")
         String serialId,
 
         @JsonProperty("password")
