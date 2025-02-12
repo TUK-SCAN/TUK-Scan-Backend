@@ -107,7 +107,7 @@ public class CreateUserOrderService implements CreateUserOrderUseCase {
             initialDocumentRepository.save(initialDocument);
         });
 
-        return CreateUserOrderResponseDto.of(order.getOrderNumber(), delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
+        return CreateUserOrderResponseDto.builder().orderNumber(order.getOrderNumber()).build();
     }
 
 }

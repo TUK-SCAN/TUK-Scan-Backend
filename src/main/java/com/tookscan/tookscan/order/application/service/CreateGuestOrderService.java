@@ -119,6 +119,6 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
         // 인증번호 발급 이력 삭제
         authenticationCodeHistoryRepository.deleteById(requestDto.deliveryInfo().phoneNumber());
 
-        return CreateGuestOrderResponseDto.of(order.getOrderNumber(), delivery.getReceiverName(), order.getDocumentsTotalAmount(), delivery.getEmail(), delivery.getAddress().getFullAddress());
+        return CreateGuestOrderResponseDto.builder().orderNumber(order.getOrderNumber()).build();
     }
 }
