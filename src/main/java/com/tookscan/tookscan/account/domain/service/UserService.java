@@ -14,7 +14,9 @@ public class UserService {
             String password,
             String name,
             String phoneNumber,
-            Boolean marketingAllowed
+            Boolean marketingAllowed,
+            Boolean isReceiveEmail,
+            Boolean isReceiveSms
     ) {
         return User.builder()
                 .provider(provider)
@@ -23,6 +25,8 @@ public class UserService {
                 .name(name)
                 .phoneNumber(phoneNumber)
                 .marketingAllowed(marketingAllowed)
+                .isReceiveEmail(isReceiveEmail)
+                .isReceiveSms(isReceiveSms)
                 .build();
     }
 
@@ -37,11 +41,15 @@ public class UserService {
             User user,
             String email,
             String phoneNumber,
-            AddressRequestDto addressDto
+            AddressRequestDto addressDto,
+            Boolean isReceiveEmail,
+            Boolean isReceiveSms
     ) {
         user.updateEmail(email);
         user.updatePhone(phoneNumber);
         user.updateAddress(addressDto.toEntity());
+        user.updateIsReceiveEmail(isReceiveEmail);
+        user.updateIsReceiveSms(isReceiveSms);
         return user;
     }
 

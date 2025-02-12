@@ -24,6 +24,16 @@ public record UpdateUserUserRequestDto(
 
         @JsonProperty("address")
         @Schema(description = "주소")
-        AddressRequestDto address
+        AddressRequestDto address,
+
+        @JsonProperty("is_receive_sms")
+        @NotNull(message = "SMS 수신 여부를 선택해주세요.")
+        @Schema(description = "SMS 수신 여부", example = "true")
+        Boolean isReceiveSms,
+
+        @JsonProperty("is_receive_email")
+        @NotNull(message = "이메일 수신 여부를 선택해주세요.")
+        @Schema(description = "이메일 수신 여부", example = "true")
+        Boolean isReceiveEmail
 ) {
 }

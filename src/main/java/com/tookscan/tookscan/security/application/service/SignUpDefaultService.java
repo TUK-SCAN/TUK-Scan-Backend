@@ -53,7 +53,9 @@ public class SignUpDefaultService implements SignUpDefaultUseCase {
                 bCryptPasswordEncoder.encode(requestDto.password()),
                 requestDto.name(),
                 requestDto.phoneNumber(),
-                requestDto.marketingAllowed()
+                requestDto.marketingAllowed(),
+                requestDto.isReceiveEmail(),
+                requestDto.isReceiveSms()
         );
         userRepository.save(user);
 

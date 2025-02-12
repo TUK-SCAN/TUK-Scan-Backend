@@ -32,6 +32,7 @@ public class Constants {
             "/v1/auth/users/sign-up-default",
             "/v1/auth/admins/sign-up-default",
             "/v1/auth/users/sign-up-oauth",
+            "/v1/users/terms/overviews",
             "/v1/auth/verification/serial-id",
             "/v1/auth/existence/serial-id",
             "/v1/auth/reissue/authentication-code",

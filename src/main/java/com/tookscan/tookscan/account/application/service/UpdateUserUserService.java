@@ -9,11 +9,10 @@ import com.tookscan.tookscan.security.domain.redis.AuthenticationCode;
 import com.tookscan.tookscan.security.domain.service.AuthenticationCodeService;
 import com.tookscan.tookscan.security.repository.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +43,8 @@ public class UpdateUserUserService implements UpdateUserUserUseCase {
         }
 
         // User 정보 수정
-        user = userService.updateSelf(user, requestDto.email(), requestDto.phoneNumber(), requestDto.address());
+        user = userService.updateSelf(user, requestDto.email(), requestDto.phoneNumber(), requestDto.address(),
+                requestDto.isReceiveEmail(), requestDto.isReceiveSms());
         userRepository.save(user);
 
         // 인증번호 삭제

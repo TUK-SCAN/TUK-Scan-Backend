@@ -14,12 +14,11 @@ import com.tookscan.tookscan.security.repository.AccountRepository;
 import com.tookscan.tookscan.security.repository.AuthenticationCodeHistoryRepository;
 import com.tookscan.tookscan.security.repository.AuthenticationCodeRepository;
 import io.jsonwebtoken.Claims;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +67,9 @@ public class SignUpOauthService implements SignUpOauthUseCase {
                 bCryptPasswordEncoder.encode(UUID.randomUUID().toString()),
                 requestDto.name(),
                 requestDto.phoneNumber(),
-                requestDto.marketingAllowed()
+                requestDto.marketingAllowed(),
+                requestDto.isReceiveEmail(),
+                requestDto.isReceiveSms()
         );
         userRepository.save(user);
 
