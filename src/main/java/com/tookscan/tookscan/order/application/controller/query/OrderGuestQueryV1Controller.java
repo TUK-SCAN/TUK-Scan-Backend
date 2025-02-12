@@ -36,7 +36,7 @@ public class OrderGuestQueryV1Controller {
     }
 
     /**
-     * 4.2.16 비회원 주문 요약 조회
+     * 4.2.17 비회원 주문 요약 조회
      */
     @Operation(summary = "회원 주문 요약 조회", description = "회원이 주문 요약을 조회합니다.")
     @GetMapping(value = "/{orderNumber}/summary")
