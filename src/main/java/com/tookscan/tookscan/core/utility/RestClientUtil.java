@@ -23,7 +23,7 @@ public class RestClientUtil {
                         .headers(httpHeaders -> httpHeaders.addAll(headers))
                         .retrieve()
                         .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
-                            throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+                            throw new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);
                         })
                         .onStatus(HttpStatusCode::is5xxServerError, (request, response) -> {
                             throw new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);
@@ -44,7 +44,7 @@ public class RestClientUtil {
                             .body(body)
                             .retrieve()
                             .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
-                                throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+                                throw new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);
                             })
                             .onStatus(HttpStatusCode::is5xxServerError, (request, response) -> {
                                 throw new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);

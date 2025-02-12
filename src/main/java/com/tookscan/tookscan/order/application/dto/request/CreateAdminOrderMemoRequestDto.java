@@ -1,11 +1,11 @@
 package com.tookscan.tookscan.order.application.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record CreateAdminOrderMemoRequestDto(
     @JsonProperty("content")
-    @NotNull
+    @NotBlank(message = "메모를 입력해주세요.")
     String content
 ) {
 }

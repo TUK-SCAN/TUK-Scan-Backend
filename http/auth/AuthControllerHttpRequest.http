@@ -59,11 +59,11 @@ Content-Type: application/json
 
 ### 2.1.5 관리자 회원가입
 // @no-log
-POST {{host_url}}/v1/admins/auth/sign-up
+POST {{host_url}}/v1/auth/admins/sign-up-default
 Content-Type: application/json
 
 {
-    "serial_id": "{{auth.API_2_1_5.serial_id}}",
+    "serial_id": "admin1",
     "password": "{{auth.API_2_1_5.password}}"
 }
 

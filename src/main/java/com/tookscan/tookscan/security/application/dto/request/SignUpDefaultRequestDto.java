@@ -9,12 +9,10 @@ public record SignUpDefaultRequestDto(
 
         @JsonProperty("name")
         @NotBlank(message = "이름을 입력해주세요.")
-        @Pattern(regexp = "^[가-힣]{2,10}$", message = "이름은 2글자 이상 10자 이하의 한글로 입력해주세요.")
         String name,
 
         @JsonProperty("serial_id")
         @NotBlank(message = "아이디를 입력해주세요.")
-        @Pattern(regexp = "^[A-Za-z0-9]{1,320}$", message = "아이디는 1글자 이상 320자 이하의 영어 대소문자, 숫자로 입력해주세요.")
         String serialId,
 
         @JsonProperty("password")
