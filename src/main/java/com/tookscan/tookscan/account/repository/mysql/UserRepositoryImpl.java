@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findByIdOrElseThrow(UUID userId) {
         return userJpaRepository.findById(userId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findByPhoneNumberAndNameOrElseThrow(String phoneNumber, String name) {
         return userJpaRepository.findByPhoneNumberAndName(phoneNumber, name)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
     }
 
     @Override
