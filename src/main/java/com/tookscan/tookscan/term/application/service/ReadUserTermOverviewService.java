@@ -19,6 +19,6 @@ public class ReadUserTermOverviewService implements ReadUserTermOverviewUseCase 
     public ReadUserTermOverviewResponseDto execute(String type) {
         ETermType eType = ETermType.fromString(type);
 
-        return ReadUserTermOverviewResponseDto.fromEntities(termRepository.findAllByType(eType));
+        return ReadUserTermOverviewResponseDto.fromEntities(termRepository.findAllByTypeOrElseThrow(eType));
     }
 }

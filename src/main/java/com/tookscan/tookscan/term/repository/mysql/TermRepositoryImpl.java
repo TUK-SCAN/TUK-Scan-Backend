@@ -27,8 +27,13 @@ public class TermRepositoryImpl implements TermRepository {
     }
 
     @Override
-    public List<Term> findAllByType(ETermType type) {
-        return termJpaRepository.findAllByType(type);
+    public List<Term> findAllByTypeOrElseThrow(ETermType type) {
+        List<Term> terms = termJpaRepository.findAllByType(type);
+
+        if (terms.isEmpty()) {
+            throw new CommonException(ErrorCode.NOT_FOUND_TERM);
+        }
+        return terms;
     }
 
     @Override

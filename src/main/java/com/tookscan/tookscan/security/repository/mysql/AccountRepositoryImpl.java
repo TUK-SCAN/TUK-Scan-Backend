@@ -19,7 +19,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account findByIdOrElseThrow(UUID id) {
         return accountJpaRepository.findById(id)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account findBySerialIdAndProviderOrElseThrow(String serialId, ESecurityProvider provider) {
         return accountJpaRepository.findBySerialIdAndProvider(serialId, provider)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 
     @Override
@@ -72,6 +72,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public Account findByPhoneNumberAndSerialIdOrElseThrow(String phoneNumber, String serialId) {
         return accountJpaRepository.findByPhoneNumberAndSerialId(phoneNumber, serialId)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ACCOUNT));
     }
 }

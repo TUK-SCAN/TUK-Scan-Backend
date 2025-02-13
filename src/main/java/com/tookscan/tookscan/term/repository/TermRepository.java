@@ -2,7 +2,6 @@ package com.tookscan.tookscan.term.repository;
 
 import com.tookscan.tookscan.term.domain.Term;
 import com.tookscan.tookscan.term.domain.type.ETermType;
-
 import java.util.List;
 
 public interface TermRepository {
@@ -11,7 +10,7 @@ public interface TermRepository {
 
     Term findByIdOrElseThrow(Long id);
 
-    List<Term> findAllByType(ETermType type);
+    List<Term> findAllByTypeOrElseThrow(ETermType type);
 
     void deleteById(Long id);
 }

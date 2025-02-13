@@ -62,10 +62,10 @@ public class OrderUserQueryV1Controller {
      * 4.2.16 회원 주문 요약 조회
      */
     @Operation(summary = "회원 주문 요약 조회", description = "회원이 주문 요약을 조회합니다.")
-    @GetMapping(value = "/{orderNumber}/summary")
+    @GetMapping(value = "/summary")
     public ResponseDto<ReadUserOrderSummaryResponseDto> getUserOrderSummary(
             @Parameter(hidden = true) @AccountID UUID accountId,
-            @PathVariable String orderNumber
+            @RequestParam(value = "order-number") String orderNumber
     ) {
         return ResponseDto.ok(readUserOrderSummaryUseCase.execute(accountId, orderNumber));
     }

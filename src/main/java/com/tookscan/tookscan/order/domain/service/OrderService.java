@@ -35,7 +35,7 @@ public class OrderService {
 
     public void validateOrderUser(Order order, User user) {
         if (!order.getUser().getId().equals(user.getId())) {
-            throw new CommonException(ErrorCode.ACCESS_DENIED);
+            throw new CommonException(ErrorCode.NOT_MATCH_ORDER_USER);
         }
     }
 
