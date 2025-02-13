@@ -31,6 +31,6 @@ public class AuthenticationCodeRepositoryImpl implements AuthenticationCodeRepos
     @Override
     public AuthenticationCode findByIdOrElseThrow(String value) {
         return authenticationCodeRedisRepository.findById(value)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_AUTHENTICATION_CODE));
     }
 }

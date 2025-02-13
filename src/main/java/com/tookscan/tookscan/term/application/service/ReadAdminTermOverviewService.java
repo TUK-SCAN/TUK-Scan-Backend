@@ -19,7 +19,7 @@ public class ReadAdminTermOverviewService implements ReadAdminTermOverviewUseCas
     public ReadAdminTermOverviewResponseDto execute(String type) {
         ETermType eType = ETermType.fromString(type);
 
-        return ReadAdminTermOverviewResponseDto.fromEntities(termRepository.findAllByType(eType));
+        return ReadAdminTermOverviewResponseDto.fromEntities(termRepository.findAllByTypeOrElseThrow(eType));
     }
 
 }

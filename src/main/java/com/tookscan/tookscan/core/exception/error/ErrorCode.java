@@ -22,6 +22,11 @@ public enum ErrorCode {
     NOT_FOUND_DOCUMENT(40406, HttpStatus.NOT_FOUND, "존재하지 않는 문서입니다."),
     NOT_FOUND_PRICE_POLICY(40407, HttpStatus.NOT_FOUND, "존재하지 않는 가격 정책입니다."),
     NOT_FOUND_DELIVERY(40408, HttpStatus.NOT_FOUND, "존재하지 않는 배송입니다."),
+    NOT_FOUND_PAYMENT(40409, HttpStatus.NOT_FOUND, "존재하지 않는 결제입니다."),
+    NOT_FOUND_TERM(40410, HttpStatus.NOT_FOUND, "존재하지 않는 약관입니다."),
+    NOT_FOUND_USER_GROUP(40411, HttpStatus.NOT_FOUND, "존재하지 않는 사용자 그룹입니다."),
+    NOT_FOUND_AUTHENTICATION_CODE(40413, HttpStatus.NOT_FOUND, "존재하지 않는 인증 코드입니다."),
+
 
     // Invalid Argument Error
     MISSING_REQUEST_PARAMETER(40000, HttpStatus.BAD_REQUEST, "필수 요청 파라미터가 누락되었습니다."),
@@ -46,6 +51,8 @@ public enum ErrorCode {
     // Access Denied Error
     ACCESS_DENIED(40300, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
     NOT_LOGIN_USER(40301, HttpStatus.FORBIDDEN, "로그인하지 않은 사용자입니다."),
+    NOT_MATCH_AUTHENTICATION_CODE(40302, HttpStatus.FORBIDDEN, "인증 코드가 일치하지 않습니다."),
+    NOT_MATCH_ORDER_USER(40303, HttpStatus.FORBIDDEN, "주문자가 일치하지 않습니다."),
 
     // Unauthorized Error
     FAILURE_LOGIN(40100, HttpStatus.UNAUTHORIZED, "잘못된 아이디 또는 비밀번호입니다."),

@@ -26,7 +26,7 @@ public class ValidateAuthenticationCodeService implements ValidateAuthentication
 
         // 인증코드 일치 여부 확인
         if (!bCryptPasswordEncoder.matches(requestDto.authenticationCode(), authenticationCode.getValue())) {
-            throw new CommonException(ErrorCode.ACCESS_DENIED);
+            throw new CommonException(ErrorCode.NOT_MATCH_AUTHENTICATION_CODE);
         }
 
         // 인증코드 검증 여부 변경

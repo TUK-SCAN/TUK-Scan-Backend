@@ -5,10 +5,9 @@ import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.term.domain.Term;
 import com.tookscan.tookscan.term.domain.type.ETermType;
 import com.tookscan.tookscan.term.repository.TermRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,12 +23,17 @@ public class TermRepositoryImpl implements TermRepository {
     @Override
     public Term findByIdOrElseThrow(Long id) {
         return termJpaRepository.findById(id)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_TERM));
     }
 
     @Override
-    public List<Term> findAllByType(ETermType type) {
-        return termJpaRepository.findAllByType(type);
+    public List<Term> findAllByTypeOrElseThrow(ETermType type) {
+        List<Term> terms = termJpaRepository.findAllByType(type);
+
+        if (terms.isEmpty()) {
+            throw new CommonException(ErrorCode.NOT_FOUND_TERM);
+        }
+        return terms;
     }
 
     @Override

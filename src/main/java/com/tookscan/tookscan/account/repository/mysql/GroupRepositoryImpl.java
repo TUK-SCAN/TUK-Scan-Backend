@@ -4,10 +4,9 @@ import com.tookscan.tookscan.account.domain.Group;
 import com.tookscan.tookscan.account.repository.GroupRepository;
 import com.tookscan.tookscan.core.exception.error.ErrorCode;
 import com.tookscan.tookscan.core.exception.type.CommonException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     @Override
     public Group findByIdOrElseThrow(Long id) {
         return groupJpaRepository.findById(id)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER_GROUP));
     }
 
     @Override
@@ -35,7 +34,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     public void deleteByIdOrElseThrow(Long id) {
 
         Group group = groupJpaRepository.findById(id)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER_GROUP));
 
         groupJpaRepository.delete(group);
     }
