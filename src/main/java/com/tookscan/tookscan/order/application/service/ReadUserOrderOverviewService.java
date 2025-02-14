@@ -2,19 +2,18 @@ package com.tookscan.tookscan.order.application.service;
 
 import com.tookscan.tookscan.account.domain.User;
 import com.tookscan.tookscan.account.repository.UserRepository;
-import com.tookscan.tookscan.core.exception.error.ErrorCode;
-import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderOverviewResponseDto;
 import com.tookscan.tookscan.order.application.usecase.ReadUserOrderOverviewUseCase;
 import com.tookscan.tookscan.order.domain.Order;
 import com.tookscan.tookscan.order.repository.OrderRepository;
-import jakarta.transaction.Transactional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,18 +23,15 @@ public class ReadUserOrderOverviewService implements ReadUserOrderOverviewUseCas
     private final OrderRepository orderRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ReadUserOrderOverviewResponseDto execute(UUID accountId, Integer page, Integer size, String sort, String search, String direction) {
         // 사용자 조회
         User user = userRepository.findByIdOrElseThrow(accountId);
 
-        // 주문 조회
-        Page<Order> orders = orderRepository.findAllByUserAndSearch(user, search, PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sort)));
+        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(Direction.fromString(direction), sort));
 
-        // 주문이 없을 경우 예외 처리
-        if (orders.isEmpty()) {
-            throw new CommonException(ErrorCode.NOT_FOUND_ORDER);
-        }
+        // 주문 조회
+        Page<Order> orders = orderRepository.findAllByUserAndSearchOrElseThrow(user, search, pageRequest);
 
         return ReadUserOrderOverviewResponseDto.fromEntity(orders);
     }
