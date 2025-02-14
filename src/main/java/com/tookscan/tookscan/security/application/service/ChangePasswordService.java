@@ -1,5 +1,7 @@
 package com.tookscan.tookscan.security.application.service;
 
+import com.tookscan.tookscan.core.exception.error.ErrorCode;
+import com.tookscan.tookscan.core.exception.type.CommonException;
 import com.tookscan.tookscan.security.application.dto.request.ChangePasswordRequestDto;
 import com.tookscan.tookscan.security.application.usecase.ChangePasswordUseCase;
 import com.tookscan.tookscan.security.domain.mysql.Account;
@@ -29,7 +31,9 @@ public class ChangePasswordService implements ChangePasswordUseCase {
         Account account = accountRepository.findByIdOrElseThrow(accountId);
 
         // 이전 비밀번호 일치 여부 확인
-        accountService.checkPassword(account, requestDto.oldPassword());
+        if (!bCryptPasswordEncoder.matches(requestDto.oldPassword(), account.getPassword())) {
+            throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+        }
 
         // 비밀번호 변경
         accountService.changePassword(account, bCryptPasswordEncoder.encode(requestDto.newPassword()));
