@@ -24,6 +24,10 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
             "OR d.name LIKE %:search%)")
     Page<Order> findAllByUserAndSearch(@Param("user") User user, @Param("search") String search, Pageable pageable);
 
+    @Query("SELECT o FROM Order o " +
+            "WHERE o.user = :user")
+    Page<Order> findAllByUser(User user, Pageable pageable);
+
     Optional<Order> findByOrderNumber(String orderNumber);
 
     @Query("SELECT DISTINCT o FROM Order o " +
