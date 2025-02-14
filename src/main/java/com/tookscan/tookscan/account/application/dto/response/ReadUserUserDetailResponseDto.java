@@ -40,15 +40,27 @@ public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDe
     @Schema(description = "주소")
     private AddressResponseDto address;
 
+    @JsonProperty("is_receive_email")
+    @NotNull(message = "이메일 수신 여부는 null일 수 없습니다.")
+    @Schema(description = "이메일 수신 여부", example = "true")
+    private Boolean isReceiveEmail;
+
+    @JsonProperty("is_receive_sms")
+    @NotNull(message = "SMS 수신 여부는 null일 수 없습니다.")
+    @Schema(description = "SMS 수신 여부", example = "true")
+    private Boolean isReceiveSms;
+
     @Builder
     public ReadUserUserDetailResponseDto(String name, ESecurityProvider provider, String serialId, String phoneNumber,
-                                         String email, AddressResponseDto address) {
+                                         String email, AddressResponseDto address, Boolean isReceiveEmail, Boolean isReceiveSms) {
         this.name = name;
         this.provider = provider;
         this.serialId = serialId;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+        this.isReceiveEmail = isReceiveEmail;
+        this.isReceiveSms = isReceiveSms;
         this.validateSelf();
     }
 
@@ -60,6 +72,8 @@ public class ReadUserUserDetailResponseDto extends SelfValidating<ReadUserUserDe
                 .phoneNumber(user.getPhoneNumber())
                 .email(user.getEmail() != null ? user.getEmail() : null)
                 .address(AddressResponseDto.fromEntity(user.getAddress()))
+                .isReceiveEmail(user.getIsReceiveEmail())
+                .isReceiveSms(user.getIsReceiveSms())
                 .build();
     }
 }
