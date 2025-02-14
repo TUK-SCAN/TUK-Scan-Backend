@@ -5,6 +5,7 @@ import com.tookscan.tookscan.account.application.usecase.UpdateUserUserUseCase;
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,7 @@ public class AccountUserCommandV1Controller {
             @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
     })
     public ResponseDto<Void> updateUser(
-            @AccountID UUID accountId,
+            @Parameter(hidden = true) @AccountID UUID accountId,
             @Valid @RequestBody UpdateUserUserRequestDto requestDto
     ) {
         updateUserUserUseCase.execute(accountId, requestDto);
