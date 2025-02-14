@@ -1,0 +1,9 @@
+### 결제 생성
+//@no-log
+POST {{host_url}}/v1/payments
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "order_id": 1
+}
