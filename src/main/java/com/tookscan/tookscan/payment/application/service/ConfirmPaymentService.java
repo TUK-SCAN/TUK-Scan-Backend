@@ -1,77 +1,69 @@
 package com.tookscan.tookscan.payment.application.service;
 
+import com.tookscan.tookscan.core.dto.PaymentDto;
+import com.tookscan.tookscan.core.utility.RestClientUtil;
+import com.tookscan.tookscan.core.utility.TossPaymentUtil;
+import com.tookscan.tookscan.order.domain.Order;
+import com.tookscan.tookscan.order.repository.OrderRepository;
 import com.tookscan.tookscan.payment.application.dto.request.ConfirmPaymentRequestDto;
-import com.tookscan.tookscan.payment.application.dto.response.ConfirmPaymentResponseDto;
 import com.tookscan.tookscan.payment.application.usecase.ConfirmPaymentUseCase;
 import com.tookscan.tookscan.payment.domain.Payment;
+import com.tookscan.tookscan.payment.domain.service.PaymentService;
+import com.tookscan.tookscan.payment.domain.type.EEasyPaymentProvider;
+import com.tookscan.tookscan.payment.domain.type.EPaymentMethod;
 import com.tookscan.tookscan.payment.domain.type.EPaymentStatus;
 import com.tookscan.tookscan.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ConfirmPaymentService implements ConfirmPaymentUseCase {
     private final PaymentRepository paymentRepository;
+    private final OrderRepository orderRepository;
 
-    // Toss Payments 관련 설정
-    @Value("${toss.payments.secret-key}")
-    private String tossSecretKey;
+    private final PaymentService paymentService;
 
-    // 결제 확인용 API URL (예시: 결제 생성 시 사용한 URL과 다를 수 있음)
-    @Value("${toss.payments.confirm-url}")
-    private String tossConfirmApiUrl;
+    private final TossPaymentUtil tossPaymentUtil;
+    private final RestClientUtil restClientUtil;
 
     @Override
-    public ConfirmPaymentResponseDto execute(ConfirmPaymentRequestDto requestDto) {
-        // 1. Payment 엔티티 조회 (orderId 기준으로 조회)
-        Payment payment = paymentRepository.findByOrderNumberOrElseThrow(requestDto.orderId());
+    @Transactional
+    public void execute(ConfirmPaymentRequestDto requestDto) {
 
-        // 2. 결제 승인 요청 페이로드 구성
-        // 공식문서에 따라 paymentKey, orderId, amount가 필요함
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("paymentKey", requestDto.paymentKey());
-        payload.put("orderId", requestDto.orderId());
-        payload.put("amount", requestDto.amount());
+        String tossConfirmApiUrl = tossPaymentUtil.getTossConfirmRequestUrl();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Basic " + tossSecretKey);
+        HttpHeaders requestHeaders = tossPaymentUtil.getTossConfirmRequestHeaders();
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> responseEntity = restTemplate.postForEntity(tossConfirmApiUrl, entity, Map.class);
-        if (!responseEntity.getStatusCode().is2xxSuccessful() || responseEntity.getBody() == null) {
-            throw new RuntimeException("Toss Payments 결제 승인 실패");
-        }
-        Map<String, Object> responseBody = responseEntity.getBody();
-
-        // 3. 승인 결과 확인 (공식문서에 따르면 승인 성공 시 status 값이 "DONE"임)
-        String status = (String) responseBody.get("status");
-        if (!"DONE".equals(status)) {
-            throw new RuntimeException("Payment confirmation unsuccessful: " + status);
-        }
-
-        // 3. Payment 엔티티 업데이트 (결제 승인 처리)
-        payment.updateStatus(EPaymentStatus.DONE);
-        payment.updateApprovedAt(LocalDateTime.now());
-        paymentRepository.save(payment);
-
-        // 4. 응답 DTO 생성 및 반환
-        return ConfirmPaymentResponseDto.of(
-                payment.getOrder().getOrderNumber(),
-                payment.getStatus().name(),
-                "Payment confirmed successfully"
+        String payload = tossPaymentUtil.createTossConfirmRequestBody(
+                requestDto.paymentKey(),
+                requestDto.orderNumber(),
+                requestDto.amount()
         );
+
+        PaymentDto response = tossPaymentUtil.mapToPaymentDto(restClientUtil.sendPost(tossConfirmApiUrl, requestHeaders, payload));
+
+        if (!"DONE".equals(response.status())) {
+            throw new RuntimeException("Payment confirmation unsuccessful: " + response.status());
+        }
+
+        Order order = orderRepository.findByOrderNumberOrElseThrow(requestDto.orderNumber());
+
+        Payment payment = paymentService.createPayment(
+                response.paymentKey(),
+                response.type(),
+                EPaymentMethod.fromResponse(response.method()),
+                response.totalAmount(),
+                EPaymentStatus.fromString(response.status()),
+                LocalDateTime.parse(response.requestedAt()),
+                EEasyPaymentProvider.fromString(response.easyPay().provider()),
+                order
+        );
+
+        paymentRepository.save(payment);
     }
 }

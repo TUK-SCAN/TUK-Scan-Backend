@@ -11,8 +11,8 @@ public enum EPaymentMethod {
     CARD("카드"),
     VIRTUAL_ACCOUNT("가상계좌"),
     EASY_PAYMENT("간편결제"),
-    ACCOUNT_TRANSFER("계좌이체"),
-    GIFT_VOUCHER("상품권");
+    ACCOUNT_TRANSFER("계좌이체")
+    ;
 
     private final String name;
 
@@ -25,7 +25,19 @@ public enum EPaymentMethod {
             case "VIRTUAL_ACCOUNT" -> VIRTUAL_ACCOUNT;
             case "EASY_PAYMENT" -> EASY_PAYMENT;
             case "ACCOUNT_TRANSFER" -> ACCOUNT_TRANSFER;
-            case "GIFT_VOUCHER" -> GIFT_VOUCHER;
+            default -> throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
+        };
+    }
+
+    public static EPaymentMethod fromResponse(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
+        }
+        return switch (value.toUpperCase()) {
+            case "카드" -> CARD;
+            case "가상계좌" -> VIRTUAL_ACCOUNT;
+            case "간편결제" -> EASY_PAYMENT;
+            case "계좌이체" -> ACCOUNT_TRANSFER;
             default -> throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
         };
     }
