@@ -46,7 +46,7 @@ public class TossPaymentUtil {
         try {
             return objectMapper.readValue(jsonObject.toString(), PaymentDto.class);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to map to PaymentDto: {}", e);
+            throw new RuntimeException("Failed to map to PaymentDto: " + e.getMessage(), e);
         }
     }
 

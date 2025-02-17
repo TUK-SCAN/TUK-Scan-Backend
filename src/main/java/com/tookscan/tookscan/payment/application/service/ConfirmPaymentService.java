@@ -60,6 +60,7 @@ public class ConfirmPaymentService implements ConfirmPaymentUseCase {
                 response.totalAmount(),
                 EPaymentStatus.fromString(response.status()),
                 LocalDateTime.parse(response.requestedAt()),
+                LocalDateTime.parse(response.approvedAt()),
                 EEasyPaymentProvider.fromString(response.easyPay().provider()),
                 order
         );

@@ -18,6 +18,7 @@ public class PaymentService {
             Integer totalAmount,
             EPaymentStatus status,
             LocalDateTime requestedAt,
+            LocalDateTime approvedAt,
             EEasyPaymentProvider easyPaymentProvider,
             Order order
     ) {
@@ -28,7 +29,7 @@ public class PaymentService {
                 .totalAmount(totalAmount)
                 .status(status)
                 .requestedAt(requestedAt)
-                .approvedAt(LocalDateTime.now())
+                .approvedAt(approvedAt)
                 .easyPaymentProvider(easyPaymentProvider)
                 .order(order)
                 .build();
