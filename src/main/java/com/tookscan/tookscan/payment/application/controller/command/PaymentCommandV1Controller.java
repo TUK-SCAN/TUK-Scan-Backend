@@ -17,7 +17,7 @@ public class PaymentCommandV1Controller {
     private final ConfirmPaymentUseCase confirmPaymentUseCase;
 
     @PostMapping("")
-    public ResponseDto<?> confirmPayment(
+    public ResponseDto<Void> confirmPayment(
             @RequestBody @Valid ConfirmPaymentRequestDto requestDto
     ) {
         confirmPaymentUseCase.execute(requestDto);

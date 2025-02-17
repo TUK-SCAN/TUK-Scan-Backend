@@ -47,21 +47,17 @@ public class ConfirmPaymentService implements ConfirmPaymentUseCase {
 
         PaymentDto response = tossPaymentUtil.mapToPaymentDto(restClientUtil.sendPost(tossConfirmApiUrl, requestHeaders, payload));
 
-        if (!"DONE".equals(response.status())) {
-            throw new RuntimeException("Payment confirmation unsuccessful: " + response.status());
-        }
-
         Order order = orderRepository.findByOrderNumberOrElseThrow(requestDto.orderNumber());
 
         Payment payment = paymentService.createPayment(
                 response.paymentKey(),
                 response.type(),
-                EPaymentMethod.fromResponse(response.method()),
+                response.method() != null ? EPaymentMethod.fromString(response.method()) : null,
                 response.totalAmount(),
                 EPaymentStatus.fromString(response.status()),
                 LocalDateTime.parse(response.requestedAt()),
-                LocalDateTime.parse(response.approvedAt()),
-                EEasyPaymentProvider.fromString(response.easyPay().provider()),
+                response.approvedAt() != null ? LocalDateTime.parse(response.approvedAt()) : null,
+                response.easyPay() != null ? EEasyPaymentProvider.fromString(response.easyPay().provider()) : null,
                 order
         );
 
