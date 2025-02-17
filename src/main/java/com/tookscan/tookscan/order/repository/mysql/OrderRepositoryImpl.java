@@ -255,6 +255,12 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orderJpaRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
+    @Override
+    public Order findByIdWithDocumentsOrElseThrow(Long id) {
+        return orderJpaRepository.findByIdWithDocuments(id)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ORDER, "주문 ID: " + id));
+    }
+
     private BooleanExpression buildPredicate(QOrder order, String startDate, String endDate, String search,
                                              String searchType) {
         BooleanExpression predicate = order.isNotNull();

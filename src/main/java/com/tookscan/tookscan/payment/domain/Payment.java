@@ -81,4 +81,12 @@ public class Payment extends BaseEntity {
         this.order = order;
     }
 
+    public void updateStatus(EPaymentStatus status) {
+        this.status = status;
+    }
+
+    public void updateApprovedAt(LocalDateTime approvedAt) {
+        this.approvedAt = approvedAt;
+    }
+
 }

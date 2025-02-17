@@ -54,4 +54,6 @@ public interface OrderRepository {
 
     Integer countByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
+    Order findByIdWithDocumentsOrElseThrow(Long id);
+
 }
