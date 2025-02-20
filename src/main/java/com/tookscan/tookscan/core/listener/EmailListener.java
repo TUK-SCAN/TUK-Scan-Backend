@@ -1,6 +1,7 @@
 package com.tookscan.tookscan.core.listener;
 
 import com.tookscan.tookscan.core.utility.MailUtil;
+import com.tookscan.tookscan.mail.event.EmailEvent;
 import com.tookscan.tookscan.security.event.ChangePasswordBySystemEvent;
 import com.tookscan.tookscan.security.event.CompleteEmailValidationEvent;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +18,11 @@ public class EmailListener {
     private final MailUtil mailUtil;
 
     @Async
-    @EventListener(classes = {CompleteEmailValidationEvent.class})
-    public void handleCompleteEmailValidationEvent(CompleteEmailValidationEvent event) {
-        log.info(
-                "\n----------------------------------\n[ 이메일 인증 완료 이벤트 처리 ]\n{}\n{}\n----------------------------------",
-                event.receiverAddress() + "님의 이메일 인증이 완료되었습니다.",
-                "인증코드는 " + event.authenticationCode() + " 입니다."
-        );
-
+    @EventListener(classes = {EmailEvent.class})
+    public void handleSendTestEmailEvent(EmailEvent event) {
         try {
-            mailUtil.sendAuthenticationCode(
-                    event.receiverAddress(),
-                    event.authenticationCode()
+            mailUtil.sendTestEmail(
+                    event.getEmail()
             );
         } catch (Exception e) {
             e.printStackTrace();

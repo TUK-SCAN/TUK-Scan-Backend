@@ -41,6 +41,9 @@ public class Constants {
             // Guest
             "/v1/guests/**",
 
+            // Test Email
+            "/v1/test-email",
+
             // Swagger
             "/api-docs.html",
             "/api-docs/**",
