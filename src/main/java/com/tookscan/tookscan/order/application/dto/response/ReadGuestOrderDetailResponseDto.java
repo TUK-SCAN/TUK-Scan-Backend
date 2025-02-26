@@ -144,7 +144,7 @@ public class ReadGuestOrderDetailResponseDto extends SelfValidating<ReadGuestOrd
         return ReadGuestOrderDetailResponseDto.builder()
                 .orderId(order.getId())
                 .orderNumber(order.getOrderNumber())
-                .orderStatus(order.getOrderStatus())
+                .orderStatus(order.getOrderStatus().toDisplayString())
                 .orderDate(DateTimeUtil.convertLocalDateTimeToKORString(order.getCreatedAt()))
                 .receiverName(order.getDelivery().getReceiverName())
                 .address(order.getDelivery().getAddress().getFullAddress())

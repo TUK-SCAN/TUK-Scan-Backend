@@ -46,10 +46,10 @@ public enum EOrderStatus {
      */
     public EOrderStatus toDisplayString() {
         return switch (this) {
-            case APPLY_COMPLETED -> APPLY_COMPLETED;
-            case COMPANY_ARRIVED -> COMPANY_ARRIVED;
+            case APPLY_COMPLETED, COMPANY_ARRIVED -> APPLY_COMPLETED;
             case PAYMENT_WAITING -> PAYMENT_WAITING;
-            case PAYMENT_COMPLETED, SCAN_WAITING, SCAN_IN_PROGRESS -> SCAN_IN_PROGRESS;
+            case PAYMENT_COMPLETED -> PAYMENT_COMPLETED;
+            case SCAN_WAITING, SCAN_IN_PROGRESS -> SCAN_IN_PROGRESS;
             case RECOVERY_IN_PROGRESS, POST_WAITING, ALL_COMPLETED -> ALL_COMPLETED;
             case CANCEL -> CANCEL;
             case AS -> AS;

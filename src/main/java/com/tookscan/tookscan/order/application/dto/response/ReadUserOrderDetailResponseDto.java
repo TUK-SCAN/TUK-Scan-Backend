@@ -144,7 +144,7 @@ public class ReadUserOrderDetailResponseDto extends SelfValidating<ReadUserOrder
         return ReadUserOrderDetailResponseDto.builder()
                 .orderId(order.getId())
                 .orderNumber(order.getOrderNumber())
-                .orderStatus(order.getOrderStatus())
+                .orderStatus(order.getOrderStatus().toDisplayString())
                 .orderDate(DateTimeUtil.convertLocalDateTimeToKORString(order.getCreatedAt()))
                 .receiverName(order.getDelivery().getReceiverName())
                 .trackingNumber(order.getDelivery().getTrackingNumber())
