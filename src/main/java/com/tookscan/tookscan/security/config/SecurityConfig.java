@@ -7,6 +7,7 @@ import com.tookscan.tookscan.security.application.usecase.AuthenticateJsonWebTok
 import com.tookscan.tookscan.security.filter.ExceptionFilter;
 import com.tookscan.tookscan.security.filter.GlobalLoggerFilter;
 import com.tookscan.tookscan.security.filter.JsonWebTokenAuthenticationFilter;
+import com.tookscan.tookscan.security.filter.RedirectUrlFilter;
 import com.tookscan.tookscan.security.handler.common.DefaultAccessDeniedHandler;
 import com.tookscan.tookscan.security.handler.common.DefaultAuthenticationEntryPoint;
 import com.tookscan.tookscan.security.handler.login.DefaultLoginFailureHandler;
@@ -108,6 +109,11 @@ public class SecurityConfig {
                 .addFilterBefore(
                         new GlobalLoggerFilter(),
                         ExceptionFilter.class
+                )
+
+                .addFilterBefore(
+                        new RedirectUrlFilter(),
+                        GlobalLoggerFilter.class
                 )
 
                 .getOrBuild();

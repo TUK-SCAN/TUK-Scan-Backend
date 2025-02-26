@@ -16,6 +16,14 @@ public class Constants {
     // COOKIE
     public static String ACCESS_TOKEN = "access_token";
     public static String REFRESH_TOKEN = "refresh_token";
+    public static String TEMPORARY_TOKEN = "temporary_token";
+
+    // Oauth2 Href URL
+    public static String KAKAO_OAUTH2_HREF = "/oauth2/authorization/kakao";
+    public static String GOOGLE_OAUTH2_HREF = "/oauth2/authorization/google";
+
+    // Additional Info Input Url
+    public static String ADDITIONAL_INFO_INPUT_PATH = "/join";
     
     /**
      * 인증이 필요 없는 URL

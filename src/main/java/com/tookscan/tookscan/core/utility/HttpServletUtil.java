@@ -31,28 +31,42 @@ public class HttpServletUtil {
     private final ObjectMapper objectMapper;
 
     public void onSuccessRedirectResponseWithJWTCookie(
+            String redirectPath,
             HttpServletResponse response,
-            DefaultJsonWebTokenDto tokenDto
+            OauthJsonWebTokenDto tokenDto
     ) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setStatus(HttpStatus.CREATED.value());
 
-        CookieUtil.addCookie(
-                response,
-                cookieDomain,
-                Constants.ACCESS_TOKEN,
-                tokenDto.getAccessToken()
-        );
-        CookieUtil.addSecureCookie(
-                response,
-                cookieDomain,
-                Constants.REFRESH_TOKEN,
-                tokenDto.getRefreshToken(),
-                (int) (refreshTokenExpirePeriod / 1000L)
-        );
+        // 최초 로그인이 아닐 시
+        if (tokenDto.getTemporaryToken() == null) {
+            CookieUtil.addCookie(
+                    response,
+                    cookieDomain,
+                    Constants.ACCESS_TOKEN,
+                    tokenDto.getAccessToken()
+            );
 
-        response.sendRedirect(String.format("%s/%s", clientUrl, "profile"));
+            CookieUtil.addSecureCookie(
+                    response,
+                    cookieDomain,
+                    Constants.REFRESH_TOKEN,
+                    tokenDto.getRefreshToken(),
+                    (int) (refreshTokenExpirePeriod / 1000L)
+            );
+        }
+        // 최초 로그인 시 (임시 토큰 발급)
+        else {
+            CookieUtil.addCookie(
+                    response,
+                    cookieDomain,
+                    Constants.TEMPORARY_TOKEN,
+                    tokenDto.getTemporaryToken()
+            );
+        }
+
+        response.sendRedirect(String.format("%s/%s", clientUrl, redirectPath));
     }
 
     public void onSuccessBodyResponseWithJWTCookie(
