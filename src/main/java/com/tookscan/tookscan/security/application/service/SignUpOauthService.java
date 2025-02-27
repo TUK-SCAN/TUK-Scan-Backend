@@ -67,7 +67,7 @@ public class SignUpOauthService implements SignUpOauthUseCase {
                 bCryptPasswordEncoder.encode(UUID.randomUUID().toString()),
                 requestDto.name(),
                 requestDto.phoneNumber(),
-                requestDto.marketingAllowed(),
+                requestDto.isReceiveEmail() || requestDto.isReceiveSms(),
                 requestDto.isReceiveEmail(),
                 requestDto.isReceiveSms()
         );
