@@ -30,10 +30,6 @@ public record SignUpDefaultRequestDto(
         )
         String phoneNumber,
 
-        @JsonProperty("marketing_allowed")
-        @NotNull(message = "마케팅 수신 동의 여부를 선택해주세요.")
-        Boolean marketingAllowed,
-
         @JsonProperty("is_receive_email")
         @NotNull(message = "이메일 수신 동의 여부를 선택해주세요.")
         Boolean isReceiveEmail,

@@ -16,15 +16,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(
-        name = "accounts",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_accounts_serial_id",
-                        columnNames = {"serial_id"}
-                )
-        }
-)
+@Table(name = "accounts")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "dtype")
 @DynamicUpdate

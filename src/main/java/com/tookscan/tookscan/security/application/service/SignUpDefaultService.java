@@ -53,7 +53,7 @@ public class SignUpDefaultService implements SignUpDefaultUseCase {
                 bCryptPasswordEncoder.encode(requestDto.password()),
                 requestDto.name(),
                 requestDto.phoneNumber(),
-                requestDto.marketingAllowed(),
+                requestDto.isReceiveEmail() || requestDto.isReceiveSms(),
                 requestDto.isReceiveEmail(),
                 requestDto.isReceiveSms()
         );
