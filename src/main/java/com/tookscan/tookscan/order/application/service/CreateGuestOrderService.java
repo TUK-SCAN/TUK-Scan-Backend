@@ -78,7 +78,7 @@ public class CreateGuestOrderService implements CreateGuestOrderUseCase {
                 requestDto.deliveryInfo().receiverName(),
                 requestDto.deliveryInfo().phoneNumber(),
                 requestDto.deliveryInfo().email(),
-                EDeliveryStatus.DELIVERY_READY,
+                EDeliveryStatus.POST_WAITING,
                 requestDto.deliveryInfo().request(),
                 address,
                 pricePolicy.getDeliveryPrice()

@@ -8,23 +8,32 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum EDeliveryStatus {
-    DELIVERY_READY("배송준비"),
-    DELIVERY_START("배송시작"),
-    DELIVERY_ARRIVAL("터미널도착"),
-    DELIVERY_DEPARTURE("터미널출발"),
-    DELIVERY_COMPLETE("배송완료"),
-    DELIVERY_CANCEL("배송취소");
+    POST_WAITING("상품준비중"),
+    POST_PREPARING("배송준비중"),
+    POST_INPROGRESS("배송중"),
+    POST_COMPLETED("배송완료"),
+    UNKNOWN("알수없음");
 
     private final String description;
 
     public static EDeliveryStatus fromString(String value) {
         return switch (value.toUpperCase()) {
-            case "DELIVERY_START" -> DELIVERY_START;
-            case "DELIVERY_ARRIVAL" -> DELIVERY_ARRIVAL;
-            case "DELIVERY_DEPARTURE" -> DELIVERY_DEPARTURE;
-            case "DELIVERY_COMPLETE" -> DELIVERY_COMPLETE;
-            case "DELIVERY_CANCEL" -> DELIVERY_CANCEL;
+            case "POST_WAITING" -> POST_WAITING;
+            case "POST_PREPARING" -> POST_PREPARING;
+            case "POST_INPROGRESS" -> POST_INPROGRESS;
+            case "POST_COMPLETED" -> POST_COMPLETED;
+            case "UNKNOWN" -> UNKNOWN;
             default -> throw new CommonException(ErrorCode.INVALID_ENUM_TYPE);
+        };
+    }
+
+    public static EDeliveryStatus getFrom(EDeliveryDetailStatus value) {
+        return switch (value) {
+            case INFORMATION_RECEIVED -> POST_WAITING;
+            case AT_PICKUP -> POST_PREPARING;
+            case IN_TRANSIT, OUT_FOR_DELIVERY -> POST_INPROGRESS;
+            case DELIVERED, AVAILABLE_FOR_PICKUP -> POST_COMPLETED;
+            case UNKNOWN, EXCEPTION -> UNKNOWN;
         };
     }
 }

@@ -2,9 +2,11 @@ package com.tookscan.tookscan.order.application.controller.query;
 
 import com.tookscan.tookscan.core.annotation.security.AccountID;
 import com.tookscan.tookscan.core.dto.ResponseDto;
+import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderDeliveryResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderDetailResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderOverviewResponseDto;
 import com.tookscan.tookscan.order.application.dto.response.ReadUserOrderSummaryResponseDto;
+import com.tookscan.tookscan.order.application.usecase.ReadUserOrderDeliveryUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadUserOrderDetailUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadUserOrderOverviewUseCase;
 import com.tookscan.tookscan.order.application.usecase.ReadUserOrderSummaryUseCase;
@@ -28,6 +30,7 @@ public class OrderUserQueryV1Controller {
     private final ReadUserOrderOverviewUseCase readUserOrderOverviewUseCase;
     private final ReadUserOrderDetailUseCase readUserOrderDetailUseCase;
     private final ReadUserOrderSummaryUseCase readUserOrderSummaryUseCase;
+    private final ReadUserOrderDeliveryUseCase readUserOrderDeliveryUseCase;
 
     /**
      * 4.2.2 회원 주문 내역 조회
@@ -56,6 +59,18 @@ public class OrderUserQueryV1Controller {
             @PathVariable Long orderId
     ) {
         return ResponseDto.ok(readUserOrderDetailUseCase.execute(accountId, orderId));
+    }
+
+    /**
+     * 4.2.4 회원 상세 배송 정보 조회
+     */
+    @Operation(summary = "회원 상세 배송 정보 조회", description = "회원이 상세 배송 정보를 조회합니다.")
+    @GetMapping(value = "/{orderId}/delivery")
+    public ResponseDto<ReadUserOrderDeliveryResponseDto> getUserOrderDelivery(
+            @Parameter(hidden = true) @AccountID UUID accountId,
+            @PathVariable Long orderId
+    ) {
+        return ResponseDto.ok(readUserOrderDeliveryUseCase.execute(accountId, orderId));
     }
 
     /**
